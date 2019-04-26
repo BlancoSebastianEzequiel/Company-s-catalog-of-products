@@ -1,0 +1,10 @@
+python-dateutil==2.7.5
+flask
+flask-cors==3.0.6
+pylint>=1.7.0
+google
+-e git+https://gitlab.com/pycqa/flake8#egg=flake8
+gunicorn
+flask_pymongo
+pymongo==3.4.0
+pytest-cov
