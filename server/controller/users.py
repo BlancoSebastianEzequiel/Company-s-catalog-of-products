@@ -9,6 +9,7 @@ class UsersController:
     schema = {
         'first_name': str,
         'last_name': str,
+        'user_name': str,
         'mail': str,
         'password': str,
         'dni': str,
