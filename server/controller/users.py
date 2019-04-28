@@ -20,11 +20,21 @@ class UsersController:
     @classmethod
     def post(cls):
         data = request.get_json(silent=True)
-        utils.validate_args(data, Users.schema)
-        return utils.post(Users.db_name, data)
+        try:
+            utils.validate_args(data, Users.schema)
+            return utils.post(Users.db_name, data)
+        except Exception as e:
+            msg = f"Validation error: {e}"
+            status = utils.HTTPStatus.BAD_REQUEST
+            return utils.response(data=msg, ok=False), status
 
     @classmethod
     def patch(cls):
         data = request.get_json(silent=True)
-        utils.validate_args(data, Users.schema)
-        return utils.patch(Users.db_name, data)
+        try:
+            utils.validate_args(data, Users.schema)
+            return utils.patch(Users.db_name, data)
+        except Exception as e:
+            msg = f"Validation error: {e}"
+            status = utils.HTTPStatus.BAD_REQUEST
+            return utils.response(data=msg, ok=False), status

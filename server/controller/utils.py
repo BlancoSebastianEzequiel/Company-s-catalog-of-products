@@ -1,4 +1,5 @@
 from flask import jsonify
+from http import HTTPStatus
 from server.libs.mongo import MONGO
 from server.model.users import Users
 
@@ -34,7 +35,7 @@ def get_all(db_name, args):
     collection = MONGO.db[db_name]
     try:
         data = db_result_to_json(collection.find(args))
-        return response(data=data, ok=True), 200
+        return response(data=data, ok=True), HTTPStatus.OK
     except ValueError as e:
         return response(data=f"Value error: {e}", ok=False), 400
     except TypeError as e:
@@ -58,9 +59,9 @@ def patch(db_name, data):
     return response(data=str(_id), ok=True), 200
 
 
-def validate_args(args, schema):
-    for key in args:
-        if key not in schema:
+def validate_args(data, schema):
+    for key in schema:
+        if key not in data:
             raise ValueError(f"Argument {key} invalid")
-        if not isinstance(args[key], schema[key]):
+        if not isinstance(data[key], schema[key]):
             raise ValueError(f"Argument {key} invalid type")
