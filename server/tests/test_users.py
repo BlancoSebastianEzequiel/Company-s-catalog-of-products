@@ -1,9 +1,10 @@
 import json
+from http import HTTPStatus
 
 
 def test_with_client(client):
     resp = client.get('/')
-    assert resp.status_code == 200
+    assert resp.status_code == HTTPStatus.OK
     assert resp.json['test']
 
 
@@ -24,3 +25,15 @@ def test_list_users_size_one_after_post_user(client):
     }), content_type='application/json')
     resp = client.get('/users/')
     assert len(resp.json['data']) == 1
+
+
+def test_post_user_with_no_first_name(client):
+    resp = client.post('/users/', data=json.dumps({
+        'last_name': 'perez',
+        'user_name': 'juanchi',
+        'mail': 'juanperez@gmail.com',
+        'password': '1234',
+        'dni': '39206786',
+    }), content_type='application/json')
+    assert not resp.json['ok']
+    assert resp.status_code == HTTPStatus.BAD_REQUEST
