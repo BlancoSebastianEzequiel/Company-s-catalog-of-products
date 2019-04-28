@@ -7,4 +7,4 @@ class Config(BaseConfig):
     Tests config class. Overrides base config class attributes necessary to
     run tests without affecting the real server's state
     """
-    MONGO_URI = os.environ.get('DB', "mongodb://localhost:27018/testing")
+    MONGO_URI = os.environ.get('DB', "mongodb://localhost:27017/testing")
