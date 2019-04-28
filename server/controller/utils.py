@@ -1,5 +1,6 @@
 from flask import jsonify
 from server.libs.mongo import MONGO
+from server.model.users import Users
 
 
 # pylint: disable=C0103
@@ -9,7 +10,7 @@ def response(data, ok, **kwargs):
 
 
 def db_result_to_json(result):
-    return [jsonify(instance) for instance in result]
+    return [Users(instance).to_json() for instance in result]
 
 
 def delete(db_name, _id):
