@@ -3,9 +3,13 @@ from server.libs.mongo import MONGO
 
 
 # pylint: disable=C0103
-def response(message: str, ok: bool, **kwargs):
+def response(data: str, ok: bool, **kwargs):
     """Arma una respuesta json generica"""
-    return jsonify({'message': message, 'ok': ok, **kwargs})
+    return jsonify({'data': data, 'ok': ok, **kwargs})
+
+
+def cursor_to_json(cursor):
+    return [jsonify(instance) for instance in cursor]
 
 
 def delete(db_name, _id):
@@ -13,7 +17,7 @@ def delete(db_name, _id):
     try:
         collection.deleteOne({"_id": _id})
     except ValueError as e:
-        return response(message=f"does not exist: {e}", ok=False), 400
+        return response(data=f"does not exist: {e}", ok=False), 400
 
 
 def get(db_name, _id):
@@ -21,15 +25,18 @@ def get(db_name, _id):
     try:
         return collection.find({"_id": _id})
     except ValueError as e:
-        return response(message=f"Error in getting doc: {e}", ok=False), 400
+        return response(data=f"Error in getting doc: {e}", ok=False), 400
 
 
 def get_all(db_name, args):
     collection = MONGO.db[db_name]
     try:
-        return collection.find(args)
+        data = cursor_to_json(collection.find(args))
+        return response(data=data, ok=True), 400
     except ValueError as e:
-        return response(message=f"Error in validation: {e}", ok=False), 400
+        return response(data=f"Value error: {e}", ok=False), 400
+    except TypeError as e:
+        return response(data=f"Type error: {e}", ok=False), 400
 
 
 def post(db_name, data):
