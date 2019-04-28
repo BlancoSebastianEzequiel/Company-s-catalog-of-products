@@ -8,3 +8,4 @@ def test_list_users_initially_empty(client):
     resp = client.get('/users/')
     assert not resp.json['data']
     assert isinstance(resp.json['data'], list)
+    assert resp.json['ok']
