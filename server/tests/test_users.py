@@ -15,20 +15,34 @@ def test_list_users_initially_empty(client):
 
 
 def test_list_users_size_one_after_post_user(client):
-    client.post('/users/', data=json.dumps({
-        'first_name': 'Juan',
+    resp = client.post('/users/', data=json.dumps({
+        'first_name': 'juan',
         'last_name': 'perez',
         'user_name': 'juanchi',
         'mail': 'juanperez@gmail.com',
         'password': '1234',
         'dni': '39206786',
     }), content_type='application/json')
+    assert resp.json['ok']
     resp = client.get('/users/')
     assert len(resp.json['data']) == 1
 
 
 def test_post_user_with_no_first_name(client):
     resp = client.post('/users/', data=json.dumps({
+        'last_name': 'perez',
+        'user_name': 'juanchi',
+        'mail': 'juanperez@gmail.com',
+        'password': '1234',
+        'dni': '39206786',
+    }), content_type='application/json')
+    assert not resp.json['ok']
+    assert resp.status_code == HTTPStatus.BAD_REQUEST
+
+
+def test_post_user_with_first_name_invalid_type(client):
+    resp = client.post('/users/', data=json.dumps({
+        'first_name': 3,
         'last_name': 'perez',
         'user_name': 'juanchi',
         'mail': 'juanperez@gmail.com',
