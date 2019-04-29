@@ -22,6 +22,7 @@ class UsersController:
         data = request.get_json(silent=True)
         try:
             utils.validate_args(data, Users.schema)
+            utils.validate_type(data, Users.schema)
             return utils.post(Users.db_name, data)
         except Exception as e:
             msg = f"Validation error: {e}"
@@ -33,6 +34,7 @@ class UsersController:
         data = request.get_json(silent=True)
         try:
             utils.validate_args(data, Users.schema)
+            utils.validate_type(data, Users.schema)
             return utils.patch(Users.db_name, data)
         except Exception as e:
             msg = f"Validation error: {e}"

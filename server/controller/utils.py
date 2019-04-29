@@ -65,3 +65,9 @@ def validate_args(data, schema):
             raise ValueError(f"Argument {key} invalid")
         if not isinstance(data[key], schema[key]):
             raise ValueError(f"Argument {key} invalid type")
+
+
+def validate_type(data, schema):
+    for key in schema:
+        if not isinstance(data[key], schema[key]):
+            raise TypeError(f"Argument {key} has invalid type")
