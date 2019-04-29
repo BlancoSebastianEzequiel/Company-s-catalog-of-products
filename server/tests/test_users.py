@@ -51,3 +51,20 @@ def test_post_user_with_first_name_invalid_type(client):
     }), content_type='application/json')
     assert not resp.json['ok']
     assert resp.status_code == HTTPStatus.BAD_REQUEST
+
+
+def test_deleting_posted_user(client):
+    resp = client.post('/users/', data=json.dumps({
+        'first_name': 'juan',
+        'last_name': 'perez',
+        'user_name': 'juanchi',
+        'mail': 'juanperez@gmail.com',
+        'password': '1234',
+        'dni': '39206786',
+    }), content_type='application/json')
+    assert resp.json['ok']
+    assert resp.status_code == HTTPStatus.OK
+    _id = resp.json['data']
+    resp = client.delete('/users/' + _id + '/')
+    assert resp.json['ok']
+    assert resp.status_code == HTTPStatus.OK
