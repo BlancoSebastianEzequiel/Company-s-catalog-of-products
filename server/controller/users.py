@@ -26,7 +26,7 @@ class UsersController:
             return utils.post(Users.db_name, data)
         except Exception as e:
             msg = f"Validation error: {e}"
-            status = utils.HTTPStatus.BAD_REQUEST
+            status = utils.http.BAD_REQUEST
             return utils.response(data=msg, ok=False), status
 
     @classmethod
@@ -38,5 +38,5 @@ class UsersController:
             return utils.patch(Users.db_name, data)
         except Exception as e:
             msg = f"Validation error: {e}"
-            status = utils.HTTPStatus.BAD_REQUEST
+            status = utils.http.BAD_REQUEST
             return utils.response(data=msg, ok=False), status
