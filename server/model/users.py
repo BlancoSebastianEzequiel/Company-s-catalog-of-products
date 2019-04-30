@@ -11,6 +11,7 @@ class Users:
         'mail': str,
         'password': str,
         'dni': str,
+        'type': str
     }
 
     def __init__(self, reg: dict):
