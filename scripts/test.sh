@@ -5,4 +5,3 @@ sh scripts/pylint.sh
 echo "UNIT TESTS"
 sudo systemctl start mongodb
 python -m pytest --cov=server
-sh scripts/delete_pycache.sh
