@@ -79,7 +79,7 @@ def test_deleting_posted_user(client):
 
 
 def test_deleting_not_existent_user(client):
-    bad_id = "not hex wrong len"
+    bad_id = 'fafafafafafafafafafafafa'  # fake mongo 24-char hex string
     resp = client.delete('/users/' + bad_id + '/')
     assert not resp.json['ok']
     assert resp.status_code == HTTPStatus.BAD_REQUEST
@@ -103,13 +103,11 @@ def test_updating_user(client):
         '_id': _id,
         'first_name': 'new name',
     }), content_type='application/json')
-    print(patch_resp.json['data'])
     assert patch_resp.json['ok']
     assert patch_resp.status_code == HTTPStatus.OK
     assert patch_resp.json['data'] == _id
 
     get_resp = client.get('/users/')
-    print(get_resp.json['data'])
     assert get_resp.json['ok']
     assert get_resp.status_code == HTTPStatus.OK
     assert get_resp.json['data'][0]['first_name'] == 'new name'
