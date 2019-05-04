@@ -42,6 +42,12 @@ class Model:
     @classmethod
     def get(cls, _id):
         try:
+            ObjectId(_id)
+        except Exception as ex:
+            e = StatusException(ex)
+            e.status = http.BAD_REQUEST
+            raise e
+        try:
             collection = MONGO.db[cls.db_name]
             doc = collection.find_one({"_id": ObjectId(_id)})
         except Exception as ex:
