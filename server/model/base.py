@@ -1,6 +1,8 @@
 from server.libs.mongo import JSONEncoder
 from server.libs.mongo import MONGO
 from bson import ObjectId
+from http import HTTPStatus as http
+from server.exceptions.status_exception import StatusException
 
 
 class Model:
@@ -24,43 +26,81 @@ class Model:
         return list(self.schema.keys()) + ['_id']
 
     def delete(self):
-        collection = MONGO.db[self.db_name]
-        result = collection.delete_one({"_id": ObjectId(self._id)})
-        if not result.deleted_count and result.acknowledged:
-            raise Exception("Error deleting")
-        return self._id
+        try:
+            collection = MONGO.db[self.db_name]
+            result = collection.delete_one({"_id": ObjectId(self._id)})
+            if not result.deleted_count and result.acknowledged:
+                e = StatusException("Error deleting")
+                e.status = http.INTERNAL_SERVER_ERROR
+                raise e
+            return self._id
+        except Exception as ex:
+            e = StatusException(ex)
+            e.status = http.INTERNAL_SERVER_ERROR
+            raise e
 
     @classmethod
     def get(cls, _id):
-        collection = MONGO.db[cls.db_name]
-        doc = collection.find({"_id": ObjectId(_id)})[0]
-        if not doc:
-            raise Exception(f"{cls.db_name} {_id} does not exist")
-        doc = dict(doc)
-        model = cls(doc, doc["_id"])
-        return model
+        try:
+            collection = MONGO.db[cls.db_name]
+            doc = collection.find_one({"_id": ObjectId(_id)})
+        except Exception as ex:
+            e = StatusException(ex)
+            e.status = http.INTERNAL_SERVER_ERROR
+            raise e
+        if doc is None:
+            e = StatusException(f"{cls.db_name} {_id} does not exist")
+            e.status = http.BAD_REQUEST
+            raise e
+        try:
+            doc = dict(doc)
+            model = cls(doc, doc["_id"])
+            return model
+        except Exception as ex:
+            e = StatusException(ex)
+            e.status = http.INTERNAL_SERVER_ERROR
+            raise e
 
     @classmethod
     def get_all(cls, args: dict):
-        collection = MONGO.db[cls.db_name]
-        result = list(collection.find(args))
-        data = [cls(doc, doc['_id'])._data for doc in result]
-        return data
+        try:
+            collection = MONGO.db[cls.db_name]
+            result = list(collection.find(args))
+            data = [cls(doc, doc['_id'])._data for doc in result]
+            return data
+        except Exception as ex:
+            e = StatusException(ex)
+            e.status = http.INTERNAL_SERVER_ERROR
+            raise e
 
     def post(self):
-        collection = MONGO.db[self.db_name]
-        result = collection.insert_one(self._data)
-        if not result.acknowledged:
-            raise Exception('write concern was disabled')
-        self._id = result.inserted_id
-        return self._id
+        try:
+            collection = MONGO.db[self.db_name]
+            result = collection.insert_one(self._data)
+            if not result.acknowledged:
+                e = StatusException('write concern was disabled')
+                e.status = http.INTERNAL_SERVER_ERROR
+                raise e
+            self._id = result.inserted_id
+            return self._id
+        except Exception as ex:
+            e = StatusException(ex)
+            e.status = http.INTERNAL_SERVER_ERROR
+            raise e
 
     def patch(self, data):
-        if not data:
-            raise Exception("Invalid request body")
-        collection = MONGO.db[self.db_name]
-        collection.update_one({'_id': self._id}, {"$set": data})
-        return self._id
+        try:
+            if not data:
+                e = StatusException("Invalid request body")
+                e.status = http.BAD_REQUEST
+                raise e
+            collection = MONGO.db[self.db_name]
+            collection.update_one({'_id': self._id}, {"$set": data})
+            return self._id
+        except Exception as ex:
+            e = StatusException(ex)
+            e.status = http.INTERNAL_SERVER_ERROR
+            raise e
 
     def validate_args(self, data):
         a_list = list(data.keys())
@@ -72,12 +112,16 @@ class Model:
     def validate_type(self, data):
         for key in data:
             if not isinstance(data[key], self.schema[key]):
-                raise TypeError(f"Argument {key} has invalid type")
+                e = StatusException(f"Argument {key} has invalid type")
+                e.status = http.BAD_REQUEST
+                raise e
 
     def validate_schema(self, data):
         for key in self.schema:
             if key not in data:
-                raise ValueError(f"Argument {key} missing")
+                e = StatusException(f"Argument {key} missing")
+                e.status = http.BAD_REQUEST
+                raise e
 
     def to_json(self):
         data = self._data.copy()
