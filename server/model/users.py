@@ -1,7 +1,7 @@
-from server.libs.mongo import JSONEncoder
+from server.model.base import Model
 
 
-class Users:
+class Users(Model):
     db_name = 'users'
 
     schema = {
@@ -13,10 +13,3 @@ class Users:
         'dni': str,
         'type': str
     }
-
-    def __init__(self, reg: dict):
-        self._data = reg.copy()
-
-    def to_json(self):
-        data = self._data.copy()
-        return JSONEncoder().encode(data)

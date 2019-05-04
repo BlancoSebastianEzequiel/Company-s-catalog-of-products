@@ -1,4 +1,6 @@
 import server.controller.utils as utils
+from server.controller.utils import response
+from http import HTTPStatus as http
 from flask import request
 from server.model.users import Users
 
@@ -7,36 +9,43 @@ class UsersController:
 
     @classmethod
     def delete(cls, _id):
-        return utils.delete(Users.db_name, _id)
+        try:
+            user = Users.get(_id)
+            _id = user.delete()
+            return response(str(_id), True), http.OK
+        except Exception as e:
+            return response(f"Error deleting: {e}", False), http.BAD_REQUEST
 
     @classmethod
     def get(cls, _id):
-        return utils.get(Users.db_name, _id)
+        try:
+            return response(Users.get(_id)._data, True), http.OK
+        except Exception as e:
+            return response(f"Error getting one: {e}", False), http.BAD_REQUEST
 
     @classmethod
     def get_all(cls):
-        return utils.get_all(Users.db_name, request.args)
+        try:
+            return response(Users.get_all(dict(request.args)), True), http.OK
+        except Exception as e:
+            return response(f"Error getting all: {e}", False), http.BAD_REQUEST
 
     @classmethod
     def post(cls):
         data = request.get_json(silent=True)
         try:
-            utils.validate_args(data, Users.schema)
-            utils.validate_type(data, Users.schema)
-            return utils.post(Users.db_name, data)
+            _id = Users(data).post()
+            return response(str(_id), True), http.OK
         except Exception as e:
-            msg = f"Validation error: {e}"
-            status = utils.http.BAD_REQUEST
-            return utils.response(data=msg, ok=False), status
+            return utils.response(f"Error posting: {e}", False), http.BAD_REQUEST
 
     @classmethod
     def patch(cls):
         data = request.get_json(silent=True)
         try:
-            utils.validate_args(data, Users.schema)
-            utils.validate_type(data, Users.schema)
-            return utils.patch(Users.db_name, data)
+            _id = data.get('_id')
+            data.pop('_id')
+            _id = Users.get(_id).patch(data)
+            return response(str(_id), True), http.OK
         except Exception as e:
-            msg = f"Validation error: {e}"
-            status = utils.http.BAD_REQUEST
-            return utils.response(data=msg, ok=False), status
+            return utils.response(f"Error patching: {e}", False), http.BAD_REQUEST
