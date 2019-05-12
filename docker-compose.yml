@@ -1,0 +1,23 @@
+version: '3.2'
+services:
+ web_dev:
+  build: .
+  image: server-img
+  ports:
+   - 4000:4000
+  volumes:
+   - .:/app
+  environment:
+   - ENV=development
+   - DB=mongodb://mongodb:27017/development
+ mongodb:
+  image: mongo:latest
+  container_name: "mongodb"
+  environment:
+   - MONGO_DATA_DIR=/usr/data/db
+   - MONGO_LOG_DIR=/dev/null
+  volumes:
+   - ./data/db:/usr/data/db
+  ports:
+   - 27017:27017
+  command: mongod --smallfiles --logpath=/dev/null # --quiet
