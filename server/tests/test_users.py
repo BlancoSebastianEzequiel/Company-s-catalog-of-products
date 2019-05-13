@@ -21,7 +21,7 @@ def test_list_users_size_one_after_post_user(client):
         'first_name': 'juan',
         'last_name': 'perez',
         'user_name': 'juanchi',
-        'mail': 'juanperez@gmail.com',
+        'email': 'juanperez@gmail.com',
         'password': secret,
         'dni': '39206786',
         'type': 'client'
@@ -39,7 +39,7 @@ def test_post_user_with_no_first_name(client):
     resp = client.post('/users/', data=json.dumps({
         'last_name': 'perez',
         'user_name': 'juanchi',
-        'mail': 'juanperez@gmail.com',
+        'email': 'juanperez@gmail.com',
         'password': '1234',
         'dni': '39206786',
         'type': 'client'
@@ -53,7 +53,7 @@ def test_post_user_with_first_name_invalid_type(client):
         'first_name': 3,
         'last_name': 'perez',
         'user_name': 'juanchi',
-        'mail': 'juanperez@gmail.com',
+        'email': 'juanperez@gmail.com',
         'password': '1234',
         'dni': '39206786',
         'type': 'admin'
@@ -67,7 +67,7 @@ def test_deleting_posted_user(client):
         'first_name': 'juan',
         'last_name': 'perez',
         'user_name': 'juanchi',
-        'mail': 'juanperez@gmail.com',
+        'email': 'juanperez@gmail.com',
         'password': '1234',
         'dni': '39206786',
         'type': 'admin'
@@ -98,7 +98,7 @@ def test_updating_user(client):
         'first_name': 'juan',
         'last_name': 'perez',
         'user_name': 'juanchi',
-        'mail': 'juanperez@gmail.com',
+        'email': 'juanperez@gmail.com',
         'password': '1234',
         'dni': '39206786',
         'type': 'client'
