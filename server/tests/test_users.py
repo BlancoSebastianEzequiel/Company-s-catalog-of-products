@@ -1,5 +1,5 @@
 import json
-from server.controller.utils import check_password, get_hashed_password
+from server.controller.utils import check_password
 from http import HTTPStatus
 
 
