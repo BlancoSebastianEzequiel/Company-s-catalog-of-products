@@ -32,7 +32,7 @@ class UsersController:
     def post(cls, data):
         try:
             _id = Users(data, hash_pass=True).post()
-            return {'data': str(_id), 'ok': True}, http.OK
+            return {'data': str(_id), 'ok': True}, http.CREATED
         except StatusException as e:
             return {'data': f"Error posting: {e}", 'ok': False}, e.status
 
@@ -42,6 +42,6 @@ class UsersController:
             _id = data.get('_id')
             data.pop('_id')
             _id = Users.get(_id).patch(data)
-            return {'data': str(_id), 'ok': True}, http.OK
+            return {'data': str(_id), 'ok': True}, http.CREATED
         except StatusException as e:
             return {'data': f"Error patching: {e}", 'ok': False}, e.status
