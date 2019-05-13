@@ -1,6 +1,5 @@
 python-dateutil==2.7.5
 faker
-google
 flask
 pytest
 pylint
@@ -13,9 +12,9 @@ passlib[totp]
 python-coveralls
 coverage
 pytest-cov
-google-auth
 flask-cors==3.0.6
 haversine
-PyJWT
 freezegun==0.3.11
 requests-mock==1.5.2
+bcrypt
+pyjwt
