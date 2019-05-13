@@ -1,4 +1,5 @@
 import json
+from server.controller.utils import check_password, get_hashed_password
 from http import HTTPStatus
 
 
@@ -15,12 +16,13 @@ def test_list_users_initially_empty(client):
 
 
 def test_list_users_size_one_after_post_user(client):
+    secret = '1234'
     resp = client.post('/users/', data=json.dumps({
         'first_name': 'juan',
         'last_name': 'perez',
         'user_name': 'juanchi',
         'mail': 'juanperez@gmail.com',
-        'password': '1234',
+        'password': secret,
         'dni': '39206786',
         'type': 'client'
     }), content_type='application/json')
@@ -30,6 +32,7 @@ def test_list_users_size_one_after_post_user(client):
     assert len(resp.json['data']) == 1
     assert resp.json['ok']
     assert resp.status_code == HTTPStatus.OK
+    assert check_password(secret, resp.json['data'][0]['password'])
 
 
 def test_post_user_with_no_first_name(client):
@@ -73,7 +76,6 @@ def test_deleting_posted_user(client):
     assert resp.status_code == HTTPStatus.OK
     _id = resp.json['data']
     resp = client.delete('/users/' + _id + '/')
-    print(f"resp: {resp.json}")
     assert resp.json['ok']
     assert resp.status_code == HTTPStatus.OK
 
