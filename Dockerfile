@@ -1,7 +1,10 @@
-FROM python:3.6
+FROM nikolaik/python-nodejs:latest
 ADD . /usr/src/app
 WORKDIR /usr/src/app
 EXPOSE 4000
 RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+WORKDIR /usr/src/app/client
+RUN rm -rf node_modules
+WORKDIR /usr/src/app
+RUN sh scripts/install.sh
 ENTRYPOINT ["sh","scripts/wsgi.sh"]
