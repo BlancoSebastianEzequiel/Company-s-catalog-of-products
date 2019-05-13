@@ -1,5 +1,4 @@
 from http import HTTPStatus as http
-from flask import request
 from server.model.users import Users
 from server.exceptions.status_exception import StatusException
 
@@ -18,7 +17,7 @@ class UsersController:
     @classmethod
     def get(cls, _id):
         try:
-            return {'data': Users.get(_id)._data, 'ok': True}, http.OK
+            return {'data': Users.get(_id).get_data(), 'ok': True}, http.OK
         except StatusException as e:
             return {'data': f"Error getting one: {e}", 'ok': False}, e.status
 
