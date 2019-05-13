@@ -27,7 +27,7 @@ def test_list_users_size_one_after_post_user(client):
         'type': 'client'
     }), content_type='application/json')
     assert resp.json['ok']
-    assert resp.status_code == HTTPStatus.OK
+    assert resp.status_code == HTTPStatus.CREATED
     resp = client.get('/users/')
     assert len(resp.json['data']) == 1
     assert resp.json['ok']
@@ -73,7 +73,7 @@ def test_deleting_posted_user(client):
         'type': 'admin'
     }), content_type='application/json')
     assert resp.json['ok']
-    assert resp.status_code == HTTPStatus.OK
+    assert resp.status_code == HTTPStatus.CREATED
     _id = resp.json['data']
     resp = client.delete('/users/' + _id + '/')
     assert resp.json['ok']
@@ -104,7 +104,7 @@ def test_updating_user(client):
         'type': 'client'
     }), content_type='application/json')
     assert post_resp.json['ok']
-    assert post_resp.status_code == HTTPStatus.OK
+    assert post_resp.status_code == HTTPStatus.CREATED
     _id = post_resp.json['data']
 
     patch_resp = client.patch('/users/', data=json.dumps({
@@ -112,7 +112,7 @@ def test_updating_user(client):
         'first_name': 'new name',
     }), content_type='application/json')
     assert patch_resp.json['ok']
-    assert patch_resp.status_code == HTTPStatus.OK
+    assert patch_resp.status_code == HTTPStatus.CREATED
     assert patch_resp.json['data'] == _id
 
     get_resp = client.get('/users/')
