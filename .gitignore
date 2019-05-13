@@ -3,3 +3,7 @@ venv/
 *__pycache__
 server/output.log
 .coverage
+*.log
+node_modules/
+client/node_modules/
+client/package-lock.json
