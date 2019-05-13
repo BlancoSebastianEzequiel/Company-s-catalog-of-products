@@ -1,0 +1,20 @@
+{
+	"extends": ["standard", "plugin:react/recommended", "plugin:jest/recommended"],
+	"plugins": ["react", "jest"],
+	"env": {
+		"browser": true,
+		"commonjs": true,
+		"es6": true,
+		"node": true,
+		"mocha": true
+	},
+	"parser": "babel-eslint",
+	"settings": {
+		"react": {
+			"version": "^16.4.2"
+		}
+  },
+  "rules": {
+		"no-var": "error"
+	}
+}
