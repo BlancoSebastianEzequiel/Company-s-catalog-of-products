@@ -9,7 +9,7 @@ class Users(Model):
         'first_name': str,
         'last_name': str,
         'user_name': str,
-        'mail': str,
+        'email': str,
         'password': str,
         'dni': str,
         'type': str
