@@ -26,11 +26,11 @@ def get_all():
 
 @USER_BP.route('/', methods=['PATCH'])
 def patch():
-    res, status = UsersController.patch()
+    res, status = UsersController.patch(request.get_json(silent=True))
     return response(res['data'], res['ok']), status
 
 
 @USER_BP.route('/', methods=['POST'])
 def post():
-    res, status = UsersController.post()
+    res, status = UsersController.post(request.get_json(silent=True))
     return response(res['data'], res['ok']), status

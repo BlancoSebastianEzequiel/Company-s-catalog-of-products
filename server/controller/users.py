@@ -30,8 +30,7 @@ class UsersController:
             return {'data': f"Error getting all: {e}", 'ok': False}, e.status
 
     @classmethod
-    def post(cls):
-        data = request.get_json(silent=True)
+    def post(cls, data):
         try:
             _id = Users(data, hash_pass=True).post()
             return {'data': str(_id), 'ok': True}, http.OK
@@ -39,8 +38,7 @@ class UsersController:
             return {'data': f"Error posting: {e}", 'ok': False}, e.status
 
     @classmethod
-    def patch(cls):
-        data = request.get_json(silent=True)
+    def patch(cls, data):
         try:
             _id = data.get('_id')
             data.pop('_id')
