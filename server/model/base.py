@@ -18,9 +18,29 @@ class Model:
             data.pop("_id")
         self.validate_schema(data)
         self.validate_args(data)
-        self.validate_type(data)
+        self.validate_data_types(data)
         self._data = data.copy()
         self._id = _id
+
+    def __getitem__(self, item):
+        self.validate_key_in_schema(item)
+        return self._data.get(item)
+
+    def get_data(self):
+        return self._data.copy()
+
+    def __setitem__(self, field, value):
+        self.validate_key_in_schema(field)
+        self.validate_type(field, value)
+        self._data[field] = value
+
+    def validate_key_in_schema(self, field):
+        if field not in self.schema.keys():
+            name = self.__class__.__name__
+            raise Exception(f"{field} is not a valid attribute of {name}")
+
+    def validate_type(self, field, value):
+        return isinstance(value, self.schema[field])
 
     def valid_keys(self):
         return list(self.schema.keys()) + ['_id']
@@ -115,9 +135,9 @@ class Model:
         for key in keys_to_drop:
             data.pop(key)
 
-    def validate_type(self, data):
+    def validate_data_types(self, data):
         for key in data:
-            if not isinstance(data[key], self.schema[key]):
+            if not self.validate_type(key, data[key]):
                 e = StatusException(f"Argument {key} has invalid type")
                 e.status = http.BAD_REQUEST
                 raise e
