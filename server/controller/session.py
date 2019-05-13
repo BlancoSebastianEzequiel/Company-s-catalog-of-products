@@ -7,19 +7,19 @@ from http import HTTPStatus as http
 class Session:
     @classmethod
     def create_session(cls, email, secret_pass):
-        res, status = UsersController.get_all({'mail': email})
+        res, status = UsersController.get_all({'email': email})
         if not res['ok']:
             return res, status
         if len(res['data']) == 0:
             msg = "user does not exist"
             return {'data': msg, 'ok': False}, http.BAD_REQUEST
-        user = res["data"][0]
-        if check_password(secret_pass, user.__getitem__('password')):
+        user_data = res["data"][0]
+        if check_password(secret_pass, user_data['password']):
             token = jwt.encode(
-                user.get_data(),
+                user_data,
                 secret_pass,
                 algorithm='HS256'
-            )
+            ).decode()
             return {'data': token, 'ok': True}, http.OK
         else:
             return {'data': "Unauthorized", 'ok': False}, http.UNAUTHORIZED
