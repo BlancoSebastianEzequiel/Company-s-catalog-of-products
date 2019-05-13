@@ -25,10 +25,12 @@ def create_app(conf='conf.local.Config'):
     from server.routes.root import EXAMPLE_BP
     from server.routes.ping import PING_BP
     from server.routes.users import USER_BP
+    from server.routes.session import SESSION_BP
 
     app.register_blueprint(EXAMPLE_BP)
     app.register_blueprint(PING_BP)
     app.register_blueprint(USER_BP)
+    app.register_blueprint(SESSION_BP)
     # use the modified encoder class to handle ObjectId and Datetime object
     # while jsonifying the response
     app.json_encoder = JSONEncoder
