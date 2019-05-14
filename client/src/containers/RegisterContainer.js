@@ -3,7 +3,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import RegisterForm from '../components/RegisterForm'
 import { Redirect } from 'react-router-dom'
 import Http from '../service/Http'
-import { httpStatus } from 'http-status-codes'
+import httpStatus from 'http-status-codes'
 
 export default class RegisterContainer extends React.Component {
   constructor (props) {
@@ -15,10 +15,11 @@ export default class RegisterContainer extends React.Component {
   }
 
   handleClick (data) {
-    if (data.password.localeCompare(data.passConfirmation)) {
+    if (data.password.localeCompare(data.passConfirmation) !== 0) {
       this.setState({ errors: { passConfirmation: 'passwords do not match' } })
     } else {
       delete data.passConfirmation
+      alert("here ")
       Http.post('/users/', data)
         .then(response => {
           if (response.status === httpStatus.CREATED) {
@@ -38,7 +39,7 @@ export default class RegisterContainer extends React.Component {
   render () {
     const { redirectToLogin, errors } = this.state
     if (redirectToLogin) {
-      return <Redirect to='/' />
+      return <Redirect to='/login' />
     }
     return (
       <div>

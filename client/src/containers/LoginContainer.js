@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom'
 import Http from '../service/Http'
 import Auth from '../service/Auth'
 import PropTypes from 'prop-types'
-import { httpStatus } from 'http-status-codes'
+import httpStatus from 'http-status-codes'
 
 export default class LoginContainer extends React.Component {
   constructor (props) {
