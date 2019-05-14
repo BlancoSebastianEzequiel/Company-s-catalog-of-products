@@ -14,19 +14,21 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.5",
     "react-toastify": "^4.4.0",
-    "http-status-codes": "^1.3.0"
+    "http-status-codes": "^1.3.0",
+    "ajv": "^6.9.1",
+    "core-js": "^3.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "test": "eslint ."
+    "test-linter": "eslint ."
   },
   "proxy": "http://localhost:5000/",
   "devDependencies": {
-    "babel-eslint": "^8.2.6",
-    "eslint": "^4.19.1",
+    "babel-eslint": "^7.2.3",
+    "eslint": "4.0.0",
     "eslint-plugin-react": "^7.11.1",
     "babel-cli": "^6.6.0",
     "babel-core": "^6.6.0",
@@ -49,12 +51,7 @@
       "test{,-*}.js",
       "**/*.test.js",
       "**/node_modules/**",
-      "server/middlewares/auth.js",
-      "server/controllers/session.js",
-      "scripts/**",
-      "server/routes/app_server_logged_data.js",
-      "server/controllers/http_service.js",
-      "server/middlewares/error_handler.js"
+      "scripts/**"
     ]
   }
 }
