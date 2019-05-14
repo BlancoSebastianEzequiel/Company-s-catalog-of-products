@@ -1,16 +1,27 @@
 version: '3.2'
 services:
- web_dev:
-  build: .
-  command: sh scripts/run_web_service.sh
-  image: server-img
+ dev_my-client:
+  build:
+   context: ./client
+   dockerfile: Dockerfile
+  volumes:
+   - './client:/usr/src/app'
   ports:
    - 5000:3000
+  depends_on:
+   - "web_dev"
+
+ web_dev:
+  build: .
+  image: server-img
+  ports:
+   - 4000:3000
   volumes:
-   - .:/app
+   - .:/usr/src/app
   environment:
    - ENV=development
    - DB=mongodb://mongodb:27017/development
+
  mongodb:
   image: mongo:latest
   container_name: "mongodb"

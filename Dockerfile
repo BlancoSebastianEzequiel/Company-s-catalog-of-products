@@ -1,9 +1,7 @@
-FROM node:8.4.0
+FROM python:3.6
 ADD . /usr/src/app
 WORKDIR /usr/src/app
+RUN rm -rf client
 RUN pip install --upgrade pip
-WORKDIR /usr/src/app/client
-RUN rm -rf node_modules
-WORKDIR /usr/src/app
 RUN sh scripts/install.sh
-ENTRYPOINT ["npm","run", "server"]
+CMD ["bash", "scripts/wsgi.sh"]
