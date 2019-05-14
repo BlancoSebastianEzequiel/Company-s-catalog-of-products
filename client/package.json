@@ -21,8 +21,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "linter": "eslint ."
+    "test": "npm run beforetest",
+    "beforetest": "eslint ."
   },
   "proxy": "http://localhost:5000/",
   "devDependencies": {
