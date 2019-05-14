@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 echo "RUN LINTER NODE"
 cd client
-npm test
+npm test-linter
 cd ..
 sh scripts/delete_pycache.sh
 sh scripts/flake.sh
