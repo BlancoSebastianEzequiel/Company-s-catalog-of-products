@@ -19,7 +19,6 @@ export default class RegisterContainer extends React.Component {
       this.setState({ errors: { passConfirmation: 'passwords do not match' } })
     } else {
       delete data.passConfirmation
-      alert("here ")
       Http.post('/users/', data)
         .then(response => {
           if (response.status === httpStatus.CREATED) {
