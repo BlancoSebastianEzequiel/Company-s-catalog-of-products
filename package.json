@@ -1,0 +1,37 @@
+{
+  "name": "server",
+  "version": "0.0.1",
+  "description": "Server del TP de ACPI I 2019/1",
+  "main": "server",
+  "engines": {
+    "node": "^8.9.4"
+  },
+  "scripts": {
+    "client": "cd client && npm run start",
+    "server": "sh scripts/wsgi.sh",
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "start": "node server",
+    "install": "sh scripts/install.sh"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "nodemon": "latest"
+  },
+  "devDependencies": {
+    "concurrently": "^4.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/BlancoSebastianEzequiel/Company-s-catalog-of-products.git"
+  },
+  "nyc": {
+    "exclude": [
+      "coverage/**",
+      "test/**",
+      "test{,-*}.js",
+      "**/*.test.js",
+      "**/node_modules/**"
+    ]
+  }
+}
