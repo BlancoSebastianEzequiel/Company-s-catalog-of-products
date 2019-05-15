@@ -137,7 +137,6 @@ class Model:
                 e = StatusException("Invalid request body")
                 e.status = http.BAD_REQUEST
                 raise e
-            print(f"patch data: {data}")
             collection = MONGO.db[self.db_name]
             collection.update_one({'_id': ObjectId(self._id)}, {"$set": data})
             return self._id
