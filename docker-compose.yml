@@ -4,23 +4,27 @@ services:
   build:
    context: ./client
    dockerfile: Dockerfile
+  image: client-img
   volumes:
    - './client:/usr/src/app'
+   - '/usr/src/app/node_modules'
   ports:
-   - 5000:3000
+   - '3000:3000'
   depends_on:
-   - "web_dev"
+   - 'web_dev'
 
  web_dev:
   build: .
   image: server-img
   ports:
-   - 4000:3000
+   - '5000:5000'
   volumes:
-   - .:/usr/src/app
+   - '.:/usr/src/app'
   environment:
    - ENV=development
    - DB=mongodb://mongodb:27017/development
+  depends_on:
+   - "mongodb"
 
  mongodb:
   image: mongo:latest
