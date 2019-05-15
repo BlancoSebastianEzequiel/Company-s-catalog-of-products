@@ -2,6 +2,8 @@ import json
 from server.controller.utils import check_password
 from http import HTTPStatus
 
+id_random = '5cdb89cec2d628266732962f'
+
 
 def test_with_client(client):
     resp = client.get('/')
@@ -13,6 +15,13 @@ def test_list_users_initially_empty(client):
     resp = client.get('/users/')
     assert not resp.json['data']
     assert isinstance(resp.json['data'], list)
+
+
+def test_get_not_existing_user_by_id(client):
+    resp = client.get('/users/' + id_random + '/')
+    assert resp.status_code == HTTPStatus.OK
+    assert resp.json['ok']
+    assert resp.json['data'] is None
 
 
 def test_list_users_size_one_after_post_user(client):
@@ -119,3 +128,29 @@ def test_updating_user(client):
     assert get_resp.json['ok']
     assert get_resp.status_code == HTTPStatus.OK
     assert get_resp.json['data'][0]['first_name'] == 'new name'
+
+
+def test_post_two_users_with_same_user_name_is_not_allowed(client):
+    post_resp = client.post('/users/', data=json.dumps({
+        'first_name': 'juan',
+        'last_name': 'perez',
+        'user_name': 'batman',
+        'email': 'juanperez@gmail.com',
+        'password': '1234',
+        'dni': '39206786',
+        'type': 'client'
+    }), content_type='application/json')
+    assert post_resp.json['ok']
+    assert post_resp.status_code == HTTPStatus.CREATED
+    _id1 = post_resp.json['data']
+    post_resp = client.post('/users/', data=json.dumps({
+        'first_name': 'fabian',
+        'last_name': 'gomez',
+        'user_name': 'batman',
+        'email': 'fabiangomez@gmail.com',
+        'password': '1234',
+        'dni': '29206787',
+        'type': 'client'
+    }), content_type='application/json')
+    assert not post_resp.json['ok']
+    assert post_resp.status_code == HTTPStatus.BAD_REQUEST
