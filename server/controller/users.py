@@ -8,8 +8,11 @@ class UsersController:
     @classmethod
     def delete(cls, _id):
         try:
-            user = Users.get(_id)
-            _id = user.delete()
+            user_data = Users.get(_id)
+            if user_data is None:
+                msg = "user does not exist"
+                return {'data': msg, 'ok': False}, http.BAD_REQUEST
+            _id = Users(user_data, _id=_id).delete()
             return {'data': str(_id), 'ok': True}, http.OK
         except StatusException as e:
             return {'data': f"Error deleting: {e}", 'ok': False}, e.status
@@ -17,7 +20,7 @@ class UsersController:
     @classmethod
     def get(cls, _id):
         try:
-            return {'data': Users.get(_id).get_data(), 'ok': True}, http.OK
+            return {'data': Users.get(_id), 'ok': True}, http.OK
         except StatusException as e:
             return {'data': f"Error getting one: {e}", 'ok': False}, e.status
 
@@ -31,7 +34,7 @@ class UsersController:
     @classmethod
     def post(cls, data):
         try:
-            _id = Users(data, hash_pass=True).post()
+            _id = Users(data, hash_pass=True, unique_values=True).post()
             return {'data': str(_id), 'ok': True}, http.CREATED
         except StatusException as e:
             return {'data': f"Error posting: {e}", 'ok': False}, e.status
@@ -41,7 +44,11 @@ class UsersController:
         try:
             _id = data.get('_id')
             data.pop('_id')
-            _id = Users.get(_id).patch(data)
+            user_data = Users.get(_id)
+            if user_data is None:
+                msg = "user does not exist"
+                return {'data': msg, 'ok': False}, http.BAD_REQUEST
+            _id = Users(user_data, _id=_id).patch(data)
             return {'data': str(_id), 'ok': True}, http.CREATED
         except StatusException as e:
             return {'data': f"Error patching: {e}", 'ok': False}, e.status
