@@ -4,4 +4,4 @@ WORKDIR /usr/src/app
 RUN rm -rf client
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
-CMD ["bash", "scripts/wsgi.sh"]
+ENTRYPOINT ["sh", "scripts/wsgi.sh"]
