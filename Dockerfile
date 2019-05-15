@@ -3,5 +3,5 @@ ADD . /usr/src/app
 WORKDIR /usr/src/app
 RUN rm -rf client
 RUN pip install --upgrade pip
-RUN sh scripts/install.sh
+RUN pip install -r requirements.txt
 CMD ["bash", "scripts/wsgi.sh"]
