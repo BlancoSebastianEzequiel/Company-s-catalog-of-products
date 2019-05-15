@@ -20,10 +20,13 @@ def client():
 
 @pytest.fixture
 def random_user():
-    secret = fake.password()
+    secret = str(fake.random_number(8, True))
+    name = fake.name()
+    first_name = name.split(' ')[0]
+    last_name = name.split(' ')[1]
     data = {
-        'first_name': fake.pystr(),
-        'last_name': fake.pystr(),
+        'first_name': first_name,
+        'last_name': last_name,
         'user_name': fake.pystr(),
         'email': fake.email(),
         'password': secret,
