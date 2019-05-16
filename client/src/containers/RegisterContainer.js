@@ -42,7 +42,6 @@ export default class RegisterContainer extends React.Component {
     }
     return (
       <div>
-        <ToastContainer></ToastContainer>
         <RegisterForm
           errors={errors}
           onClick={(data) => this.handleClick(data)}
