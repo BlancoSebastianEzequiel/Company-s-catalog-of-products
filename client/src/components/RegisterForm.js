@@ -41,7 +41,7 @@ export default class RegisterForm extends React.Component {
             onChange={this.handleChange(field)}
           />
           <HelpBlock>
-            <p className="text-danger">{this.props.errors[field]}</p>
+            <p className="text-danger">{this.props.errors.message}</p>
           </HelpBlock>
         </Col>
       </FormGroup>
@@ -84,5 +84,5 @@ export default class RegisterForm extends React.Component {
 
 RegisterForm.propTypes = {
   onClick: PropTypes.func,
-  errors: PropTypes.object
+  errors: PropTypes.string
 }
