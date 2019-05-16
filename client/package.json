@@ -20,17 +20,27 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "npm run beforetest",
-    "beforetest": "node_modules/.bin/eslint ."
+    "beforetest": "eslint ."
   },
   "proxy": "http://172.20.0.3:5000",
   "devDependencies": {
     "babel-eslint": "^7.2.3",
-    "eslint": "^4.19.1",
+    "eslint": "^5.6.0",
     "eslint-plugin-react": "^7.11.1",
     "eslint-config-standard": "latest",
     "eslint-plugin-standard": "latest",
     "eslint-plugin-promise": "latest",
     "eslint-plugin-import": "latest",
-    "eslint-plugin-node": "latest"
+    "eslint-plugin-node": "latest",
+    "nyc": "^13.1.0"
+  },
+  "nyc": {
+    "exclude": [
+      "coverage/**",
+      "test/**",
+      "test{,-*}.js",
+      "**/*.test.js",
+      "**/node_modules/**"
+    ]
   }
 }
