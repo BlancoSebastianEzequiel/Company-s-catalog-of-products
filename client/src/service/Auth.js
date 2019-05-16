@@ -24,10 +24,10 @@ class Auth {
     if (callback) {
       callback()
     } else {
-      alert('Se ha cerrado su sesion')
+      alert('Your session has been closed')
     }
     if (this.app) {
-      this.app.forceUpdate() // Hack para redirigir a login
+      this.app.forceUpdate() // Hack to redirect to login
     }
   }
 }
