@@ -32,7 +32,6 @@ def test_list_users_size_one_after_post_user(client):
         'user_name': 'juanchi',
         'email': 'juanperez@gmail.com',
         'password': secret,
-        'dni': '39206786',
         'type': 'client'
     }), content_type='application/json')
     assert resp.json['ok']
@@ -50,7 +49,6 @@ def test_post_user_with_no_first_name(client):
         'user_name': 'juanchi',
         'email': 'juanperez@gmail.com',
         'password': '1234',
-        'dni': '39206786',
         'type': 'client'
     }), content_type='application/json')
     assert not resp.json['ok']
@@ -64,7 +62,6 @@ def test_post_user_with_first_name_invalid_type(client):
         'user_name': 'juanchi',
         'email': 'juanperez@gmail.com',
         'password': '1234',
-        'dni': '39206786',
         'type': 'admin'
     }), content_type='application/json')
     assert not resp.json['ok']
@@ -78,7 +75,6 @@ def test_deleting_posted_user(client):
         'user_name': 'juanchi',
         'email': 'juanperez@gmail.com',
         'password': '1234',
-        'dni': '39206786',
         'type': 'admin'
     }), content_type='application/json')
     assert resp.json['ok']
@@ -109,7 +105,6 @@ def test_updating_user(client):
         'user_name': 'juanchi',
         'email': 'juanperez@gmail.com',
         'password': '1234',
-        'dni': '39206786',
         'type': 'client'
     }), content_type='application/json')
     assert post_resp.json['ok']
@@ -137,19 +132,16 @@ def test_post_two_users_with_same_user_name_is_not_allowed(client):
         'user_name': 'batman',
         'email': 'juanperez@gmail.com',
         'password': '1234',
-        'dni': '39206786',
         'type': 'client'
     }), content_type='application/json')
     assert post_resp.json['ok']
     assert post_resp.status_code == HTTPStatus.CREATED
-    post_resp.json['data']
     post_resp = client.post('/users/', data=json.dumps({
         'first_name': 'fabian',
         'last_name': 'gomez',
         'user_name': 'batman',
         'email': 'fabiangomez@gmail.com',
         'password': '1234',
-        'dni': '29206787',
         'type': 'client'
     }), content_type='application/json')
     assert not post_resp.json['ok']
@@ -163,19 +155,16 @@ def test_post_two_users_with_same_email_is_not_allowed(client):
         'user_name': 'batman',
         'email': 'juanperez@gmail.com',
         'password': '1234',
-        'dni': '39206786',
         'type': 'client'
     }), content_type='application/json')
     assert post_resp.json['ok']
     assert post_resp.status_code == HTTPStatus.CREATED
-    post_resp.json['data']
     post_resp = client.post('/users/', data=json.dumps({
         'first_name': 'fabian',
         'last_name': 'gomez',
         'user_name': 'robin',
         'email': 'juanperez@gmail.com',
         'password': '1234',
-        'dni': '29206787',
         'type': 'client'
     }), content_type='application/json')
     assert not post_resp.json['ok']

@@ -30,7 +30,6 @@ def random_user():
         'user_name': fake.pystr(),
         'email': fake.email(),
         'password': secret,
-        'dni': str(fake.random_number(8, True)),
         'type': fake.random_element(('client', 'admin'))
     }
     _id = UsersController.post(data)[0]['data']

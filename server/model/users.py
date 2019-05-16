@@ -11,7 +11,6 @@ class Users(Model):
         'user_name': str,  # unique value
         'email': str,  # unique value
         'password': str,
-        'dni': str,  # unique value
         'type': str
     }
 
@@ -21,7 +20,6 @@ class Users(Model):
         'user_name': True,
         'email': True,
         'password': False,
-        'dni': True,
         'type': False
     }
 
