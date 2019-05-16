@@ -22,7 +22,7 @@
     "test": "npm run beforetest",
     "beforetest": "node_modules/.bin/eslint ."
   },
-  "proxy": "http://localhost:5000/",
+  "proxy": "http://172.20.0.3:5000",
   "devDependencies": {
     "babel-eslint": "^7.2.3",
     "eslint": "^4.19.1",
