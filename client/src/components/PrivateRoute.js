@@ -20,4 +20,9 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   />
 )
 
+PrivateRoute.propTypes = {
+  component: React.PropTypes.element.isRequired,
+  location: Redirect.propTypes.state.from
+}
+
 export default PrivateRoute
