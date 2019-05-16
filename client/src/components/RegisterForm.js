@@ -65,7 +65,6 @@ export default class RegisterForm extends React.Component {
               {this.showField('user_name', 'user name', 'text')}
               {this.showField('email', 'email', 'email')}
               {this.showField('password', 'password', 'password')}
-              {this.showField('dni', 'DNI', 'text')}
               {this.showField('passConfirmation', 'Confirm Password', 'password')}
               <FormGroup>
                 <Col smOffset={2} sm={10}>
