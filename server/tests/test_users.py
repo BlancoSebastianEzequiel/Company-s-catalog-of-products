@@ -142,12 +142,38 @@ def test_post_two_users_with_same_user_name_is_not_allowed(client):
     }), content_type='application/json')
     assert post_resp.json['ok']
     assert post_resp.status_code == HTTPStatus.CREATED
-    _id1 = post_resp.json['data']
+    post_resp.json['data']
     post_resp = client.post('/users/', data=json.dumps({
         'first_name': 'fabian',
         'last_name': 'gomez',
         'user_name': 'batman',
         'email': 'fabiangomez@gmail.com',
+        'password': '1234',
+        'dni': '29206787',
+        'type': 'client'
+    }), content_type='application/json')
+    assert not post_resp.json['ok']
+    assert post_resp.status_code == HTTPStatus.BAD_REQUEST
+
+
+def test_post_two_users_with_same_email_is_not_allowed(client):
+    post_resp = client.post('/users/', data=json.dumps({
+        'first_name': 'juan',
+        'last_name': 'perez',
+        'user_name': 'batman',
+        'email': 'juanperez@gmail.com',
+        'password': '1234',
+        'dni': '39206786',
+        'type': 'client'
+    }), content_type='application/json')
+    assert post_resp.json['ok']
+    assert post_resp.status_code == HTTPStatus.CREATED
+    post_resp.json['data']
+    post_resp = client.post('/users/', data=json.dumps({
+        'first_name': 'fabian',
+        'last_name': 'gomez',
+        'user_name': 'robin',
+        'email': 'juanperez@gmail.com',
         'password': '1234',
         'dni': '29206787',
         'type': 'client'
