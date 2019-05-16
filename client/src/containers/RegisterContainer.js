@@ -1,5 +1,5 @@
 import React from 'react'
-import toast from 'react-toastify'
+import { ToastContainer, toast } from 'react-toastify'
 import RegisterForm from '../components/RegisterForm'
 import { Redirect } from 'react-router-dom'
 import Http from '../service/Http'
@@ -26,7 +26,7 @@ export default class RegisterContainer extends React.Component {
             this.setState({ redirectToLogin: true })
           } else {
             toast('The user could not be created, please verify the data')
-            this.setState({ errors: response.content.errors })
+            this.setState({ errors: { 'message': response.content.data } })
           }
         })
         .catch(err => {
@@ -42,6 +42,7 @@ export default class RegisterContainer extends React.Component {
     }
     return (
       <div>
+        <ToastContainer></ToastContainer>
         <RegisterForm
           errors={errors}
           onClick={(data) => this.handleClick(data)}
