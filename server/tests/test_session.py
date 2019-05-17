@@ -19,4 +19,4 @@ def test_login_of_registered_user(client, random_user):
         'password': secret
     }), content_type='application/json')
     assert resp.json['ok']
-    assert resp.status_code == http.OK
+    assert resp.status_code == http.CREATED
