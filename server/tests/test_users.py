@@ -169,3 +169,35 @@ def test_post_two_users_with_same_email_is_not_allowed(client):
     }), content_type='application/json')
     assert not post_resp.json['ok']
     assert post_resp.status_code == HTTPStatus.BAD_REQUEST
+
+
+def test_get_user_without_logging_in(auth_client):
+    resp = auth_client.get('/users/')
+    assert resp.status_code == HTTPStatus.UNAUTHORIZED
+    assert not resp.json['ok']
+
+
+def test_get_user_after_logging_in(auth_client):
+    post_resp = auth_client.post('/users/', data=json.dumps({
+        'first_name': 'juan',
+        'last_name': 'perez',
+        'user_name': 'batman',
+        'email': 'juanperez@gmail.com',
+        'password': '1234',
+        'type': 'client'
+    }), content_type='application/json')
+    assert post_resp.json['ok']
+    assert post_resp.status_code == HTTPStatus.CREATED
+    login_resp = auth_client.post('/session/', data=json.dumps({
+        'email': 'juanperez@gmail.com',
+        'password': '1234'
+    }), content_type='application/json')
+    assert login_resp.json['ok']
+    assert login_resp.status_code == HTTPStatus.CREATED
+    token = login_resp.json['data']
+    get_resp = auth_client.get(
+        '/users/',
+        headers={'Authorization': 'Bearer ' + token}
+    )
+    assert get_resp.status_code == HTTPStatus.OK
+    assert get_resp.json['ok']
