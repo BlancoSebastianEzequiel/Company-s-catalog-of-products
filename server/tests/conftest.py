@@ -19,6 +19,16 @@ def client():
 
 
 @pytest.fixture
+def auth_client():
+    app = create_app(conf='conf.auth_test.Config')
+    app.config['TESTING'] = True
+    auth_client = app.test_client()
+    # Clear databases
+    MONGO.db['users'].delete_many({})
+    yield auth_client
+
+
+@pytest.fixture
 def random_user():
     secret = str(fake.random_number(8, True))
     name = fake.name()
