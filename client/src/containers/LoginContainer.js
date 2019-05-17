@@ -18,9 +18,10 @@ export default class LoginContainer extends React.Component {
     const { email, password } = data
     Http.post('/session/', { email, password }, () => {})
       .then(response => {
-        const data = response.content
-        if (response.status === httpStatus.OK && data && data.token) {
-          Auth.login(data.token)
+        const res = response.content
+        const token = res.data
+        if (response.status === httpStatus.CREATED && token) {
+          Auth.login(token)
           this.setState({ redirectToReferrer: true })
           this.props.onLogin() // Hack to refresh NavBar
         } else {
