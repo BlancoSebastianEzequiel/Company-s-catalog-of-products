@@ -40,13 +40,13 @@ export default class RulesContainer extends React.Component {
               })
           }
           this.handleChange('clients', clientsVector)
-          this.handleChange('refresh', true)
+          this.handleChange('refresh', false)
         } else {
-          alert('Error: 200 status was not received')
+          toast('ERROR: ' + response.content.data)
         }
       })
       .catch(err => {
-        alert(err)
+        toast('ERROR: ' + err)
       })
   }
 
@@ -61,7 +61,7 @@ export default class RulesContainer extends React.Component {
         }
       })
       .catch(err => {
-        toast('ERROR: ' + err.content.data)
+        toast('ERROR: ' + err)
       })
   }
 
