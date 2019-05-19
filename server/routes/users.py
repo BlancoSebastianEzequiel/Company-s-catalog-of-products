@@ -24,7 +24,10 @@ def get(_id):
 @USER_BP.route('/', methods=['GET'])
 @login_required
 def get_all():
-    res, status = UsersController.get_all(dict(request.args))
+    args = dict(request.args)
+    for field in args:
+        args[field] = args[field][0]
+    res, status = UsersController.get_all(args)
     return response(res['data'], res['ok']), status
 
 
