@@ -24,7 +24,7 @@ export default class RegisterContainer extends React.Component {
       Http.post('/users/', data)
         .then(response => {
           if (response.status === httpStatus.CREATED) {
-            if (Auth.isAdmin()) {
+            if (Auth.isLogged()) {
               this.setState({ urlToRedirect: '/delete-client' })
             } else {
               this.setState({ urlToRedirect: '/login' })
