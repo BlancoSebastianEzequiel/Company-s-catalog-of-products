@@ -1,6 +1,5 @@
 import os
 import json
-import json
 from flask import Flask
 from server.libs.mongo import JSONEncoder
 from server.logger import logger
