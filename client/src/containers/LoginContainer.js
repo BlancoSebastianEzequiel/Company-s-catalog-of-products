@@ -22,7 +22,7 @@ export default class LoginContainer extends React.Component {
           const user = response.content.data[0]
           Auth.setTypeOfUser(user.type)
         } else {
-          toast('Error: ' +  response.content.data)
+          toast('Error: ' + response.content.data)
         }
       })
       .catch(err => {
@@ -44,7 +44,7 @@ export default class LoginContainer extends React.Component {
               this.props.onLogin() // Hack to refresh NavBar
             })
         } else {
-          toast('Error: ' +  response.content.data)
+          toast('Error: ' + response.content.data)
         }
       })
       .catch(err => {

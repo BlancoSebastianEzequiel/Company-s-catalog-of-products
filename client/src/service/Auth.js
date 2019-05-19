@@ -1,5 +1,4 @@
 class Auth {
-
   setApp (app) {
     this.app = app
   }
