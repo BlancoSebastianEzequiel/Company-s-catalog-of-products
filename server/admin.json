@@ -1,0 +1,18 @@
+[
+  {
+    "first_name": "juan",
+    "last_name": "perez",
+    "user_name": "juanchi",
+    "email": "juanperez@gmail.com",
+    "password": "1234",
+    "type": "admin"
+  },
+  {
+    "first_name": "Pedro",
+    "last_name": "Gutierrez",
+    "user_name": "pedro",
+    "email": "pedro_gutierrez@gmail.com",
+    "password": "1234",
+    "type": "admin"
+  }
+]
