@@ -1,17 +1,14 @@
 import React from 'react'
-import { Navbar, Nav, NavItem } from 'react-bootstrap'
-import { LinkContainer } from 'react-router-bootstrap'
+import { Navbar, Nav } from 'react-bootstrap'
+import AdminNavbar from './AdminNavbar'
+import ClientNavbar from './ClientNavbar'
+import Auth from '../service/Auth'
 
 const LoggedNavbar = function () {
   return (
     <Navbar>
       <Nav>
-        <LinkContainer exact to="/">
-          <NavItem eventKey={1}>Home</NavItem>
-        </LinkContainer>
-        <LinkContainer to="/logout">
-          <NavItem eventKey={8}>Logout</NavItem>
-        </LinkContainer>
+        { Auth.isAdmin() ? <AdminNavbar/> : <ClientNavbar/> }
       </Nav>
     </Navbar>
   )
