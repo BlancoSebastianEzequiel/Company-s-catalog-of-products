@@ -28,7 +28,6 @@ export default class RegisterContainer extends React.Component {
               this.setState({ urlToRedirect: '/delete-client' })
             } else {
               this.setState({ urlToRedirect: '/login' })
-              Auth.setTypeOfUser(data.type)
             }
             this.setState({ redirectTo: true })
             toast('user successfully created!')
