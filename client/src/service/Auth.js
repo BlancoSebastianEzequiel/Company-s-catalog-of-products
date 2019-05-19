@@ -15,8 +15,9 @@ class Auth {
   }
 
   isAdmin () {
-    if (!this.type) {
-      this.type = sessionStorage.getItem('type')
+    const newType = sessionStorage.getItem('type')
+    if (this.type !== newType) {
+      this.type = newType
     }
     return this.type === 'admin'
   }
