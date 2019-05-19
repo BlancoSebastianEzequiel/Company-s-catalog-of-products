@@ -13,24 +13,70 @@ class Model:
     # Mongodb database name. Try to keep this unique between models!
     db_name = None
 
-    def __init__(self, data: dict, _id=None):
-        if "_id" in data.keys():
-            data.pop("_id")
-        self.validate_schema(data)
-        self.validate_args(data)
-        self.validate_type(data)
+    # key: field of schema
+    # value: boolean. if true the values cannot be repeated in the db
+    unique_values = {}
+
+    def __init__(self, data: dict, _id=None, check_unique_values=False):
+        self.validate_data(data, check_unique_values)
         self._data = data.copy()
         self._id = _id
 
-    def valid_keys(self):
-        return list(self.schema.keys()) + ['_id']
+    def __getitem__(self, item):
+        self.validate_key_in_schema(item)
+        return self._data.get(item)
+
+    def get_data(self):
+        return self._data.copy()
+
+    def __setitem__(self, field, value):
+        self.validate_key_in_schema(field)
+        self.validate_type(field, value)
+        self._data[field] = value
+
+    @classmethod
+    def validate_data(cls, data: dict, check_unique_values: bool):
+        if "_id" in data.keys():
+            data.pop("_id")
+        cls.validate_schema(data)
+        cls.validate_args(data)
+        cls.validate_data_types(data)
+        if check_unique_values:
+            cls.validate_already_existing_unique_values(data)
+
+    @classmethod
+    def validate_key_in_schema(cls, field):
+        if field not in cls.schema.keys():
+            name = cls.__class__.__name__
+            raise Exception(f"{field} is not a valid attribute of {name}")
+
+    @classmethod
+    def validate_type(cls, field, value):
+        return isinstance(value, cls.schema[field])
+
+    @classmethod
+    def valid_keys(cls):
+        return list(cls.schema.keys()) + ['_id']
+
+    @classmethod
+    def validate_already_existing_unique_values(cls, data):
+        for field in data:
+            value = data[field]
+            cls.check_unique_value(field, value)
+
+    @classmethod
+    def check_unique_value(cls, field, value):
+        if cls.unique_values[field] and len(cls.get_all({field: value})) != 0:
+            msg = f"field {field} already exists"
+            raise StatusException(msg, http.BAD_REQUEST)
 
     def delete(self):
         try:
             collection = MONGO.db[self.db_name]
-            result = collection.delete_one({"_id": ObjectId(self._id)})
-            if not result.deleted_count and result.acknowledged:
-                e = StatusException("Error deleting")
+            res = collection.delete_one({"_id": ObjectId(self._id)})
+            if res.deleted_count != 1:
+                msg = f"The number of deleted docs were {res.deleted_count}"
+                e = StatusException(msg)
                 e.status = http.INTERNAL_SERVER_ERROR
                 raise e
             return self._id
@@ -54,26 +100,17 @@ class Model:
             e = StatusException(ex)
             e.status = http.INTERNAL_SERVER_ERROR
             raise e
-        if doc is None:
-            e = StatusException(f"{cls.db_name} {_id} does not exist")
-            e.status = http.BAD_REQUEST
-            raise e
-        try:
+        if doc is not None:
             doc = dict(doc)
-            model = cls(doc, doc["_id"])
-            return model
-        except Exception as ex:
-            e = StatusException(ex)
-            e.status = http.INTERNAL_SERVER_ERROR
-            raise e
+            cls.validate_data(doc, False)
+        return doc
 
     @classmethod
     def get_all(cls, args: dict):
         try:
             collection = MONGO.db[cls.db_name]
             result = list(collection.find(args))
-            data = [cls(doc, doc['_id'])._data for doc in result]
-            return data
+            return result
         except Exception as ex:
             e = StatusException(ex)
             e.status = http.INTERNAL_SERVER_ERROR
@@ -101,29 +138,32 @@ class Model:
                 e.status = http.BAD_REQUEST
                 raise e
             collection = MONGO.db[self.db_name]
-            collection.update_one({'_id': self._id}, {"$set": data})
+            collection.update_one({'_id': ObjectId(self._id)}, {"$set": data})
             return self._id
         except Exception as ex:
             e = StatusException(ex)
             e.status = http.INTERNAL_SERVER_ERROR
             raise e
 
-    def validate_args(self, data):
+    @classmethod
+    def validate_args(cls, data):
         a_list = list(data.keys())
-        keys = self.valid_keys()
+        keys = cls.valid_keys()
         keys_to_drop = list(filter(lambda x: x not in keys, a_list))
         for key in keys_to_drop:
             data.pop(key)
 
-    def validate_type(self, data):
+    @classmethod
+    def validate_data_types(cls, data):
         for key in data:
-            if not isinstance(data[key], self.schema[key]):
+            if not cls.validate_type(key, data[key]):
                 e = StatusException(f"Argument {key} has invalid type")
                 e.status = http.BAD_REQUEST
                 raise e
 
-    def validate_schema(self, data):
-        for key in self.schema:
+    @classmethod
+    def validate_schema(cls, data):
+        for key in cls.schema:
             if key not in data:
                 e = StatusException(f"Argument {key} missing")
                 e.status = http.BAD_REQUEST

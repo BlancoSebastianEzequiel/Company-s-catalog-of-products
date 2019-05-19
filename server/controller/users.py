@@ -1,7 +1,4 @@
-import server.controller.utils as utils
-from server.controller.utils import response
 from http import HTTPStatus as http
-from flask import request
 from server.model.users import Users
 from server.exceptions.status_exception import StatusException
 
@@ -11,42 +8,47 @@ class UsersController:
     @classmethod
     def delete(cls, _id):
         try:
-            user = Users.get(_id)
-            _id = user.delete()
-            return response(str(_id), True), http.OK
+            user_data = Users.get(_id)
+            if user_data is None:
+                msg = "user does not exist"
+                return {'data': msg, 'ok': False}, http.BAD_REQUEST
+            _id = Users(user_data, _id=_id).delete()
+            return {'data': str(_id), 'ok': True}, http.OK
         except StatusException as e:
-            return response(f"Error deleting: {e}", False), e.status
+            return {'data': f"Error deleting: {e}", 'ok': False}, e.status
 
     @classmethod
     def get(cls, _id):
         try:
-            return response(Users.get(_id)._data, True), http.OK
+            return {'data': Users.get(_id), 'ok': True}, http.OK
         except StatusException as e:
-            return response(f"Error getting one: {e}", False), e.status
+            return {'data': f"Error getting one: {e}", 'ok': False}, e.status
 
     @classmethod
-    def get_all(cls):
+    def get_all(cls, args):
         try:
-            return response(Users.get_all(dict(request.args)), True), http.OK
+            return {'data': Users.get_all(args), 'ok': True}, http.OK
         except StatusException as e:
-            return response(f"Error getting all: {e}", False), e.status
+            return {'data': f"Error getting all: {e}", 'ok': False}, e.status
 
     @classmethod
-    def post(cls):
-        data = request.get_json(silent=True)
+    def post(cls, data):
         try:
-            _id = Users(data).post()
-            return response(str(_id), True), http.OK
+            _id = Users(data, hash_pass=True, unique_values=True).post()
+            return {'data': str(_id), 'ok': True}, http.CREATED
         except StatusException as e:
-            return utils.response(f"Error posting: {e}", False), e.status
+            return {'data': f"Error posting: {e}", 'ok': False}, e.status
 
     @classmethod
-    def patch(cls):
-        data = request.get_json(silent=True)
+    def patch(cls, data):
         try:
             _id = data.get('_id')
             data.pop('_id')
-            _id = Users.get(_id).patch(data)
-            return response(str(_id), True), http.OK
+            user_data = Users.get(_id)
+            if user_data is None:
+                msg = "user does not exist"
+                return {'data': msg, 'ok': False}, http.BAD_REQUEST
+            _id = Users(user_data, _id=_id).patch(data)
+            return {'data': str(_id), 'ok': True}, http.CREATED
         except StatusException as e:
-            return utils.response(f"Error patching: {e}", False), e.status
+            return {'data': f"Error patching: {e}", 'ok': False}, e.status
