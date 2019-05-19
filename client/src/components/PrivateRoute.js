@@ -1,6 +1,7 @@
 import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import Auth from '../service/Auth'
+import PropTypes from 'prop-types'
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -21,8 +22,8 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 )
 
 PrivateRoute.propTypes = {
-  component: React.PropTypes.element.isRequired,
-  location: Redirect.propTypes.state.from
+  component: PropTypes.element.isRequired,
+  location: PropTypes.object
 }
 
 export default PrivateRoute
