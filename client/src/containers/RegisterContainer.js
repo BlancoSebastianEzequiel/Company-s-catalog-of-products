@@ -4,13 +4,15 @@ import RegisterForm from '../components/RegisterForm'
 import { Redirect } from 'react-router-dom'
 import Http from '../service/Http'
 import httpStatus from 'http-status-codes'
+import Auth from '../service/Auth'
 
 export default class RegisterContainer extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      redirectToLogin: false,
-      errors: {}
+      redirectTo: false,
+      errors: {},
+      urlToRedirect: '/login'
     }
   }
 
@@ -22,8 +24,14 @@ export default class RegisterContainer extends React.Component {
       Http.post('/users/', data)
         .then(response => {
           if (response.status === httpStatus.CREATED) {
+            if (Auth.isAdmin()) {
+              this.setState({ urlToRedirect: '/delete-client' })
+            } else {
+              this.setState({ urlToRedirect: '/login' })
+              Auth.setTypeOfUser(data.type)
+            }
+            this.setState({ redirectTo: true })
             toast('user successfully created!')
-            this.setState({ redirectToLogin: true })
           } else {
             toast('The user could not be created, please verify the data')
             this.setState({ errors: { 'message': response.content.data } })
@@ -36,9 +44,9 @@ export default class RegisterContainer extends React.Component {
   }
 
   render () {
-    const { redirectToLogin, errors } = this.state
-    if (redirectToLogin) {
-      return <Redirect to='/login' />
+    const { redirectTo, errors, urlToRedirect } = this.state
+    if (redirectTo) {
+      return <Redirect to={urlToRedirect}/>
     }
     return (
       <div>
