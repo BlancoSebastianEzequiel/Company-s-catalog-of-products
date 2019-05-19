@@ -1,4 +1,8 @@
 class Auth {
+  constructor (type) {
+    this.type = null
+  }
+
   setApp (app) {
     this.app = app
   }
@@ -8,6 +12,17 @@ class Auth {
       this.token = sessionStorage.getItem('auth')
     }
     return this.token
+  }
+
+  setTypeOfUser (type) {
+    this.type = type
+  }
+
+  isAdmin () {
+    if (!this.type) {
+      return true
+    }
+    return this.type === 'admin'
   }
 
   isLogged () {
