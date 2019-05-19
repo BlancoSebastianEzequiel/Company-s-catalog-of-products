@@ -1,7 +1,4 @@
 class Auth {
-  constructor (type) {
-    this.type = null
-  }
 
   setApp (app) {
     this.app = app
@@ -15,12 +12,12 @@ class Auth {
   }
 
   setTypeOfUser (type) {
-    this.type = type
+    sessionStorage.setItem('type', type)
   }
 
   isAdmin () {
     if (!this.type) {
-      return true
+      this.type = sessionStorage.getItem('type')
     }
     return this.type === 'admin'
   }
