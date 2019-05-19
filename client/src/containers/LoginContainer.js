@@ -1,4 +1,5 @@
 import React from 'react'
+import { toast } from 'react-toastify'
 import LoginForm from '../components/LoginForm'
 import { Redirect } from 'react-router-dom'
 import Http from '../service/Http'
@@ -14,6 +15,21 @@ export default class LoginContainer extends React.Component {
     }
   }
 
+  setTypeOfUser (email) {
+    return Http.get('/users/?email=' + email)
+      .then(response => {
+        if (response.status === httpStatus.OK) {
+          const user = response.content.data[0]
+          Auth.setTypeOfUser(user.type)
+        } else {
+          toast('Error: ' +  response.content.data)
+        }
+      })
+      .catch(err => {
+        toast('Error: ' + err)
+      })
+  }
+
   handleClick (data) {
     const { email, password } = data
     Http.post('/session/', { email, password }, () => {})
@@ -21,15 +37,18 @@ export default class LoginContainer extends React.Component {
         const res = response.content
         const token = res.data
         if (response.status === httpStatus.CREATED && token) {
-          Auth.login(token)
-          this.setState({ redirectToReferrer: true })
-          this.props.onLogin() // Hack to refresh NavBar
+          this.setTypeOfUser(email)
+            .then(() => {
+              Auth.login(token)
+              this.setState({ redirectToReferrer: true })
+              this.props.onLogin() // Hack to refresh NavBar
+            })
         } else {
-          alert('invalid user or password')
+          toast('Error: ' +  response.content.data)
         }
       })
       .catch(err => {
-        alert('Auth Error' + err) // TODO
+        toast('Error: ' + err)
       })
   }
 
