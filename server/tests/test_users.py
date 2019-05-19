@@ -43,6 +43,42 @@ def test_list_users_size_one_after_post_user(client):
     assert check_password(secret, resp.json['data'][0]['password'])
 
 
+def test_get_user_with_unmatched_query(client):
+    secret = '1234'
+    resp = client.post('/users/', data=json.dumps({
+        'first_name': 'juan',
+        'last_name': 'perez',
+        'user_name': 'juanchi',
+        'email': 'juanperez@gmail.com',
+        'password': secret,
+        'type': 'client'
+    }), content_type='application/json')
+    assert resp.json['ok']
+    assert resp.status_code == HTTPStatus.CREATED
+    resp = client.get('/users/?email="nada"')
+    assert resp.json['ok']
+    assert resp.status_code == HTTPStatus.OK
+    assert len(resp.json['data']) == 0
+
+
+def test_get_user_with_good_query(client):
+    secret = '1234'
+    resp = client.post('/users/', data=json.dumps({
+        'first_name': 'juan',
+        'last_name': 'perez',
+        'user_name': 'juanchi',
+        'email': 'juanperez@gmail.com',
+        'password': secret,
+        'type': 'client'
+    }), content_type='application/json')
+    assert resp.json['ok']
+    assert resp.status_code == HTTPStatus.CREATED
+    resp = client.get('/users/?email=juanperez@gmail.com')
+    assert resp.json['ok']
+    assert resp.status_code == HTTPStatus.OK
+    assert len(resp.json['data']) == 1
+
+
 def test_post_user_with_no_first_name(client):
     resp = client.post('/users/', data=json.dumps({
         'last_name': 'perez',
