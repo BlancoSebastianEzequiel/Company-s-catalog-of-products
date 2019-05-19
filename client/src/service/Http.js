@@ -1,17 +1,26 @@
 import Auth from '../service/Auth'
 class Http {
   async get (url, callback) {
-    const rawResponse = await fetch(url, { method: 'GET', headers: this.getHeaders() })
+    const rawResponse = await fetch(url, {
+      method: 'GET',
+      headers: this.getHeaders()
+    })
     this.checkIfUnauthorized(rawResponse.status, callback)
     const content = await rawResponse.json()
-    return content
+    return {
+      content,
+      status: rawResponse.status
+    }
   }
 
   async delete (url, id, callback) {
     const rawResponse = await fetch(`${url}${id}/`, { method: 'DELETE', headers: this.getHeaders() })
     this.checkIfUnauthorized(rawResponse.status, callback)
     const content = await rawResponse.json()
-    return content
+    return {
+      content,
+      status: rawResponse.status
+    }
   }
 
   async post (url, payload, callback) {
