@@ -9,7 +9,8 @@ import Auth from './service/Auth'
 import 'react-toastify/dist/ReactToastify.css'
 
 import './App.css'
-// import PrivateRoute from './components/PrivateRoute'
+import PrivateRoute from './components/PrivateRoute'
+import DeleteClientContainer from './containers/DeleteClientContainer'
 
 class App extends Component {
   constructor (props) {
@@ -38,6 +39,7 @@ class App extends Component {
               <Route path="/logout"
                 render={routeProps => <Logout {...routeProps} onLogout={ () => this.setState(this.state) }/>} />
               <Route path="/register" component={RegisterContainer} />
+              <PrivateRoute exact path="/delete-client" component={DeleteClientContainer} />
             </div>
           </Router>
         </div>
