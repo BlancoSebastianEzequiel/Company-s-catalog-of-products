@@ -15,6 +15,7 @@ def client():
     client = app.test_client()
     # Clear databases
     MONGO.db['users'].delete_many({})
+    MONGO.db['active_principle'].delete_many({})
     yield client
 
 
