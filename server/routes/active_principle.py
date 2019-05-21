@@ -44,6 +44,7 @@ def patch():
 
 
 @ACTIVE_PRINCIPLE_BP.route('/', methods=['POST'])
+@login_required
 def post():
     data = request.get_json(silent=True)
     res, status = ActivePrincipleController.post(data)
