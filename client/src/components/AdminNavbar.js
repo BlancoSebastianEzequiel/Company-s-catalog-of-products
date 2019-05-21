@@ -18,6 +18,9 @@ const AdminNavbar = function () {
         <LinkContainer to="/register-active-principle">
           <NavItem eventKey={4}>Register active principle</NavItem>
         </LinkContainer>
+        <LinkContainer to="/active-principle-list">
+          <NavItem eventKey={4}>Active principle list</NavItem>
+        </LinkContainer>
         <LinkContainer to="/logout">
           <NavItem eventKey={5}>Logout</NavItem>
         </LinkContainer>
