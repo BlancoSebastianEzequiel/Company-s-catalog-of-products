@@ -2,7 +2,7 @@ import React from 'react'
 import { Col, Form, Grid, Row } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 
-export default class DeleteClientForm extends React.Component {
+export default class ListForm extends React.Component {
   constructor (props) {
     super(props)
     this.state = {}
@@ -14,18 +14,18 @@ export default class DeleteClientForm extends React.Component {
     })
   }
 
-  submit = (aClient) => {
-    this.props.deleteClient(aClient)
+  submit = (anObject) => {
+    this.props.deleteObject(anObject)
   }
 
   showList () {
     return (
       <div>
-        { this.props.clients.map((aClient, idx) =>
+        { this.props.ObjectsList.map((anObject, idx) =>
           <div className="panel panel-default" key={idx}>
-            <div className="panel-heading">{aClient.client_data}</div>
+            <div className="panel-heading">{anObject.data}</div>
             <button
-              className="btn btn-default" type="submit" onClick={() => this.submit(aClient) }
+              className="btn btn-default" type="submit" onClick={() => this.submit(anObject) }
             >Delete
             </button>
           </div>
@@ -35,7 +35,7 @@ export default class DeleteClientForm extends React.Component {
   }
 
   render () {
-    this.props.getClients()
+    this.props.getList()
     return (
       <Grid>
         <Row className="show-grid">
@@ -50,9 +50,9 @@ export default class DeleteClientForm extends React.Component {
   }
 }
 
-DeleteClientForm.propTypes = {
-  getClients: PropTypes.func,
-  deleteClient: PropTypes.func,
+ListForm.propTypes = {
+  getList: PropTypes.func,
+  deleteObject: PropTypes.func,
   errors: PropTypes.object,
-  clients: PropTypes.array
+  ObjectsList: PropTypes.array
 }
