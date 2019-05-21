@@ -25,6 +25,7 @@ def auth_client():
     auth_client = app.test_client()
     # Clear databases
     MONGO.db['users'].delete_many({})
+    MONGO.db['active_principle'].delete_many({})
     yield auth_client
 
 
