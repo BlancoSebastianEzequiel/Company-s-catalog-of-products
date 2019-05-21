@@ -15,8 +15,11 @@ const AdminNavbar = function () {
         <LinkContainer to="/delete-client">
           <NavItem eventKey={3}>Delete client</NavItem>
         </LinkContainer>
+        <LinkContainer to="/register-active-principle">
+          <NavItem eventKey={4}>Register active principle</NavItem>
+        </LinkContainer>
         <LinkContainer to="/logout">
-          <NavItem eventKey={4}>Logout</NavItem>
+          <NavItem eventKey={5}>Logout</NavItem>
         </LinkContainer>
       </Nav>
     </Navbar>
