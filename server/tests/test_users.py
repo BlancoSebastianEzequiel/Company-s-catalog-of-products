@@ -128,7 +128,7 @@ def test_deleting_not_existent_user(client):
     assert resp.status_code == HTTPStatus.BAD_REQUEST
 
 
-def test_delete_article_invalid_id(client):
+def test_delete_user_invalid_id(client):
     bad_id = "not hex wrong len"
     resp = client.delete(f'/users/{bad_id}/')
     assert resp.status_code == HTTPStatus.BAD_REQUEST
