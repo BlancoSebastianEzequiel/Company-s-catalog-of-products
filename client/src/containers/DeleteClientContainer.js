@@ -1,17 +1,17 @@
 import React from 'react'
 import { ToastContainer, toast } from 'react-toastify'
-import DeleteClientForm from '../components/DeleteClientForm'
+import ListForm from '../components/ListForm'
 import Http from '../service/Http'
 import httpStatus from 'http-status-codes'
 
-export default class RulesContainer extends React.Component {
+export default class DeleteClientContainer extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
       errors: {},
       refresh: false,
       clients: [{
-        'client_data': '',
+        'data': '',
         '_id': ''
       }]
     }
@@ -35,7 +35,7 @@ export default class RulesContainer extends React.Component {
             const _id = response.content.data[i]._id
             clientsVector.push(
               {
-                'client_data': 'USER NAME: ' + aClient['user_name'] + ' -- EMAIL: ' + aClient['email'],
+                'data': 'USER NAME: ' + aClient['user_name'] + ' -- EMAIL: ' + aClient['email'],
                 '_id': _id
               })
           }
@@ -70,11 +70,11 @@ export default class RulesContainer extends React.Component {
     return (
       <div>
         <ToastContainer></ToastContainer>
-        <DeleteClientForm
+        <ListForm
           errors={errors}
-          clients={clients}
-          getClients={() => this.getClients()}
-          deleteClient={(aClient => this.deleteClient(aClient))}
+          ObjectsList={clients}
+          getList={() => this.getClients()}
+          deleteObject={(anObject => this.deleteClient(anObject))}
         />
       </div>
     )
