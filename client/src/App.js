@@ -12,6 +12,7 @@ import './App.css'
 import PrivateRoute from './components/PrivateRoute'
 import DeleteClientContainer from './containers/DeleteClientContainer'
 import RegisterActivePrincipleContainer from './containers/RegisterActivePrincipleContainer'
+import ActivePrincipleListContainer from './containers/ActivePrincipleListContainer'
 
 class App extends Component {
   constructor (props) {
@@ -42,6 +43,7 @@ class App extends Component {
               <Route path="/register" component={RegisterContainer} />
               <PrivateRoute exact path="/delete-client" component={DeleteClientContainer} />
               <PrivateRoute exact path="/register-active-principle" component={RegisterActivePrincipleContainer} />
+              <PrivateRoute exact path="/active-principle-list" component={ActivePrincipleListContainer} />
             </div>
           </Router>
         </div>
