@@ -5,4 +5,5 @@ import flask
 class Config(flask.Config):
     DEBUG = os.environ.get('ENV') == 'development'
     MONGO_URI = os.environ.get('DB', "mongodb://localhost:27017/development")
-    SKIP_AUTH = True
+    SKIP_AUTH = False
+    SKIP_SEND_EMAIL = False
