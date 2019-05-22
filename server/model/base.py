@@ -48,7 +48,9 @@ class Model:
     def validate_key_in_schema(cls, field):
         if field not in cls.schema.keys():
             name = cls.__class__.__name__
-            raise Exception(f"{field} is not a valid attribute of {name}")
+            e = StatusException(f"{field} is not a valid attribute of {name}")
+            e.status = http.INTERNAL_SERVER_ERROR
+            raise e
 
     @classmethod
     def validate_type(cls, field, value):
