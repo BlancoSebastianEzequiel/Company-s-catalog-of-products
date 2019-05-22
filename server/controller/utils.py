@@ -17,7 +17,7 @@ def get_hashed_password(secret_password):
 
 
 def check_password(secret_password, hashed):
-    return hashed == get_hashed_password(secret_password)
+    return secret_password == get_secret_password_from_hashed(hashed)
 
 
 def get_secret_password_from_hashed(hashed):
