@@ -10,7 +10,7 @@ export default class DeleteClientContainer extends React.Component {
     super(props)
     this.state = {
       errors: {},
-      refresh: false,
+      refresh: true,
       clients: [{
         'data': '',
         '_id': ''
@@ -28,7 +28,7 @@ export default class DeleteClientContainer extends React.Component {
   }
 
   getClients = () => {
-    if (this.state.refresh) return
+    if (!this.state.refresh) return
     let clientsVector = []
     Http.get('/users/?type=client')
       .then(response => {

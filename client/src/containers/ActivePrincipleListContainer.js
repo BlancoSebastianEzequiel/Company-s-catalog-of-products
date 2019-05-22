@@ -10,7 +10,7 @@ export default class ActivePrincipleListContainer extends React.Component {
     super(props)
     this.state = {
       errors: {},
-      refresh: false,
+      refresh: true,
       activePrinciples: [{
         'data': '',
         '_id': ''
@@ -28,7 +28,7 @@ export default class ActivePrincipleListContainer extends React.Component {
   }
 
   getActivePrinciples = () => {
-    if (this.state.refresh) return
+    if (!this.state.refresh) return
     let ActivePrincipleVector = []
     Http.get('/active_principle/')
       .then(response => {
