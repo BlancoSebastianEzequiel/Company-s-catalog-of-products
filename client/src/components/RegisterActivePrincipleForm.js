@@ -8,7 +8,7 @@ export default class RegisterActivePrincipleForm extends React.Component {
     this.state = {
       code: '',
       name: '',
-      description: '',
+      description: ''
     }
   }
 
