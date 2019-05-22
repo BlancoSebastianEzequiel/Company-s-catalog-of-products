@@ -17,6 +17,10 @@ export default class PasswordRecoveryContainer extends React.Component {
   }
 
   handleClick (data) {
+    if (data.email.length === 0) {
+      this.setState({ errors: { 'message': 'Invalid email' } })
+      return
+    }
     Http.get('/password_recovery/' + data.email + '/')
       .then(response => {
         if (response.status === httpStatus.OK) {
