@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Form, Grid, Row } from 'react-bootstrap'
+import { Col, Form, Grid, Row, Button } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 
 export default class ListForm extends React.Component {
@@ -24,10 +24,14 @@ export default class ListForm extends React.Component {
         { this.props.ObjectsList.map((anObject, idx) =>
           <div className="panel panel-default" key={idx}>
             <div className="panel-heading">{anObject.data}</div>
-            <button
-              className="btn btn-default" type="submit" onClick={() => this.submit(anObject) }
-            >Delete
-            </button>
+            <Col smOffset={4} sm={10}>
+              <Button type="button" onClick={ () => this.submit(anObject) } style={{ margin: '1em' }}>
+                Delete
+              </Button>
+              <Button type="button" onClick={ () => this.props.modifyObject(anObject) }>
+                Modify
+              </Button>
+            </Col>
           </div>
         )}
       </div>
@@ -53,6 +57,7 @@ export default class ListForm extends React.Component {
 ListForm.propTypes = {
   getList: PropTypes.func,
   deleteObject: PropTypes.func,
+  modifyObject: PropTypes.func,
   errors: PropTypes.object,
   ObjectsList: PropTypes.array
 }
