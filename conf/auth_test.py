@@ -9,3 +9,4 @@ class Config(BaseConfig):
     """
     MONGO_URI = os.environ.get('DB', "mongodb://localhost:27017/testing")
     SKIP_AUTH = False
+    SKIP_SEND_EMAIL = False
