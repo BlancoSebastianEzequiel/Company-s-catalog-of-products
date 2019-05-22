@@ -15,6 +15,7 @@ import RegisterActivePrincipleContainer from './containers/RegisterActivePrincip
 import ActivePrincipleListContainer from './containers/ActivePrincipleListContainer'
 import ModifyActivePrincipleContainer from './containers/ModifyActivePrincipleContainer'
 import ModifyClientContainer from './containers/ModifyClientContainer'
+import PasswordRecoveryContainer from './containers/PasswordRecoveryContainer'
 
 class App extends Component {
   constructor (props) {
@@ -43,6 +44,7 @@ class App extends Component {
               <Route path="/logout"
                 render={routeProps => <Logout {...routeProps} onLogout={ () => this.setState(this.state) }/>} />
               <Route path="/register" component={RegisterContainer} />
+              <Route path="/password-recovery" component={PasswordRecoveryContainer} />
               <PrivateRoute exact path="/delete-client" component={DeleteClientContainer} />
               <PrivateRoute exact path="/register-active-principle" component={RegisterActivePrincipleContainer} />
               <PrivateRoute exact path="/active-principle-list" component={ActivePrincipleListContainer} />

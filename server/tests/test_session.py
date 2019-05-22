@@ -20,3 +20,32 @@ def test_login_of_registered_user(client, random_user):
     }), content_type='application/json')
     assert resp.json['ok']
     assert resp.status_code == http.CREATED
+
+
+def test_login_auth_of_registered_user(auth_client):
+    post_resp = auth_client.post('/users/', data=json.dumps({
+        'first_name': 'juan',
+        'last_name': 'perez',
+        'user_name': 'juanchi',
+        'email': 'juanperez@gmail.com',
+        'password': '1234',
+        'type': 'admin'
+    }), content_type='application/json')
+    assert post_resp.json['ok']
+    assert post_resp.status_code == http.CREATED
+
+    session_resp = auth_client.post('/session/', data=json.dumps({
+        'email': 'juanperez@gmail.com',
+        'password': '1234'
+    }), content_type='application/json')
+    assert session_resp.json['ok']
+    assert session_resp.status_code == http.CREATED
+
+    get_resp = auth_client.get('/users/', headers={
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + session_resp.json['data']
+    })
+    assert get_resp.json['ok']
+    assert len(get_resp.json['data']) == 1
+    assert get_resp.json['data'][0]['_id'] == post_resp.json['data']

@@ -37,7 +37,7 @@ class Http {
     }
   }
 
-  async put (url, payload, callback) {
+  async patch (url, payload, callback) {
     const rawResponse = await fetch(url, {
       method: 'PATCH',
       headers: this.getHeaders(),

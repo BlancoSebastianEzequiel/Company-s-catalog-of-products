@@ -7,10 +7,13 @@ const GuestNavbar = function () {
     <Navbar>
       <Nav>
         <LinkContainer to="/login">
-          <NavItem eventKey={2}>Enter</NavItem>
+          <NavItem eventKey={1}>Enter</NavItem>
+        </LinkContainer>
+        <LinkContainer to="/password-recovery">
+          <NavItem eventKey={2}>Password recovery</NavItem>
         </LinkContainer>
         <LinkContainer to="/register">
-          <NavItem eventKey={2}>Register</NavItem>
+          <NavItem eventKey={3}>Register</NavItem>
         </LinkContainer>
       </Nav>
     </Navbar>

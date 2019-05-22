@@ -22,7 +22,7 @@ export default class RegisterContainer extends React.Component {
 
   handleClick (data) {
     if (data.password.localeCompare(data.passConfirmation) !== 0) {
-      this.setState({ errors: { passConfirmation: 'passwords do not match' } })
+      this.setState({ errors: { 'message': 'passwords do not match' } })
     } else {
       delete data.passConfirmation
       Http.post('/users/', data)

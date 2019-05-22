@@ -37,14 +37,14 @@ export default class LoginContainer extends React.Component {
         const res = response.content
         const token = res.data
         if (response.status === httpStatus.CREATED && token) {
+          Auth.login(token)
           this.setTypeOfUser(email)
             .then(() => {
-              Auth.login(token)
               this.setState({ redirectToReferrer: true })
               this.props.onLogin() // Hack to refresh NavBar
             })
         } else {
-          toast('Error: ' + response.content.data)
+          alert('Error: ' + response.content.data)
         }
       })
       .catch(err => {
