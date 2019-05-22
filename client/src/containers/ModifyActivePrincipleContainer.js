@@ -16,25 +16,25 @@ export default class ModifyActivePrincipleContainer extends React.Component {
       urlToRedirect: '/active-principle-list',
       fieldsState: data.fieldsState,
       fields: data.fields,
-      title: 'Update active principle'
+      title: 'Modify active principle'
     }
   }
 
   modifyActivePrinciple = (data) => {
     const _id = this.props.location.state.id
     data['_id'] = _id
-    Http.put('/active-principle/', data)
+    Http.patch('/active_principle/', data)
       .then(response => {
         if (response.status === httpStatus.CREATED) {
           this.setState({ redirectTo: true })
-          toast('active principle successfully updated!')
+          toast('active principle successfully modified!')
         } else {
-          toast('The active principle could not be updated, please verify the data')
+          toast('The active principle could not be modified, please verify the data')
           this.setState({ errors: { 'message': response.content.data } })
         }
       })
       .catch(err => {
-        toast('Error creating active principle: ' + err)
+        toast('Error modifying active principle: ' + err)
       })
   }
 

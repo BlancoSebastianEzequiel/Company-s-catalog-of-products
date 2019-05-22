@@ -16,25 +16,25 @@ export default class ModifyClientContainer extends React.Component {
       urlToRedirect: '/delete-client',
       fieldsState: data.fieldsState,
       fields: data.fields,
-      title: 'Update client'
+      title: 'Modify client'
     }
   }
 
   modifyClient = (data) => {
     const _id = this.props.location.state.id
     data['_id'] = _id
-    Http.put('/users/', data)
+    Http.patch('/users/', data)
       .then(response => {
         if (response.status === httpStatus.CREATED) {
           this.setState({ redirectTo: true })
-          toast('user successfully updated!')
+          toast('user successfully modified!')
         } else {
-          toast('The user could not be updated, please verify the data')
+          toast('The user could not be modified, please verify the data')
           this.setState({ errors: { 'message': response.content.data } })
         }
       })
       .catch(err => {
-        toast('Error updating active principle: ' + err)
+        toast('Error modifying active principle: ' + err)
       })
   }
 
