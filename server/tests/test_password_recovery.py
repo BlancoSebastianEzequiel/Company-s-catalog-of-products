@@ -20,7 +20,7 @@ def test_password_recovery_of_posted_user(client):
     assert resp.status_code == HTTPStatus.OK
 
 
-def test_password_recovery_with_not_bad_email(client):
+def test_password_recovery_with_bad_email(client):
     resp = client.post('/users/', data=json.dumps({
         'first_name': 'juan',
         'last_name': 'perez',
