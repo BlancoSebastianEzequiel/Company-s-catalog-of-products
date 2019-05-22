@@ -1,4 +1,5 @@
 import React from 'react'
+import { Redirect } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
 import ListForm from '../components/ListForm'
 import Http from '../service/Http'
@@ -13,7 +14,10 @@ export default class ActivePrincipleListContainer extends React.Component {
       activePrinciples: [{
         'data': '',
         '_id': ''
-      }]
+      }],
+      redirectTo: false,
+      urlToRedirect: '/modify-active-principle',
+      dataToRedirect: {}
     }
   }
 
@@ -65,8 +69,20 @@ export default class ActivePrincipleListContainer extends React.Component {
       })
   }
 
+  modifyActivePrinciple = (anActivePrinciple) => {
+    this.setState({ redirectTo: true })
+    this.setState({ dataToRedirect: anActivePrinciple })
+  }
+
   render () {
-    const { errors, activePrinciples } = this.state
+    const { errors, activePrinciples, redirectTo, urlToRedirect, dataToRedirect } = this.state
+    if (redirectTo) {
+      return <Redirect to={{
+        pathname: urlToRedirect,
+        state: { id: dataToRedirect._id }
+      }}
+      />
+    }
     return (
       <div>
         <ToastContainer></ToastContainer>
@@ -74,7 +90,8 @@ export default class ActivePrincipleListContainer extends React.Component {
           errors={errors}
           ObjectsList={activePrinciples}
           getList={() => this.getActivePrinciples()}
-          deleteObject={(anObject => this.deleteActivePrinciple(anObject))}
+          deleteObject={(anActivePrinciple => this.deleteActivePrinciple(anActivePrinciple))}
+          modifyObject={(anActivePrinciple) => this.modifyActivePrinciple(anActivePrinciple)}
         />
       </div>
     )

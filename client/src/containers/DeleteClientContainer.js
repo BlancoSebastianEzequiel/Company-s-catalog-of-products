@@ -1,4 +1,5 @@
 import React from 'react'
+import { Redirect } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
 import ListForm from '../components/ListForm'
 import Http from '../service/Http'
@@ -13,7 +14,10 @@ export default class DeleteClientContainer extends React.Component {
       clients: [{
         'data': '',
         '_id': ''
-      }]
+      }],
+      redirectTo: false,
+      urlToRedirect: '/modify-client',
+      dataToRedirect: {}
     }
   }
 
@@ -50,6 +54,11 @@ export default class DeleteClientContainer extends React.Component {
       })
   }
 
+  modifyClient = (aClient) => {
+    this.setState({ redirectTo: true })
+    this.setState({ dataToRedirect: aClient })
+  }
+
   deleteClient = (aClient) => {
     Http.delete('/users/', aClient._id)
       .then(response => {
@@ -66,7 +75,14 @@ export default class DeleteClientContainer extends React.Component {
   }
 
   render () {
-    const { errors, clients } = this.state
+    const { errors, clients, redirectTo, urlToRedirect, dataToRedirect } = this.state
+    if (redirectTo) {
+      return <Redirect to={{
+        pathname: urlToRedirect,
+        state: { id: dataToRedirect._id }
+      }}
+      />
+    }
     return (
       <div>
         <ToastContainer></ToastContainer>
@@ -74,7 +90,8 @@ export default class DeleteClientContainer extends React.Component {
           errors={errors}
           ObjectsList={clients}
           getList={() => this.getClients()}
-          deleteObject={(anObject => this.deleteClient(anObject))}
+          deleteObject={(aClient => this.deleteClient(aClient))}
+          modifyObject={(aClient) => this.modifyClient(aClient)}
         />
       </div>
     )
