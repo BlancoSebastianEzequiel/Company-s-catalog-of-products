@@ -29,7 +29,7 @@ def get_data_from_token(token):
 
 
 def generate_token_from_data(data):
-    return TOKEN_SERIALIZER.dumps(data).decode('utf-8')
+    return TOKEN_SERIALIZER.dumps(data)
 
 
 def send_email(email_to, subject, message):
