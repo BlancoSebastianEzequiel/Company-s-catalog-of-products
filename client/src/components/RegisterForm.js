@@ -11,7 +11,6 @@ export default class RegisterForm extends React.Component {
       user_name: '',
       email: '',
       password: '',
-      dni: '',
       type: 'client',
       passConfirmation: ''
     }
@@ -83,5 +82,5 @@ export default class RegisterForm extends React.Component {
 
 RegisterForm.propTypes = {
   onClick: PropTypes.func,
-  errors: PropTypes.string
+  errors: PropTypes.object
 }
