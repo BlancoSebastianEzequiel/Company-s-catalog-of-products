@@ -1,10 +1,11 @@
 import React from 'react'
 import { ToastContainer, toast } from 'react-toastify'
-import RegisterForm from '../components/RegisterForm'
+import PostingForm from '../components/PostingForm'
 import { Redirect } from 'react-router-dom'
 import Http from '../service/Http'
 import httpStatus from 'http-status-codes'
 import PropTypes from 'prop-types'
+import data from '../data/clientData'
 
 export default class ModifyClientContainer extends React.Component {
   constructor (props) {
@@ -12,7 +13,10 @@ export default class ModifyClientContainer extends React.Component {
     this.state = {
       redirectTo: false,
       errors: {},
-      urlToRedirect: '/delete-client'
+      urlToRedirect: '/delete-client',
+      fieldsState: data.fieldsState,
+      fields: data.fields,
+      title: 'Update client'
     }
   }
 
@@ -35,16 +39,19 @@ export default class ModifyClientContainer extends React.Component {
   }
 
   render () {
-    const { redirectTo, errors, urlToRedirect } = this.state
+    const { redirectTo, errors, urlToRedirect, fieldsState, fields, title } = this.state
     if (redirectTo) {
       return <Redirect to={urlToRedirect}/>
     }
     return (
       <div>
         <ToastContainer></ToastContainer>
-        <RegisterForm
+        <PostingForm
           errors={errors}
           onClick={(data) => this.modifyClient(data)}
+          fields={fields}
+          fieldsState={fieldsState}
+          title={title}
         />
       </div>
     )

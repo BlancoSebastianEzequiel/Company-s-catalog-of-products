@@ -1,9 +1,10 @@
 import React from 'react'
 import { ToastContainer, toast } from 'react-toastify'
-import RegisterActivePrincipleForm from '../components/RegisterActivePrincipleForm'
+import PostingForm from '../components/PostingForm'
 import { Redirect } from 'react-router-dom'
 import Http from '../service/Http'
 import httpStatus from 'http-status-codes'
+import data from '../data/activePrincipleData'
 
 export default class RegisterActivePrincipleContainer extends React.Component {
   constructor (props) {
@@ -11,7 +12,10 @@ export default class RegisterActivePrincipleContainer extends React.Component {
     this.state = {
       redirectTo: false,
       errors: {},
-      urlToRedirect: '/active-principle-list'
+      urlToRedirect: '/active-principle-list',
+      fieldsState: data.fieldsState,
+      fields: data.fields,
+      title: 'Create new active principle'
     }
   }
 
@@ -32,16 +36,19 @@ export default class RegisterActivePrincipleContainer extends React.Component {
   }
 
   render () {
-    const { redirectTo, errors, urlToRedirect } = this.state
+    const { redirectTo, errors, urlToRedirect, fields, fieldsState, title } = this.state
     if (redirectTo) {
       return <Redirect to={urlToRedirect}/>
     }
     return (
       <div>
         <ToastContainer></ToastContainer>
-        <RegisterActivePrincipleForm
+        <PostingForm
           errors={errors}
           onClick={(data) => this.handleClick(data)}
+          fields={fields}
+          fieldsState={fieldsState}
+          title={title}
         />
       </div>
     )
