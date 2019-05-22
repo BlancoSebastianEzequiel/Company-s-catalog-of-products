@@ -21,4 +21,4 @@ class Session:
             except Exception as e:
                 return {'data': e, 'ok': False}, http.INTERNAL_SERVER_ERROR
         else:
-            return {'data': "Unauthorized", 'ok': False}, http.UNAUTHORIZED
+            return {'data': "wrong password", 'ok': False}, http.UNAUTHORIZED
