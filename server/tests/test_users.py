@@ -128,7 +128,7 @@ def test_deleting_not_existent_user(client):
     assert resp.status_code == HTTPStatus.BAD_REQUEST
 
 
-def test_delete_article_invalid_id(client):
+def test_delete_user_invalid_id(client):
     bad_id = "not hex wrong len"
     resp = client.delete(f'/users/{bad_id}/')
     assert resp.status_code == HTTPStatus.BAD_REQUEST
@@ -237,3 +237,27 @@ def test_get_user_after_logging_in(auth_client):
     )
     assert get_resp.status_code == HTTPStatus.OK
     assert get_resp.json['ok']
+
+
+def test_post_user_with_missing_arguments(client):
+    post_resp = client.post('/users/', data=json.dumps({
+        'last_name': 'perez',
+        'user_name': 'batman',
+        'email': 'juanperez@gmail.com',
+        'password': '1234',
+        'type': 'client'
+    }), content_type='application/json')
+    assert not post_resp.json['ok']
+    assert post_resp.status_code == HTTPStatus.BAD_REQUEST
+
+
+def test_post_user_with_missing_password(client):
+    post_resp = client.post('/users/', data=json.dumps({
+        'first_name': 'juan',
+        'last_name': 'perez',
+        'user_name': 'batman',
+        'email': 'juanperez@gmail.com',
+        'type': 'client'
+    }), content_type='application/json')
+    assert not post_resp.json['ok']
+    assert post_resp.status_code == HTTPStatus.BAD_REQUEST

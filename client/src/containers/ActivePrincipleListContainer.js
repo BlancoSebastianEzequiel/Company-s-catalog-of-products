@@ -5,18 +5,18 @@ import ListForm from '../components/ListForm'
 import Http from '../service/Http'
 import httpStatus from 'http-status-codes'
 
-export default class DeleteClientContainer extends React.Component {
+export default class ActivePrincipleListContainer extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
       errors: {},
       refresh: true,
-      clients: [{
+      activePrinciples: [{
         'data': '',
         '_id': ''
       }],
       redirectTo: false,
-      urlToRedirect: '/modify-client',
+      urlToRedirect: '/modify-active-principle',
       dataToRedirect: {}
     }
   }
@@ -27,23 +27,23 @@ export default class DeleteClientContainer extends React.Component {
     })
   }
 
-  getClients = () => {
+  getActivePrinciples = () => {
     if (!this.state.refresh) return
-    let clientsVector = []
-    Http.get('/users/?type=client')
+    let ActivePrincipleVector = []
+    Http.get('/active_principle/')
       .then(response => {
         if (response.status === httpStatus.OK) {
           const length = response.content.data.length
           for (let i = 0; i < length; i++) {
-            const aClient = response.content.data[i]
+            const anActivePrinciple = response.content.data[i]
             const _id = response.content.data[i]._id
-            clientsVector.push(
+            ActivePrincipleVector.push(
               {
-                'data': 'USER NAME: ' + aClient['user_name'] + ' -- EMAIL: ' + aClient['email'],
+                'data': 'CODE: ' + anActivePrinciple['code'] + ' -- NAME: ' + anActivePrinciple['name'],
                 '_id': _id
               })
           }
-          this.handleChange('clients', clientsVector)
+          this.handleChange('activePrinciples', ActivePrincipleVector)
           this.handleChange('refresh', false)
         } else {
           toast('ERROR: ' + response.content.data)
@@ -54,13 +54,8 @@ export default class DeleteClientContainer extends React.Component {
       })
   }
 
-  modifyClient = (aClient) => {
-    this.setState({ redirectTo: true })
-    this.setState({ dataToRedirect: aClient })
-  }
-
-  deleteClient = (aClient) => {
-    Http.delete('/users/', aClient._id)
+  deleteActivePrinciple = (anActivePrinciple) => {
+    Http.delete('/active_principle/', anActivePrinciple._id)
       .then(response => {
         if (response.status === httpStatus.OK) {
           this.setState({ 'refresh': true })
@@ -74,8 +69,13 @@ export default class DeleteClientContainer extends React.Component {
       })
   }
 
+  modifyActivePrinciple = (anActivePrinciple) => {
+    this.setState({ redirectTo: true })
+    this.setState({ dataToRedirect: anActivePrinciple })
+  }
+
   render () {
-    const { errors, clients, redirectTo, urlToRedirect, dataToRedirect } = this.state
+    const { errors, activePrinciples, redirectTo, urlToRedirect, dataToRedirect } = this.state
     if (redirectTo) {
       return <Redirect to={{
         pathname: urlToRedirect,
@@ -88,10 +88,10 @@ export default class DeleteClientContainer extends React.Component {
         <ToastContainer></ToastContainer>
         <ListForm
           errors={errors}
-          ObjectsList={clients}
-          getList={() => this.getClients()}
-          deleteObject={(aClient => this.deleteClient(aClient))}
-          modifyObject={(aClient) => this.modifyClient(aClient)}
+          ObjectsList={activePrinciples}
+          getList={() => this.getActivePrinciples()}
+          deleteObject={(anActivePrinciple => this.deleteActivePrinciple(anActivePrinciple))}
+          modifyObject={(anActivePrinciple) => this.modifyActivePrinciple(anActivePrinciple)}
         />
       </div>
     )

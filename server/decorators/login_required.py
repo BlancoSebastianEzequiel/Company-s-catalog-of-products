@@ -1,9 +1,8 @@
 from functools import wraps
 from flask import current_app, request
-from server.controller.utils import response
+from server.controller.utils import response, get_data_from_token
 from http import HTTPStatus as http
 from server.controller.users import UsersController
-from server.secrets import TOKEN_SERIALIZER
 
 
 def login_required(func):
@@ -14,7 +13,7 @@ def login_required(func):
         if 'HTTP_AUTHORIZATION' not in request.headers.environ:
             return response(data='Unauthorized', ok=False), http.UNAUTHORIZED
         token = request.headers.get('Authorization').split(' ')[1]
-        data = TOKEN_SERIALIZER.loads(token)
+        data = get_data_from_token(token)
         if '_id' not in data:
             return response(data='Unauthorized', ok=False), http.UNAUTHORIZED
         res, status = UsersController.get(data['_id'])

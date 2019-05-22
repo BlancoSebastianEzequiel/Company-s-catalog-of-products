@@ -8,4 +8,4 @@ sh scripts/flake.sh
 sh scripts/pylint.sh
 echo "UNIT TESTS"
 sudo systemctl start mongodb
-python -m pytest --cov=server
+python -m pytest --cov=server server/tests/

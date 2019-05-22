@@ -5,16 +5,7 @@ import PropTypes from 'prop-types'
 export default class RegisterForm extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {
-      first_name: '',
-      last_name: '',
-      user_name: '',
-      email: '',
-      password: '',
-      dni: '',
-      type: 'client',
-      passConfirmation: ''
-    }
+    this.state = this.props.fieldsState
   }
 
   handleChange = name => event => {
@@ -28,17 +19,18 @@ export default class RegisterForm extends React.Component {
     this.props.onClick(this.state)
   }
 
-  showField (field, name, type) {
+  showField (fieldData) {
+    const { placeholder, fieldName, type, title } = fieldData
     return (
-      <FormGroup controlId={name}>
+      <FormGroup controlId={fieldName}>
         <Col componentClass={ControlLabel} sm={2}>
-          {name}
+          {title}
         </Col>
         <Col sm={10}>
           <FormControl
             type={type}
-            placeholder={name}
-            onChange={this.handleChange(field)}
+            placeholder={placeholder}
+            onChange={this.handleChange(fieldName)}
           />
           <HelpBlock>
             <p className="text-danger">{this.props.errors.message}</p>
@@ -53,19 +45,20 @@ export default class RegisterForm extends React.Component {
       <Grid>
         <Row className="show-grid">
           <Col xs={12} md={6} mdOffset={3}>
-            <h1 style={{ textAlign: 'center' }} > Register </h1>
+            <h1 style={{ textAlign: 'center' }} > {this.props.title} </h1>
           </Col>
         </Row>
 
         <Row className="show-grid">
           <Col xs={12} md={6} mdOffset={3}>
             <Form horizontal>
-              {this.showField('first_name', 'first name', 'text')}
-              {this.showField('last_name', 'last name', 'text')}
-              {this.showField('user_name', 'user name', 'text')}
-              {this.showField('email', 'email', 'email')}
-              {this.showField('password', 'password', 'password')}
-              {this.showField('passConfirmation', 'Confirm Password', 'password')}
+              <div>
+                { this.props.fields.map((aField, idx) =>
+                  <div className="panel panel-default" key={idx}>
+                    {this.showField(aField)}
+                  </div>
+                )}
+              </div>
               <FormGroup>
                 <Col smOffset={2} sm={10}>
                   <Button type="submit" onClick={ this.submit }>
@@ -83,5 +76,8 @@ export default class RegisterForm extends React.Component {
 
 RegisterForm.propTypes = {
   onClick: PropTypes.func,
-  errors: PropTypes.string
+  errors: PropTypes.object,
+  fields: PropTypes.array,
+  fieldsState: PropTypes.object,
+  title: PropTypes.string
 }

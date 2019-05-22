@@ -39,7 +39,7 @@ class Http {
 
   async put (url, payload, callback) {
     const rawResponse = await fetch(url, {
-      method: 'PUT',
+      method: 'PATCH',
       headers: this.getHeaders(),
       body: JSON.stringify(payload)
     })
