@@ -4,6 +4,7 @@ import PostingForm from '../components/PostingForm'
 import { Redirect } from 'react-router-dom'
 import Http from '../service/Http'
 import httpStatus from 'http-status-codes'
+import PropTypes from 'prop-types'
 import data from '../data/activePrincipleData'
 
 export default class ModifyActivePrincipleContainer extends React.Component {
@@ -55,4 +56,8 @@ export default class ModifyActivePrincipleContainer extends React.Component {
       </div>
     )
   }
+}
+
+ModifyActivePrincipleContainer.propTypes = {
+  location: PropTypes.object
 }
