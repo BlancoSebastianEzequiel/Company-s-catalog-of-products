@@ -72,15 +72,15 @@ class UsersController:
         message = f"Your password is: {secret}"
         try:
             send_email(email, subject, message)
-            msg = """
-            the password was sent to your email:\n
+            msg = "the password was sent to your email"
+            return {'data': msg, 'ok': True}, http.OK
+        except Exception as e:
+            msg = f"""
+            Error sending email: {e}:\n
             Google is not allowing you to log in via smtplib because it has
             flagged this sort of login as "less secure", so what you have to
             do is go to this link while you're logged in to your google
             account, and allow the access:\n
             https://www.google.com/settings/security/lesssecureapps
             """
-            return {'data': msg, 'ok': True}, http.OK
-        except Exception as e:
-            msg = f"Error sending email: {e}"
             return {'data': msg, 'ok': False}, http.INTERNAL_SERVER_ERROR
