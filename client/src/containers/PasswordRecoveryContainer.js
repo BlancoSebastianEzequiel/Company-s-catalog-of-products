@@ -9,10 +9,10 @@ export default class PasswordRecoveryContainer extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-    errors: {},
-    fieldsState: data.fieldsState,
-    fields: data.fields,
-    title: 'Password Recovery'
+      errors: {},
+      fieldsState: data.fieldsState,
+      fields: data.fields,
+      title: 'Password Recovery'
     }
   }
 
