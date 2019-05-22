@@ -2,14 +2,10 @@ import React from 'react'
 import { Button, Col, ControlLabel, Form, FormControl, FormGroup, Grid, Row, HelpBlock } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 
-export default class RegisterActivePrincipleForm extends React.Component {
+export default class RegisterForm extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {
-      code: '',
-      name: '',
-      description: ''
-    }
+    this.state = this.props.fieldsState
   }
 
   handleChange = name => event => {
@@ -23,17 +19,18 @@ export default class RegisterActivePrincipleForm extends React.Component {
     this.props.onClick(this.state)
   }
 
-  showField (field, name, type) {
+  showField (fieldData) {
+    const { placeholder, fieldName, type, title } = fieldData
     return (
-      <FormGroup controlId={name}>
+      <FormGroup controlId={fieldName}>
         <Col componentClass={ControlLabel} sm={2}>
-          {name}
+          {title}
         </Col>
         <Col sm={10}>
           <FormControl
             type={type}
-            placeholder={name}
-            onChange={this.handleChange(field)}
+            placeholder={placeholder}
+            onChange={this.handleChange(fieldName)}
           />
           <HelpBlock>
             <p className="text-danger">{this.props.errors.message}</p>
@@ -48,16 +45,20 @@ export default class RegisterActivePrincipleForm extends React.Component {
       <Grid>
         <Row className="show-grid">
           <Col xs={12} md={6} mdOffset={3}>
-            <h1 style={{ textAlign: 'center' }} > Create active principle </h1>
+            <h1 style={{ textAlign: 'center' }} > {this.props.title} </h1>
           </Col>
         </Row>
 
         <Row className="show-grid">
           <Col xs={12} md={6} mdOffset={3}>
             <Form horizontal>
-              {this.showField('code', 'code', 'text')}
-              {this.showField('name', 'name', 'text')}
-              {this.showField('description', 'description', 'text')}
+              <div>
+                { this.props.fields.map((aField, idx) =>
+                  <div className="panel panel-default" key={idx}>
+                    {this.showField(aField)}
+                  </div>
+                )}
+              </div>
               <FormGroup>
                 <Col smOffset={2} sm={10}>
                   <Button type="submit" onClick={ this.submit }>
@@ -73,7 +74,10 @@ export default class RegisterActivePrincipleForm extends React.Component {
   }
 }
 
-RegisterActivePrincipleForm.propTypes = {
+RegisterForm.propTypes = {
   onClick: PropTypes.func,
-  errors: PropTypes.string
+  errors: PropTypes.object,
+  fields: PropTypes.array,
+  fieldsState: PropTypes.object,
+  title: PropTypes.string
 }
