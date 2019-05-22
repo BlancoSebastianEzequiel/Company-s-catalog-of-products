@@ -16,6 +16,7 @@ def client():
     # Clear databases
     MONGO.db['users'].delete_many({})
     MONGO.db['active_principle'].delete_many({})
+    MONGO.db['products'].delete_many({})
     yield client
 
 
@@ -27,6 +28,7 @@ def auth_client():
     # Clear databases
     MONGO.db['users'].delete_many({})
     MONGO.db['active_principle'].delete_many({})
+    MONGO.db['products'].delete_many({})
     yield auth_client
 
 
