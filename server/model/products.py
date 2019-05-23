@@ -1,4 +1,6 @@
 from server.model.base import Model
+from server.controller.active_principle import ActivePrincipleController
+from server.exceptions.status_exception import StatusException
 
 
 class Products(Model):
@@ -23,4 +25,14 @@ class Products(Model):
     }
 
     def __init__(self, data, _id=None, unique_values=False):
+        self.check_active_principle_existence(data)
         super().__init__(data, _id, unique_values=unique_values)
+
+    @staticmethod
+    def check_active_principle_existence(data):
+        if 'active_principle' not in data:
+            return
+        code = data['active_principle']
+        res, status = ActivePrincipleController.get_all({'code': code})
+        if not res['ok']:
+            raise StatusException(res['data'], status)
