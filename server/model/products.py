@@ -1,5 +1,6 @@
+from http import HTTPStatus as http
 from server.model.base import Model
-from server.controller.active_principle import ActivePrincipleController
+from server.model.active_principle import ActivePrinciple
 from server.exceptions.status_exception import StatusException
 
 
@@ -33,6 +34,8 @@ class Products(Model):
         if 'active_principle' not in data:
             return
         code = data['active_principle']
-        res, status = ActivePrincipleController.get_all({'code': code})
-        if not res['ok']:
-            raise StatusException(res['data'], status)
+        active_principles = ActivePrinciple.get_all({'code': code})
+        if len(active_principles) == 1:
+            return
+        msg = f"The active principle code {code} does not exist in data base"
+        raise StatusException(msg, http.BAD_REQUEST)
