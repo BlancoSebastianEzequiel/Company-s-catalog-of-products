@@ -1,5 +1,7 @@
 import pytest
+import json
 from faker import Faker
+from http import HTTPStatus
 from server.controller.users import UsersController
 
 from server.app import create_app
@@ -49,3 +51,28 @@ def random_user():
     _id = UsersController.post(data)[0]['data']
     user_data = UsersController.get(_id)[0]['data']
     yield user_data, secret
+
+
+@pytest.fixture
+def post_active_principle():
+    app = create_app(conf='conf.test.Config')
+    app.config['TESTING'] = True
+    client = app.test_client()
+    # Clear databases
+    MONGO.db['users'].delete_many({})
+    MONGO.db['active_principle'].delete_many({})
+    MONGO.db['products'].delete_many({})
+
+    active_principle_data = {
+        'code': '200',
+        'name': 'paracetamol',
+        'description': 'analgésicos y antiinflamatorios'
+    }
+    resp = client.post(
+        '/active_principle/',
+        data=json.dumps(active_principle_data),
+        content_type='application/json'
+    )
+    assert resp.json['ok']
+    assert resp.status_code == HTTPStatus.CREATED
+    yield client, active_principle_data

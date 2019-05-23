@@ -17,7 +17,8 @@ def test_get_not_existing_products_by_id(client):
     assert resp.json['data'] is None
 
 
-def test_list_products_size_one_after_posting_product(client):
+def test_list_products_size_one_after_posting_product(post_active_principle):
+    client, active_principle_data = post_active_principle
     resp = client.post('/products/', data=json.dumps({
         'code': '400',
         'name': 'ibu400',
@@ -34,7 +35,8 @@ def test_list_products_size_one_after_posting_product(client):
     assert resp.status_code == HTTPStatus.OK
 
 
-def test_get_product_with_unmatched_query(client):
+def test_get_product_with_unmatched_query(post_active_principle):
+    client, active_principle_data = post_active_principle
     resp = client.post('/products/', data=json.dumps({
         'code': '400',
         'name': 'ibu400',
@@ -51,7 +53,8 @@ def test_get_product_with_unmatched_query(client):
     assert len(resp.json['data']) == 0
 
 
-def test_get_product_with_good_query(client):
+def test_get_product_with_good_query(post_active_principle):
+    client, active_principle_data = post_active_principle
     resp = client.post('/products/', data=json.dumps({
         'code': '400',
         'name': 'ibu400',
@@ -68,7 +71,8 @@ def test_get_product_with_good_query(client):
     assert len(resp.json['data']) == 1
 
 
-def test_post_product_with_name_invalid_type(client):
+def test_post_product_with_name_invalid_type(post_active_principle):
+    client, active_principle_data = post_active_principle
     resp = client.post('/products/', data=json.dumps({
         'code': '400',
         'name': 400,
@@ -81,7 +85,8 @@ def test_post_product_with_name_invalid_type(client):
     assert resp.status_code == HTTPStatus.BAD_REQUEST
 
 
-def test_deleting_posted_product(client):
+def test_deleting_posted_product(post_active_principle):
+    client, active_principle_data = post_active_principle
     resp = client.post('/products/', data=json.dumps({
         'code': '400',
         'name': 'ibu400',
@@ -111,7 +116,8 @@ def test_delete_product_invalid_id(client):
     assert resp.status_code == HTTPStatus.BAD_REQUEST
 
 
-def test_updating_product(client):
+def test_updating_product(post_active_principle):
+    client, active_principle_data = post_active_principle
     post_resp = client.post('/products/', data=json.dumps({
         'code': '400',
         'name': 'ibu400',
@@ -138,7 +144,8 @@ def test_updating_product(client):
     assert get_resp.json['data'][0]['name'] == 'new name'
 
 
-def test_post_two_products_with_same_code_is_not_allowed(client):
+def test_post_two_products_same_code_is_not_allowed(post_active_principle):
+    client, active_principle_data = post_active_principle
     post_resp = client.post('/products/', data=json.dumps({
         'code': '400',
         'name': 'ibu400',
@@ -193,7 +200,8 @@ def test_get_product_after_logging_in(auth_client):
     assert get_resp.json['ok']
 
 
-def test_post_product_with_missing_arguments(client):
+def test_post_product_with_missing_arguments(post_active_principle):
+    client, active_principle_data = post_active_principle
     post_resp = client.post('/products/', data=json.dumps({
         'code': '400',
         'description': 'Alivia el dolor de cabeza',
