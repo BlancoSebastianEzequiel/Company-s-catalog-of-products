@@ -25,7 +25,7 @@ def test_list_products_size_one_after_posting_product(post_active_principle):
         'description': 'Alivia el dolor de cabeza',
         'images': [],
         'size': '70ml',
-        'active_principle': '20'
+        'active_principle': active_principle_data['code']
     }), content_type='application/json')
     assert resp.json['ok']
     assert resp.status_code == HTTPStatus.CREATED
@@ -43,7 +43,7 @@ def test_get_product_with_unmatched_query(post_active_principle):
         'description': 'Alivia el dolor de cabeza',
         'images': [],
         'size': '70ml',
-        'active_principle': '20'
+        'active_principle': active_principle_data['code']
     }), content_type='application/json')
     assert resp.json['ok']
     assert resp.status_code == HTTPStatus.CREATED
@@ -61,7 +61,7 @@ def test_get_product_with_good_query(post_active_principle):
         'description': 'Alivia el dolor de cabeza',
         'images': [],
         'size': '70ml',
-        'active_principle': '20'
+        'active_principle': active_principle_data['code']
     }), content_type='application/json')
     assert resp.json['ok']
     assert resp.status_code == HTTPStatus.CREATED
@@ -79,7 +79,7 @@ def test_post_product_with_name_invalid_type(post_active_principle):
         'description': 'Alivia el dolor de cabeza',
         'images': [],
         'size': '70ml',
-        'active_principle': '20'
+        'active_principle': active_principle_data['code']
     }), content_type='application/json')
     assert not resp.json['ok']
     assert resp.status_code == HTTPStatus.BAD_REQUEST
@@ -93,7 +93,7 @@ def test_deleting_posted_product(post_active_principle):
         'description': 'Alivia el dolor de cabeza',
         'images': [],
         'size': '70ml',
-        'active_principle': '20'
+        'active_principle': active_principle_data['code']
     }), content_type='application/json')
     assert resp.json['ok']
     assert resp.status_code == HTTPStatus.CREATED
@@ -124,7 +124,7 @@ def test_updating_product(post_active_principle):
         'description': 'Alivia el dolor de cabeza',
         'images': [],
         'size': '70ml',
-        'active_principle': '20'
+        'active_principle': active_principle_data['code']
     }), content_type='application/json')
     assert post_resp.json['ok']
     assert post_resp.status_code == HTTPStatus.CREATED
@@ -152,7 +152,7 @@ def test_post_two_products_same_code_is_not_allowed(post_active_principle):
         'description': 'Alivia el dolor de cabeza',
         'images': [],
         'size': '70ml',
-        'active_principle': '20'
+        'active_principle': active_principle_data['code']
     }), content_type='application/json')
     assert post_resp.json['ok']
     assert post_resp.status_code == HTTPStatus.CREATED
@@ -207,7 +207,20 @@ def test_post_product_with_missing_arguments(post_active_principle):
         'description': 'Alivia el dolor de cabeza',
         'images': [],
         'size': '70ml',
-        'active_principle': '20'
+        'active_principle': active_principle_data['code']
+    }), content_type='application/json')
+    assert not post_resp.json['ok']
+    assert post_resp.status_code == HTTPStatus.BAD_REQUEST
+
+
+def test_post_product_with_bad_active_principle_code(post_active_principle):
+    client, active_principle_data = post_active_principle
+    post_resp = client.post('/products/', data=json.dumps({
+        'code': '400',
+        'description': 'Alivia el dolor de cabeza',
+        'images': [],
+        'size': '70ml',
+        'active_principle': active_principle_data['code'] + '00000'
     }), content_type='application/json')
     assert not post_resp.json['ok']
     assert post_resp.status_code == HTTPStatus.BAD_REQUEST
