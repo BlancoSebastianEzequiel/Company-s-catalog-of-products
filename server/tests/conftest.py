@@ -75,4 +75,5 @@ def post_active_principle():
     )
     assert resp.json['ok']
     assert resp.status_code == HTTPStatus.CREATED
+    active_principle_data['_id'] = resp.json['data']
     yield client, active_principle_data
