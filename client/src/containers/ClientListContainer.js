@@ -2,7 +2,6 @@ import React from 'react'
 import ListContainer from './ListContainer'
 
 export default class ClientListContainer extends React.Component {
-
   writeInfo = (aClient) => {
     return {
       'data': 'USER NAME: ' + aClient['user_name'] + ' -- EMAIL: ' + aClient['email'],

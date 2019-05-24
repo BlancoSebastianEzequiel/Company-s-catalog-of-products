@@ -98,5 +98,5 @@ ListContainer.propTypes = {
   url: PropTypes.string,
   query: PropTypes.string,
   writeInfo: PropTypes.func,
-  urlToRedirect: PropTypes.string,
+  urlToRedirect: PropTypes.string
 }

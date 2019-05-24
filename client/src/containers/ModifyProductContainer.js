@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import data from '../data/productData'
 
 export default class ModifyProductContainer extends React.Component {
-
   render () {
     return (
       <div>

@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import data from '../data/activePrincipleData'
 
 export default class ModifyActivePrincipleContainer extends React.Component {
-
   render () {
     return (
       <div>
