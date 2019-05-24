@@ -12,8 +12,8 @@ const AdminNavbar = function () {
         <LinkContainer to="/register">
           <NavItem eventKey={2}>Register new client</NavItem>
         </LinkContainer>
-        <LinkContainer to="/delete-client">
-          <NavItem eventKey={3}>Delete client</NavItem>
+        <LinkContainer to="/client-list">
+          <NavItem eventKey={3}>Client list</NavItem>
         </LinkContainer>
         <LinkContainer to="/register-active-principle">
           <NavItem eventKey={4}>Register active principle</NavItem>
@@ -21,8 +21,14 @@ const AdminNavbar = function () {
         <LinkContainer to="/active-principle-list">
           <NavItem eventKey={4}>Active principle list</NavItem>
         </LinkContainer>
+        <LinkContainer to="/register-product">
+          <NavItem eventKey={5}>Register product</NavItem>
+        </LinkContainer>
+        <LinkContainer to="/product-list">
+          <NavItem eventKey={6}>Product list</NavItem>
+        </LinkContainer>
         <LinkContainer to="/logout">
-          <NavItem eventKey={5}>Logout</NavItem>
+          <NavItem eventKey={7}>Logout</NavItem>
         </LinkContainer>
       </Nav>
     </Navbar>

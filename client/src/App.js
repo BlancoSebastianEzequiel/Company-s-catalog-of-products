@@ -10,12 +10,15 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import './App.css'
 import PrivateRoute from './components/PrivateRoute'
-import DeleteClientContainer from './containers/DeleteClientContainer'
+import ClientListContainer from './containers/ClientListContainer'
 import RegisterActivePrincipleContainer from './containers/RegisterActivePrincipleContainer'
 import ActivePrincipleListContainer from './containers/ActivePrincipleListContainer'
 import ModifyActivePrincipleContainer from './containers/ModifyActivePrincipleContainer'
 import ModifyClientContainer from './containers/ModifyClientContainer'
 import PasswordRecoveryContainer from './containers/PasswordRecoveryContainer'
+import RegisterProductContainer from './containers/RegisterProductContainer'
+import ProductListContainer from './containers/ProductListContainer'
+import ModifyProductContainer from './containers/ModifyProductContainer'
 
 class App extends Component {
   constructor (props) {
@@ -45,11 +48,14 @@ class App extends Component {
                 render={routeProps => <Logout {...routeProps} onLogout={ () => this.setState(this.state) }/>} />
               <Route path="/register" component={RegisterContainer} />
               <Route path="/password-recovery" component={PasswordRecoveryContainer} />
-              <PrivateRoute exact path="/delete-client" component={DeleteClientContainer} />
+              <PrivateRoute exact path="/client-list" component={ClientListContainer} />
               <PrivateRoute exact path="/register-active-principle" component={RegisterActivePrincipleContainer} />
               <PrivateRoute exact path="/active-principle-list" component={ActivePrincipleListContainer} />
               <PrivateRoute exact path="/modify-active-principle" component={ModifyActivePrincipleContainer} />
               <PrivateRoute exact path="/modify-client" component={ModifyClientContainer} />
+              <PrivateRoute exact path="/register-product" component={RegisterProductContainer} />
+              <PrivateRoute exact path="/product-list" component={ProductListContainer} />
+              <PrivateRoute exact path="/modify-product" component={ModifyProductContainer} />
             </div>
           </Router>
         </div>

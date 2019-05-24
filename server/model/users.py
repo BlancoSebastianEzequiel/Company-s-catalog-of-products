@@ -26,4 +26,4 @@ class Users(Model):
     def __init__(self, data, _id=None, hash_pass=False, unique_values=False):
         if hash_pass and 'password' in data:
             data['password'] = get_hashed_password(data['password'])
-        super().__init__(data, _id, check_unique_values=unique_values)
+        super().__init__(data, _id, unique_values=unique_values)

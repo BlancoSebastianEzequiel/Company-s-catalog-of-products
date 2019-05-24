@@ -17,4 +17,4 @@ class ActivePrinciple(Model):
     }
 
     def __init__(self, data, _id=None, unique_values=False):
-        super().__init__(data, _id, check_unique_values=unique_values)
+        super().__init__(data, _id, unique_values=unique_values)

@@ -13,7 +13,7 @@ ACTIVE_PRINCIPLE_BP = Blueprint(
 
 @ACTIVE_PRINCIPLE_BP.route('/<_id>/', methods=['DELETE'])
 @login_required
-def delete_user(_id):
+def delete_active_principle(_id):
     res, status = ActivePrincipleController.delete(_id)
     return response(res['data'], res['ok']), status
 

@@ -17,8 +17,8 @@ class Model:
     # value: boolean. if true the values cannot be repeated in the db
     unique_values = {}
 
-    def __init__(self, data: dict, _id=None, check_unique_values=False):
-        self.validate_data(data, check_unique_values)
+    def __init__(self, data: dict, _id=None, unique_values=False):
+        self.validate_data(data, unique_values)
         self._data = data.copy()
         self._id = _id
 

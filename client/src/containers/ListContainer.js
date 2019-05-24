@@ -4,19 +4,20 @@ import { ToastContainer, toast } from 'react-toastify'
 import ListForm from '../components/ListForm'
 import Http from '../service/Http'
 import httpStatus from 'http-status-codes'
+import PropTypes from 'prop-types'
 
-export default class DeleteClientContainer extends React.Component {
+export default class ListContainer extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
       errors: {},
       refresh: true,
-      clients: [{
+      objects: [{
         'data': '',
         '_id': ''
       }],
       redirectTo: false,
-      urlToRedirect: '/modify-client',
+      urlToRedirect: this.props.urlToRedirect,
       dataToRedirect: {}
     }
   }
@@ -27,23 +28,18 @@ export default class DeleteClientContainer extends React.Component {
     })
   }
 
-  getClients = () => {
+  getObjects = () => {
     if (!this.state.refresh) return
-    let clientsVector = []
-    Http.get('/users/?type=client')
+    let objectsVector = []
+    Http.get(this.props.query)
       .then(response => {
         if (response.status === httpStatus.OK) {
           const length = response.content.data.length
           for (let i = 0; i < length; i++) {
-            const aClient = response.content.data[i]
-            const _id = response.content.data[i]._id
-            clientsVector.push(
-              {
-                'data': 'USER NAME: ' + aClient['user_name'] + ' -- EMAIL: ' + aClient['email'],
-                '_id': _id
-              })
+            const anObject = response.content.data[i]
+            objectsVector.push(this.props.writeInfo(anObject))
           }
-          this.handleChange('clients', clientsVector)
+          this.handleChange('objects', objectsVector)
           this.handleChange('refresh', false)
         } else {
           toast('ERROR: ' + response.content.data)
@@ -54,13 +50,13 @@ export default class DeleteClientContainer extends React.Component {
       })
   }
 
-  modifyClient = (aClient) => {
+  modifyObject = (anObject) => {
     this.setState({ redirectTo: true })
-    this.setState({ dataToRedirect: aClient })
+    this.setState({ dataToRedirect: anObject })
   }
 
-  deleteClient = (aClient) => {
-    Http.delete('/users/', aClient._id)
+  deleteObject = (anObject) => {
+    Http.delete(this.props.url, anObject._id)
       .then(response => {
         if (response.status === httpStatus.OK) {
           this.setState({ 'refresh': true })
@@ -75,7 +71,7 @@ export default class DeleteClientContainer extends React.Component {
   }
 
   render () {
-    const { errors, clients, redirectTo, urlToRedirect, dataToRedirect } = this.state
+    const { errors, objects, redirectTo, urlToRedirect, dataToRedirect } = this.state
     if (redirectTo) {
       return <Redirect to={{
         pathname: urlToRedirect,
@@ -88,12 +84,19 @@ export default class DeleteClientContainer extends React.Component {
         <ToastContainer></ToastContainer>
         <ListForm
           errors={errors}
-          ObjectsList={clients}
-          getList={() => this.getClients()}
-          deleteObject={(aClient => this.deleteClient(aClient))}
-          modifyObject={(aClient) => this.modifyClient(aClient)}
+          ObjectsList={objects}
+          getList={() => this.getObjects()}
+          deleteObject={(anObject => this.deleteObject(anObject))}
+          modifyObject={(anObject) => this.modifyObject(anObject)}
         />
       </div>
     )
   }
+}
+
+ListContainer.propTypes = {
+  url: PropTypes.string,
+  query: PropTypes.string,
+  writeInfo: PropTypes.func,
+  urlToRedirect: PropTypes.string,
 }
