@@ -29,7 +29,7 @@ export default class RegisterContainer extends React.Component {
         .then(response => {
           if (response.status === httpStatus.CREATED) {
             if (Auth.isLogged()) {
-              this.setState({ urlToRedirect: '/delete-client' })
+              this.setState({ urlToRedirect: '/client-list' })
             } else {
               this.setState({ urlToRedirect: '/login' })
             }
