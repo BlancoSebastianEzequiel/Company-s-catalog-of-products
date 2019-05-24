@@ -1,9 +1,9 @@
 import React from 'react'
 import ModifyContainer from './ModifyContainer'
 import PropTypes from 'prop-types'
-import data from '../data/activePrincipleData'
+import data from '../data/productData'
 
-export default class ModifyActivePrincipleContainer extends React.Component {
+export default class ModifyProductContainer extends React.Component {
 
   render () {
     return (
@@ -11,10 +11,10 @@ export default class ModifyActivePrincipleContainer extends React.Component {
         <ModifyContainer
           fields={data.fields}
           fieldsState={data.fieldsState}
-          title='Modify active principle'
-          objectName='active principle'
-          endpoint='/active_principle/'
-          urlToRedirect='/active-principle-list'
+          title='Modify product'
+          objectName='product'
+          endpoint='/products/'
+          urlToRedirect='/product-list'
           id={this.props.location.state.id}
         />
       </div>
@@ -22,6 +22,6 @@ export default class ModifyActivePrincipleContainer extends React.Component {
   }
 }
 
-ModifyActivePrincipleContainer.propTypes = {
+ModifyProductContainer.propTypes = {
   location: PropTypes.object
 }
