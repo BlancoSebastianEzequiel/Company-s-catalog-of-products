@@ -25,7 +25,7 @@ export default class ListForm extends React.Component {
           <div className="panel panel-default" key={idx}>
             <div className="panel-heading">{anObject.data}</div>
             <Col smOffset={4} sm={10}>
-              <Button type="button" onClick={ () => this.submit(anObject) } style={{ margin: '1em' }}>
+              <Button type="button" onClick={ () => this.submit(anObject) }>
                 Delete
               </Button>
               <Button type="button" onClick={ () => this.props.modifyObject(anObject) }>
