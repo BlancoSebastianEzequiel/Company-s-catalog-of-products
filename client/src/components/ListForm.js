@@ -40,7 +40,7 @@ export default class ListForm extends React.Component {
     this.props.getList()
     return (
       <Grid>
-         <Row className="show-grid">
+        <Row className="show-grid">
           <Col xs={12} md={6} mdOffset={3}>
             <h1 style={{ textAlign: 'center' }} > {this.props.title} </h1>
           </Col>
@@ -62,5 +62,6 @@ ListForm.propTypes = {
   deleteObject: PropTypes.func,
   modifyObject: PropTypes.func,
   errors: PropTypes.object,
-  ObjectsList: PropTypes.array
+  ObjectsList: PropTypes.array,
+  title: PropTypes.object
 }
