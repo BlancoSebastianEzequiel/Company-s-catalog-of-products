@@ -355,7 +355,7 @@ def test_update_user_with_bad_first_name_format(client):
     assert patch_resp.status_code == HTTPStatus.BAD_REQUEST
 
 
-def test_update_user_with_bad_type_name_format(client):
+def test_update_user_with_bad_type_format(client):
     post_resp = client.post('/users/', data=json.dumps({
         'first_name': 'juan',
         'last_name': 'perez',
@@ -379,3 +379,29 @@ def test_update_user_with_bad_type_name_format(client):
     }), content_type='application/json')
     assert not patch_resp.json['ok']
     assert patch_resp.status_code == HTTPStatus.BAD_REQUEST
+
+
+def test_update_user_with_the_same_data(client):
+    post_resp = client.post('/users/', data=json.dumps({
+        'first_name': 'juan',
+        'last_name': 'perez',
+        'user_name': 'juanchi',
+        'email': 'juanperez@gmail.com',
+        'password': '1234',
+        'type': 'client'
+    }), content_type='application/json')
+    assert post_resp.json['ok']
+    assert post_resp.status_code == HTTPStatus.CREATED
+    _id = post_resp.json['data']
+
+    patch_resp = client.patch('/users/', data=json.dumps({
+        '_id': _id,
+        'first_name': 'juan',
+        'last_name': 'perez',
+        'user_name': 'juanchi',
+        'email': 'juanperez@gmail.com',
+        'password': '1234',
+        'type': 'client'
+    }), content_type='application/json')
+    assert patch_resp.json['ok']
+    assert patch_resp.status_code == HTTPStatus.CREATED
