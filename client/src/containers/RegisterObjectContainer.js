@@ -24,14 +24,14 @@ export default class RegisterObjectContainer extends React.Component {
       .then(response => {
         if (response.status === httpStatus.CREATED) {
           this.setState({ redirectTo: true })
-          toast('The' + this.props.objectName + 'successfully created!')
+          toast('The ' + this.props.objectName + ' successfully created!')
         } else {
-          toast('The' + this.props.objectName + 'could not be created, please verify the data')
+          toast('The ' + this.props.objectName + ' could not be created, please verify the data')
           this.setState({ errors: { 'message': response.content.data } })
         }
       })
       .catch(err => {
-        toast('Error creating' + this.props.objectName + ': ' + err) // TODO hacer algo
+        toast('Error creating ' + this.props.objectName + ': ' + err) // TODO hacer algo
       })
   }
 
