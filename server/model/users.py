@@ -1,4 +1,4 @@
-from server.model.base import Model, StatusException, http, MONGO, ObjectId
+from server.model.base import Model
 from server.controller.utils import get_hashed_password
 
 
