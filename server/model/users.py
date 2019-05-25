@@ -1,4 +1,4 @@
-from server.model.base import Model
+from server.model.base import Model, StatusException, http, MONGO, ObjectId
 from server.controller.utils import get_hashed_password
 
 
@@ -27,3 +27,14 @@ class Users(Model):
         if hash_pass and 'password' in data:
             data['password'] = get_hashed_password(data['password'])
         super().__init__(data, _id, unique_values=unique_values)
+
+    @staticmethod
+    def hash_new_password(data):
+        if 'password' not in data:
+            return data
+        data['password'] = get_hashed_password(data['password'])
+        return data
+
+    def patch(self, data):
+        data = self.hash_new_password(data)
+        return super().patch(data)
