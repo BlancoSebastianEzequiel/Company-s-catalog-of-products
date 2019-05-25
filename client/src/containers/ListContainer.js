@@ -28,10 +28,28 @@ export default class ListContainer extends React.Component {
     })
   }
 
-  getObjects = () => {
-    if (!this.state.refresh) return
+  builtQuery = (data, urlQuery) => {
+    let query = ''
+    for (let field in data) {
+      if (data[field].length === 0) {
+        continue
+      }
+      query += field + '=' + data[field]
+      query += '&'
+    }
+    const s = urlQuery.split('?')
+    if (s.length === 2) {
+      return urlQuery + '&' + query
+    } else {
+      return urlQuery + '?' + query
+    }
+  }
+
+  getObjects = (query) => {
+    if (!this.state.refresh && query===null) return
     let objectsVector = []
-    Http.get(this.props.query)
+    query = this.builtQuery(query, this.props.query)
+    Http.get(query)
       .then(response => {
         if (response.status === httpStatus.OK) {
           const length = response.content.data.length
@@ -85,10 +103,11 @@ export default class ListContainer extends React.Component {
         <ListForm
           errors={errors}
           ObjectsList={objects}
-          getList={() => this.getObjects()}
+          getList={(query) => this.getObjects(query)}
           deleteObject={(anObject => this.deleteObject(anObject))}
           modifyObject={(anObject) => this.modifyObject(anObject)}
           title={this.props.title}
+          dataName={this.props.dataName}
         />
       </div>
     )
@@ -100,5 +119,6 @@ ListContainer.propTypes = {
   query: PropTypes.string,
   writeInfo: PropTypes.func,
   urlToRedirect: PropTypes.string,
-  title: PropTypes.string
+  title: PropTypes.string,
+  dataName: PropTypes.string
 }

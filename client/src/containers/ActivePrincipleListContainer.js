@@ -18,6 +18,7 @@ export default class ActivePrincipleListContainer extends React.Component {
           writeInfo={(anActivePrinciple) => this.writeInfo(anActivePrinciple)}
           urlToRedirect='/modify-active-principle'
           title='Active Principles'
+          dataName={'activePrinciple'}
         />
       </div>
     )

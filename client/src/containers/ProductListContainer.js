@@ -18,6 +18,7 @@ export default class ClientListContainer extends React.Component {
           writeInfo={(aProduct) => this.writeInfo(aProduct)}
           urlToRedirect='/modify-product'
           title='Products'
+          dataName={'product'}
         />
       </div>
     )
