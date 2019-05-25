@@ -261,3 +261,30 @@ def test_post_user_with_missing_password(client):
     }), content_type='application/json')
     assert not post_resp.json['ok']
     assert post_resp.status_code == HTTPStatus.BAD_REQUEST
+
+
+def test_update_user_password(client):
+    post_resp = client.post('/users/', data=json.dumps({
+        'first_name': 'juan',
+        'last_name': 'perez',
+        'user_name': 'batman',
+        'email': 'juanperez@gmail.com',
+        'password': '1234',
+        'type': 'client'
+    }), content_type='application/json')
+    assert post_resp.json['ok']
+    assert post_resp.status_code == HTTPStatus.CREATED
+    _id = post_resp.json['data']
+
+    patch_resp = client.patch('/users/', data=json.dumps({
+        '_id': _id,
+        'password': '2',
+    }), content_type='application/json')
+    assert patch_resp.json['ok']
+    assert patch_resp.status_code == HTTPStatus.CREATED
+    assert patch_resp.json['data'] == _id
+
+    get_resp = client.get(f'/users/{_id}/')
+    assert get_resp.json['ok']
+    assert get_resp.status_code == HTTPStatus.OK
+    assert check_password('2', get_resp.json['data']['password'])
