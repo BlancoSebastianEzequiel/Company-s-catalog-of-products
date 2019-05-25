@@ -1,7 +1,9 @@
 import React from 'react'
-import { Col, Form, Grid, Row } from 'react-bootstrap'
+import { Col, Form, Grid, Row, FormGroup, Button } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 import ModifyButtons from './ModifyButtons'
+import FilterNavForm from './FilterNavForm'
+import data from '../data/data'
 
 export default class ListForm extends React.Component {
   constructor (props) {
@@ -13,10 +15,6 @@ export default class ListForm extends React.Component {
     this.setState({
       [name]: value
     })
-  }
-
-  submit = (anObject) => {
-    this.props.deleteObject(anObject)
   }
 
   showList () {
@@ -37,21 +35,37 @@ export default class ListForm extends React.Component {
   }
 
   render () {
-    this.props.getList()
     return (
       <Grid>
-        <Row className="show-grid">
-          <Col xs={12} md={6} mdOffset={3}>
-            <h1 style={{ textAlign: 'center' }} > {this.props.title} </h1>
-          </Col>
-        </Row>
-        <Row className="show-grid">
-          <Col xs={12} md={6} mdOffset={3}>
-            <Form horizontal>
-              { this.showList() }
-            </Form>
-          </Col>
-        </Row>
+        <Col sm={4}>
+          <FilterNavForm
+            errors={{}}
+            onClick={(query) => this.props.getList(query)}
+            fields={data[this.props.dataName].searchFields}
+            fieldsState={data[this.props.dataName].fieldsStateSearch}
+            title={'search'}
+            show={this.props.dataName === 'product'}
+          />
+        </Col>
+        <Col sm={8}>
+          <Row className="show-grid">
+              <h1 style={{ textAlign: 'center' }} > {this.props.title} </h1>
+            </Row>
+            <Row className="show-grid">
+              <Col xs={12} md={6} mdOffset={3}>
+                <Form horizontal>
+                  { this.showList() }
+                </Form>
+                <FormGroup>
+                  <Col>
+                    <Button type="submit" onClick={ () => this.props.getList(null) }>
+                      Update
+                    </Button>
+                  </Col>
+                </FormGroup>
+              </Col>
+            </Row>
+        </Col>
       </Grid>
     )
   }
@@ -63,5 +77,6 @@ ListForm.propTypes = {
   modifyObject: PropTypes.func,
   errors: PropTypes.object,
   ObjectsList: PropTypes.array,
-  title: PropTypes.object
+  title: PropTypes.object,
+  dataName: PropTypes.string
 }
