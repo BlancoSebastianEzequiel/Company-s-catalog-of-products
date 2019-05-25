@@ -9,8 +9,11 @@ const ClientNavbar = function () {
         <LinkContainer exact to="/">
           <NavItem eventKey={1}>Home</NavItem>
         </LinkContainer>
+        <LinkContainer to="/product-list">
+          <NavItem eventKey={2}>Product list</NavItem>
+        </LinkContainer>
         <LinkContainer to="/logout">
-          <NavItem eventKey={2}>Logout</NavItem>
+          <NavItem eventKey={3}>Logout</NavItem>
         </LinkContainer>
       </Nav>
     </Navbar>

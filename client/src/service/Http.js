@@ -1,4 +1,6 @@
 import Auth from '../service/Auth'
+import httpStatus from 'http-status-codes'
+
 class Http {
   async get (url, callback) {
     const rawResponse = await fetch(url, {
@@ -52,7 +54,7 @@ class Http {
   }
 
   checkIfUnauthorized (status, callback) {
-    if (status === 401) {
+    if (status === httpStatus.UNAUTHORIZED) {
       Auth.logout(callback)
     }
   }

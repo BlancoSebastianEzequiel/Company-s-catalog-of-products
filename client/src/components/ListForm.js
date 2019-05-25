@@ -1,6 +1,7 @@
 import React from 'react'
-import { Col, Form, Grid, Row, Button } from 'react-bootstrap'
+import { Col, Form, Grid, Row } from 'react-bootstrap'
 import PropTypes from 'prop-types'
+import ModifyButtons from './ModifyButtons'
 
 export default class ListForm extends React.Component {
   constructor (props) {
@@ -24,14 +25,11 @@ export default class ListForm extends React.Component {
         { this.props.ObjectsList.map((anObject, idx) =>
           <div className="panel panel-default" key={idx}>
             <div className="panel-heading">{anObject.data}</div>
-            <Col smOffset={4} sm={10}>
-              <Button type="button" onClick={ () => this.submit(anObject) }>
-                Delete
-              </Button>
-              <Button type="button" onClick={ () => this.props.modifyObject(anObject) }>
-                Modify
-              </Button>
-            </Col>
+            <ModifyButtons
+              anObject={anObject}
+              deleteObject={(anObject) => this.props.deleteObject(anObject)}
+              modifyObject={(anObject) => this.props.modifyObject(anObject)}
+            />
           </div>
         )}
       </div>

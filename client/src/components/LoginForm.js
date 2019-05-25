@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Col, ControlLabel, Form, FormControl, FormGroup, Grid, Row } from 'react-bootstrap'
+import { Button, Col, ControlLabel, Form, FormControl, FormGroup, Grid, Row, HelpBlock } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 
 export default class LoginForm extends React.Component {
@@ -33,6 +33,9 @@ export default class LoginForm extends React.Component {
             placeholder={name}
             onChange={this.handleChange(field)}
           />
+          <HelpBlock>
+            <p className="text-danger">{this.props.errors.message}</p>
+          </HelpBlock>
         </Col>
       </FormGroup>
     )
@@ -67,5 +70,6 @@ export default class LoginForm extends React.Component {
 }
 
 LoginForm.propTypes = {
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  errors: PropTypes.object
 }

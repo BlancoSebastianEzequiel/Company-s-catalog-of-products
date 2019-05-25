@@ -145,3 +145,23 @@ def test_post_two_active_principle_with_same_code_is_not_allowed(client):
     }), content_type='application/json')
     assert not post_resp.json['ok']
     assert post_resp.status_code == HTTPStatus.BAD_REQUEST
+
+
+def test_active_principle_code_bad_format(client):
+    resp = client.post('/active_principle/', data=json.dumps({
+        'code': 'bad code',
+        'name': 'paracetamol',
+        'description': 'analgésicos y antiinflamatorios'
+    }), content_type='application/json')
+    assert not resp.json['ok']
+    assert resp.status_code == HTTPStatus.BAD_REQUEST
+
+
+def test_active_principle_name_bad_format(client):
+    resp = client.post('/active_principle/', data=json.dumps({
+        'code': '200',
+        'name': 'paracetamol123',
+        'description': 'analgésicos y antiinflamatorios'
+    }), content_type='application/json')
+    assert not resp.json['ok']
+    assert resp.status_code == HTTPStatus.BAD_REQUEST

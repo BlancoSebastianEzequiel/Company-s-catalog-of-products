@@ -224,3 +224,31 @@ def test_post_product_with_bad_active_principle_code(post_active_principle):
     }), content_type='application/json')
     assert not post_resp.json['ok']
     assert post_resp.status_code == HTTPStatus.BAD_REQUEST
+
+
+def test_product_code_bad_format(post_active_principle):
+    client, active_principle_data = post_active_principle
+    resp = client.post('/products/', data=json.dumps({
+        'code': 'badcode',
+        'name': 'ibu400',
+        'description': 'Alivia el dolor de cabeza',
+        'images': [],
+        'size': '70ml',
+        'active_principle': active_principle_data['code']
+    }), content_type='application/json')
+    assert not resp.json['ok']
+    assert resp.status_code == HTTPStatus.BAD_REQUEST
+
+
+def test_product_size_bad_format(post_active_principle):
+    client, active_principle_data = post_active_principle
+    resp = client.post('/products/', data=json.dumps({
+        'code': '200',
+        'name': 'ibu400',
+        'description': 'Alivia el dolor de cabeza',
+        'images': [],
+        'size': '70',
+        'active_principle': active_principle_data['code']
+    }), content_type='application/json')
+    assert not resp.json['ok']
+    assert resp.status_code == HTTPStatus.BAD_REQUEST

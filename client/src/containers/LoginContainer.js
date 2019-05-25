@@ -1,5 +1,4 @@
 import React from 'react'
-import { toast } from 'react-toastify'
 import LoginForm from '../components/LoginForm'
 import { Redirect } from 'react-router-dom'
 import Http from '../service/Http'
@@ -11,6 +10,7 @@ export default class LoginContainer extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
+      errors: {},
       redirectToReferrer: false
     }
   }
@@ -22,20 +22,20 @@ export default class LoginContainer extends React.Component {
           const user = response.content.data[0]
           Auth.setTypeOfUser(user.type)
         } else {
-          toast('Error: ' + response.content.data)
+          this.setState({ errors: { 'message': response.content.data } })
         }
       })
       .catch(err => {
-        toast('Error: ' + err)
+        this.setState({ errors: { 'message': err } })
+        alert('Error: ' + err)
       })
   }
 
   handleClick (data) {
     const { email, password } = data
-    Http.post('/session/', { email, password }, () => {})
+    Http.post('/session/', { email, password })
       .then(response => {
-        const res = response.content
-        const token = res.data
+        const token = response.content.data
         if (response.status === httpStatus.CREATED && token) {
           Auth.login(token)
           this.setTypeOfUser(email)
@@ -44,18 +44,18 @@ export default class LoginContainer extends React.Component {
               this.props.onLogin() // Hack to refresh NavBar
             })
         } else {
-          alert('Error: ' + response.content.data)
+          this.setState({ errors: { 'message': response.content.data } })
         }
       })
       .catch(err => {
-        toast('Error: ' + err)
+        alert('Error: ' + err)
       })
   }
 
   render () {
     const { from } = this.props.location.state || { from: { pathname: '/' } }
     const token = Auth.getToken()
-    const { redirectToReferrer } = this.state
+    const { redirectToReferrer, errors } = this.state
 
     if (redirectToReferrer) {
       return <Redirect to={from} />
@@ -64,7 +64,10 @@ export default class LoginContainer extends React.Component {
       return <Redirect to='/' />
     }
     return (
-      <LoginForm onClick={(data) => this.handleClick(data)} />
+      <LoginForm
+        errors={errors}
+        onClick={(data) => this.handleClick(data)}
+      />
     )
   }
 }
