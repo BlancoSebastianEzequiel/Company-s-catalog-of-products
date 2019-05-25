@@ -43,7 +43,7 @@ export default class FilterNavForm extends React.Component {
   render () {
     if (!this.props.show) return (null)
     return (
-      <div>
+      <Col sm={4}>
         <Row className="show-grid">
           <h1 style={{ textAlign: 'center' }} > {this.props.title} </h1>
         </Row>
@@ -63,7 +63,7 @@ export default class FilterNavForm extends React.Component {
             </Col>
           </FormGroup>
         </Row>
-      </div>
+      </Col>
     )
   }
 }
