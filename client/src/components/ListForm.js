@@ -40,6 +40,11 @@ export default class ListForm extends React.Component {
     this.props.getList()
     return (
       <Grid>
+         <Row className="show-grid">
+          <Col xs={12} md={6} mdOffset={3}>
+            <h1 style={{ textAlign: 'center' }} > {this.props.title} </h1>
+          </Col>
+        </Row>
         <Row className="show-grid">
           <Col xs={12} md={6} mdOffset={3}>
             <Form horizontal>
