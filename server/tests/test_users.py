@@ -288,3 +288,42 @@ def test_update_user_password(client):
     assert get_resp.json['ok']
     assert get_resp.status_code == HTTPStatus.OK
     assert check_password('2', get_resp.json['data']['password'])
+
+
+def test_user_email_bad_format(client):
+    resp = client.post('/users/', data=json.dumps({
+        'first_name': 'juan',
+        'last_name': 'perez',
+        'user_name': 'juanchi',
+        'email': 'juanperez',
+        'password': '1234',
+        'type': 'client'
+    }), content_type='application/json')
+    assert not resp.json['ok']
+    assert resp.status_code == HTTPStatus.BAD_REQUEST
+
+
+def test_user_first_name_bad_format(client):
+    resp = client.post('/users/', data=json.dumps({
+        'first_name': 'juanchito22',
+        'last_name': 'perez',
+        'user_name': 'juanchi',
+        'email': 'juanperez@gmail.com',
+        'password': '1234',
+        'type': 'client'
+    }), content_type='application/json')
+    assert not resp.json['ok']
+    assert resp.status_code == HTTPStatus.BAD_REQUEST
+
+
+def test_user_type_name_bad_format(client):
+    resp = client.post('/users/', data=json.dumps({
+        'first_name': 'juanchito',
+        'last_name': 'perez',
+        'user_name': 'juanchi',
+        'email': 'juanperez@gmail.com',
+        'password': '1234',
+        'type': 'cliente'
+    }), content_type='application/json')
+    assert not resp.json['ok']
+    assert resp.status_code == HTTPStatus.BAD_REQUEST
