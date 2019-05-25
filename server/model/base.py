@@ -25,7 +25,7 @@ class Model:
         self.validate_data(data, unique_values)
         self._data = data.copy()
         self._id = _id
-        self.validate_schema_format()
+        self.validate_schema_format(self._data)
 
     def __getitem__(self, item):
         self.validate_key_in_schema(item)
@@ -42,12 +42,21 @@ class Model:
     def built_validator_schema(self):
         self.validation = {}
 
-    def validate_schema_format(self):
-        for field in self.validation:
-            if not self.validation[field](self._data[field]):
-                name = self.__class__.__name__
-                msg = f"{field} does not meet the required format of {name}"
-                raise StatusException(msg, http.BAD_REQUEST)
+    @classmethod
+    def validate_schema_format(cls, data):
+        for field in cls.validation:
+            if field not in data:
+                continue
+            value = data[field]
+            callback = cls.validation[field]
+            name = cls.__class__.__name__
+            cls.validate_value_format(value, callback, name, field)
+
+    @staticmethod
+    def validate_value_format(value, callback, field, name):
+        if not callback(value):
+            msg = f"{field} does not meet the required format of {name}"
+            raise StatusException(msg, http.BAD_REQUEST)
 
     @classmethod
     def validate_data(cls, data: dict, check_unique_values: bool):
@@ -67,6 +76,7 @@ class Model:
         cls.validate_data_types(data)
         if check_unique_values:
             cls.validate_already_existing_unique_values(data, _id)
+        cls.validate_schema_format(data)
 
     @classmethod
     def validate_key_in_schema(cls, field):
@@ -98,7 +108,7 @@ class Model:
         if len(result) == 0:
             return
         if len(result) == 1 and _id is not None:
-            if _id == result[0]['_id']:
+            if _id == str(result[0]['_id']):
                 return
         msg = f"field {field} already exists"
         raise StatusException(msg, http.BAD_REQUEST)

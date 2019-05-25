@@ -31,14 +31,15 @@ class Users(Model):
             data['password'] = get_hashed_password(data['password'])
         super().__init__(data, _id, unique_values=unique_values)
 
-    def built_validator_schema(self):
-        self.validation = {
+    @classmethod
+    def built_validator_schema(cls):
+        cls.validation = {
             'first_name': lambda name: name.replace(" ", "").isalpha(),
             'last_name': lambda name: name.replace(" ", "").isalpha(),
             'user_name': lambda user_name: True,
-            'email': lambda email: self.validate_email_format(email),
+            'email': lambda email: cls.validate_email_format(email),
             'password': lambda user_name: True,
-            'type': lambda user_type: self.validate_type_format(user_type)
+            'type': lambda user_type: cls.validate_type_format(user_type)
         }
 
     @staticmethod

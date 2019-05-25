@@ -22,8 +22,9 @@ class ActivePrinciple(Model):
         self.built_validator_schema()
         super().__init__(data, _id, unique_values=unique_values)
 
-    def built_validator_schema(self):
-        self.validation = {
+    @classmethod
+    def built_validator_schema(cls):
+        cls.validation = {
             'code': lambda code: code.isdigit(),
             'name': lambda name: name.replace(" ", "").isalpha(),
             'description': lambda description: True

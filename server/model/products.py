@@ -32,13 +32,14 @@ class Products(Model):
         self.check_active_principle_existence(data)
         super().__init__(data, _id, unique_values=unique_values)
 
-    def built_validator_schema(self):
-        self.validation = {
+    @classmethod
+    def built_validator_schema(cls):
+        cls.validation = {
             'code': lambda code: code.isdigit(),
             'name': lambda name: True,
             'description': lambda description: True,
             'images': lambda images: True,
-            'size': lambda size: self.validate_size_format(size),
+            'size': lambda size: cls.validate_size_format(size),
             'active_principle': lambda code: code.isdigit()
         }
 
