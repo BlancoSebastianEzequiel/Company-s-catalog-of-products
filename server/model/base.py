@@ -43,7 +43,7 @@ class Model:
         self.validation = {}
 
     def validate_schema_format(self):
-        for field in self._data:
+        for field in self.validation:
             if not self.validation[field](self._data[field]):
                 name = self.__class__.__name__
                 msg = f"{field} does not meet the required format of {name}"
@@ -60,11 +60,20 @@ class Model:
             cls.validate_already_existing_unique_values(data)
 
     @classmethod
+    def validate_update_data(cls, data: dict, check_unique_values: bool, _id):
+        if "_id" in data.keys():
+            data.pop("_id")
+        cls.validate_args(data)
+        cls.validate_data_types(data)
+        if check_unique_values:
+            cls.validate_already_existing_unique_values(data, _id)
+
+    @classmethod
     def validate_key_in_schema(cls, field):
         if field not in cls.schema.keys():
             name = cls.__class__.__name__
             e = StatusException(f"{field} is not a valid attribute of {name}")
-            e.status = http.INTERNAL_SERVER_ERROR
+            e.status = http.BAD_REQUEST
             raise e
 
     @classmethod
@@ -76,16 +85,23 @@ class Model:
         return list(cls.schema.keys()) + ['_id']
 
     @classmethod
-    def validate_already_existing_unique_values(cls, data):
+    def validate_already_existing_unique_values(cls, data, _id=None):
         for field in data:
             value = data[field]
-            cls.check_unique_value(field, value)
+            cls.check_unique_value(field, value, _id)
 
     @classmethod
-    def check_unique_value(cls, field, value):
-        if cls.unique_values[field] and len(cls.get_all({field: value})) != 0:
-            msg = f"field {field} already exists"
-            raise StatusException(msg, http.BAD_REQUEST)
+    def check_unique_value(cls, field, value, _id=None):
+        if not cls.unique_values[field]:
+            return
+        result = cls.get_all({field: value})
+        if len(result) == 0:
+            return
+        if len(result) == 1 and _id is not None:
+            if _id == result[0]['_id']:
+                return
+        msg = f"field {field} already exists"
+        raise StatusException(msg, http.BAD_REQUEST)
 
     def delete(self):
         try:
@@ -149,11 +165,8 @@ class Model:
             raise e
 
     def patch(self, data):
+        self.validate_update_data(data, True, self._id)
         try:
-            if not data:
-                e = StatusException("Invalid request body")
-                e.status = http.BAD_REQUEST
-                raise e
             collection = MONGO.db[self.db_name]
             collection.update_one({'_id': ObjectId(self._id)}, {"$set": data})
             return self._id
