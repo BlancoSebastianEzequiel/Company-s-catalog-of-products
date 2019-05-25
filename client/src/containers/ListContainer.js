@@ -46,7 +46,7 @@ export default class ListContainer extends React.Component {
   }
 
   getObjects = (query) => {
-    if (!this.state.refresh && query===null) return
+    if (!this.state.refresh && query === null) return
     let objectsVector = []
     query = this.builtQuery(query, this.props.query)
     Http.get(query)

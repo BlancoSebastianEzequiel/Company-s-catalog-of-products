@@ -49,22 +49,22 @@ export default class ListForm extends React.Component {
         </Col>
         <Col sm={8}>
           <Row className="show-grid">
-              <h1 style={{ textAlign: 'center' }} > {this.props.title} </h1>
-            </Row>
-            <Row className="show-grid">
-              <Col xs={12} md={6} mdOffset={3}>
-                <Form horizontal>
-                  { this.showList() }
-                </Form>
-                <FormGroup>
-                  <Col>
-                    <Button type="submit" onClick={ () => this.props.getList(null) }>
-                      Update
-                    </Button>
-                  </Col>
-                </FormGroup>
-              </Col>
-            </Row>
+            <h1 style={{ textAlign: 'center' }} > {this.props.title} </h1>
+          </Row>
+          <Row className="show-grid">
+            <Col xs={12} md={6} mdOffset={3}>
+              <Form horizontal>
+                { this.showList() }
+              </Form>
+              <FormGroup>
+                <Col>
+                  <Button type="submit" onClick={ () => this.props.getList(null) }>
+                    Update
+                  </Button>
+                </Col>
+              </FormGroup>
+            </Col>
+          </Row>
         </Col>
       </Grid>
     )
