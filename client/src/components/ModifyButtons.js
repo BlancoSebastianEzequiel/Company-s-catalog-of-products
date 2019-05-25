@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import Auth from '../service/Auth'
 
 export default class ListForm extends React.Component {
-
   render () {
     if (!Auth.isAdmin()) {
       return (null)

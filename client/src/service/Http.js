@@ -54,7 +54,7 @@ class Http {
   }
 
   checkIfUnauthorized (status, callback) {
-    if (status === httpStatus.UNAUTHORIZED  ) {
+    if (status === httpStatus.UNAUTHORIZED) {
       Auth.logout(callback)
     }
   }
