@@ -43,8 +43,6 @@ class Model:
         self.validation = {}
 
     def validate_schema_format(self):
-        if not self.validation:
-            return
         for field in self._data:
             if not self.validation[field](self._data[field]):
                 name = self.__class__.__name__
