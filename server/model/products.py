@@ -25,9 +25,33 @@ class Products(Model):
         'active_principle': False,
     }
 
+    validation = {}
+
     def __init__(self, data, _id=None, unique_values=False):
+        self.built_validator_schema()
         self.check_active_principle_existence(data)
         super().__init__(data, _id, unique_values=unique_values)
+
+    def built_validator_schema(self):
+        self.validation = {
+            'code': lambda code: code.isdigit(),
+            'name': lambda name: True,
+            'description': lambda description: True,
+            'images': lambda images: True,
+            'size': lambda size: self.validate_size_format(size),
+            'active_principle': lambda code: code.isdigit()
+        }
+
+    @staticmethod
+    def validate_size_format(size):
+        if 'ml' not in size:
+            return False
+        s = size.split('ml')
+        if len(s) != 2:
+            return False
+        if s[1] != '':
+            return False
+        return s[0].isdigit()
 
     @staticmethod
     def check_active_principle_existence(data):

@@ -16,5 +16,15 @@ class ActivePrinciple(Model):
         'description': False
     }
 
+    validation = {}
+
     def __init__(self, data, _id=None, unique_values=False):
+        self.built_validator_schema()
         super().__init__(data, _id, unique_values=unique_values)
+
+    def built_validator_schema(self):
+        self.validation = {
+            'code': lambda code: code.isdigit(),
+            'name': lambda name: name.replace(" ", "").isalpha(),
+            'description': lambda description: True
+        }
