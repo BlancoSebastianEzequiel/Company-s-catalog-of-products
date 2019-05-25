@@ -17,6 +17,7 @@ export default class ClientListContainer extends React.Component {
           query='/users/?type=client'
           writeInfo={(aClient) => this.writeInfo(aClient)}
           urlToRedirect='/modify-client'
+          title='Clients'
         />
       </div>
     )

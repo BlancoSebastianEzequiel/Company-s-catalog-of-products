@@ -88,6 +88,7 @@ export default class ListContainer extends React.Component {
           getList={() => this.getObjects()}
           deleteObject={(anObject => this.deleteObject(anObject))}
           modifyObject={(anObject) => this.modifyObject(anObject)}
+          title={this.props.title}
         />
       </div>
     )
@@ -98,5 +99,6 @@ ListContainer.propTypes = {
   url: PropTypes.string,
   query: PropTypes.string,
   writeInfo: PropTypes.func,
-  urlToRedirect: PropTypes.string
+  urlToRedirect: PropTypes.string,
+  title: PropTypes.string
 }
