@@ -37,16 +37,14 @@ export default class ListForm extends React.Component {
   render () {
     return (
       <Grid>
-        <Col sm={4}>
-          <FilterNavForm
-            errors={{}}
-            onClick={(query) => this.props.getList(query)}
-            fields={data[this.props.dataName].searchFields}
-            fieldsState={data[this.props.dataName].fieldsStateSearch}
-            title={'search'}
-            show={this.props.dataName === 'product'}
-          />
-        </Col>
+        <FilterNavForm
+          errors={this.props.errors}
+          onClick={(query) => this.props.getList(query)}
+          fields={data[this.props.dataName].searchFields}
+          fieldsState={data[this.props.dataName].fieldsStateSearch}
+          title={'search'}
+          show={this.props.dataName === 'product'}
+        />
         <Col sm={8}>
           <Row className="show-grid">
             <h1 style={{ textAlign: 'center' }} > {this.props.title} </h1>
