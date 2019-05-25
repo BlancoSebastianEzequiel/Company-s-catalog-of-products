@@ -17,10 +17,15 @@ class Model:
     # value: boolean. if true the values cannot be repeated in the db
     unique_values = {}
 
+    # key: field of schema
+    # value: function. if false the value does not meet the required format
+    validation = {}
+
     def __init__(self, data: dict, _id=None, unique_values=False):
         self.validate_data(data, unique_values)
         self._data = data.copy()
         self._id = _id
+        self.validate_schema_format()
 
     def __getitem__(self, item):
         self.validate_key_in_schema(item)
@@ -33,6 +38,18 @@ class Model:
         self.validate_key_in_schema(field)
         self.validate_type(field, value)
         self._data[field] = value
+
+    def built_validator_schema(self):
+        self.validation = {}
+
+    def validate_schema_format(self):
+        if not self.validation:
+            return
+        for field in self._data:
+            if not self.validation[field](self._data[field]):
+                name = self.__class__.__name__
+                msg = f"{field} does not meet the required format of {name}"
+                raise StatusException(msg, http.BAD_REQUEST)
 
     @classmethod
     def validate_data(cls, data: dict, check_unique_values: bool):
