@@ -327,3 +327,55 @@ def test_user_type_name_bad_format(client):
     }), content_type='application/json')
     assert not resp.json['ok']
     assert resp.status_code == HTTPStatus.BAD_REQUEST
+
+
+def test_update_user_with_bad_first_name_format(client):
+    post_resp = client.post('/users/', data=json.dumps({
+        'first_name': 'juanchito',
+        'last_name': 'perez',
+        'user_name': 'juanchi',
+        'email': 'juanperez@gmail.com',
+        'password': '1234',
+        'type': 'client'
+    }), content_type='application/json')
+    assert post_resp.json['ok']
+    assert post_resp.status_code == HTTPStatus.CREATED
+    _id = post_resp.json['data']
+
+    patch_resp = client.patch('/users/', data=json.dumps({
+        '_id': _id,
+        'first_name': '33',
+        'last_name': 'perez',
+        'user_name': 'juanchi',
+        'email': 'juanperez@gmail.com',
+        'password': '1234',
+        'type': 'client'
+    }), content_type='application/json')
+    assert not patch_resp.json['ok']
+    assert patch_resp.status_code == HTTPStatus.BAD_REQUEST
+
+
+def test_update_user_with_bad_type_name_format(client):
+    post_resp = client.post('/users/', data=json.dumps({
+        'first_name': 'juan',
+        'last_name': 'perez',
+        'user_name': 'juanchi',
+        'email': 'juanperez@gmail.com',
+        'password': '1234',
+        'type': 'client'
+    }), content_type='application/json')
+    assert post_resp.json['ok']
+    assert post_resp.status_code == HTTPStatus.CREATED
+    _id = post_resp.json['data']
+
+    patch_resp = client.patch('/users/', data=json.dumps({
+        '_id': _id,
+        'first_name': 'juan',
+        'last_name': 'perez',
+        'user_name': 'juanchi',
+        'email': 'juanperez@gmail.com',
+        'password': '1234',
+        'type': 'cliente'
+    }), content_type='application/json')
+    assert not patch_resp.json['ok']
+    assert patch_resp.status_code == HTTPStatus.BAD_REQUEST
