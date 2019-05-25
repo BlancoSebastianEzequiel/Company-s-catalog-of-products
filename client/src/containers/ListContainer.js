@@ -62,7 +62,7 @@ export default class ListContainer extends React.Component {
           this.setState({ 'refresh': true })
           toast('The deletion succeed')
         } else {
-          toast('The deletion did not succeed: ' + response.content.data)
+          toast(response.content.data)
         }
       })
       .catch(err => {
