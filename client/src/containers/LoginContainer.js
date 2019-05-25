@@ -1,5 +1,4 @@
 import React from 'react'
-import { toast } from 'react-toastify'
 import LoginForm from '../components/LoginForm'
 import { Redirect } from 'react-router-dom'
 import Http from '../service/Http'
