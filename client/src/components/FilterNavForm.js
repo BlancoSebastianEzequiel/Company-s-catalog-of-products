@@ -41,7 +41,7 @@ export default class FilterNavForm extends React.Component {
   }
 
   render () {
-    if (!this.props.show) return (null)
+    if (!this.props.showSearchNavBar) return (null)
     return (
       <Col sm={4}>
         <Row className="show-grid">
@@ -74,5 +74,5 @@ FilterNavForm.propTypes = {
   fields: PropTypes.array,
   fieldsState: PropTypes.object,
   title: PropTypes.string,
-  show: PropTypes.bool
+  showSearchNavBar: PropTypes.bool
 }

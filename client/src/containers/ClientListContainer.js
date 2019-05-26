@@ -19,6 +19,7 @@ export default class ClientListContainer extends React.Component {
           urlToRedirect='/modify-client'
           title='Clients'
           dataName={'client'}
+          showSearchNavBar={false}
         />
       </div>
     )

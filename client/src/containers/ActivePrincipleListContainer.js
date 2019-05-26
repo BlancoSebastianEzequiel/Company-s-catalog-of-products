@@ -19,6 +19,7 @@ export default class ActivePrincipleListContainer extends React.Component {
           urlToRedirect='/modify-active-principle'
           title='Active Principles'
           dataName={'activePrinciple'}
+          showSearchNavBar={false}
         />
       </div>
     )

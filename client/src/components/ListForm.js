@@ -43,7 +43,7 @@ export default class ListForm extends React.Component {
           fields={data[this.props.dataName].searchFields}
           fieldsState={data[this.props.dataName].fieldsStateSearch}
           title={'search'}
-          show={this.props.dataName === 'product'}
+          showSearchNavBar={this.props.showSearchNavBar}
         />
         <Col sm={8}>
           <Row className="show-grid">
@@ -76,5 +76,6 @@ ListForm.propTypes = {
   errors: PropTypes.object,
   ObjectsList: PropTypes.array,
   title: PropTypes.object,
-  dataName: PropTypes.string
+  dataName: PropTypes.string,
+  showSearchNavBar: PropTypes.bool
 }

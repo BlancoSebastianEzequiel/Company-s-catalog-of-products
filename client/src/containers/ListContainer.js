@@ -108,6 +108,7 @@ export default class ListContainer extends React.Component {
           modifyObject={(anObject) => this.modifyObject(anObject)}
           title={this.props.title}
           dataName={this.props.dataName}
+          showSearchNavBar={this.props.showSearchNavBar}
         />
       </div>
     )
@@ -120,5 +121,6 @@ ListContainer.propTypes = {
   writeInfo: PropTypes.func,
   urlToRedirect: PropTypes.string,
   title: PropTypes.string,
-  dataName: PropTypes.string
+  dataName: PropTypes.string,
+  showSearchNavBar: PropTypes.bool
 }
