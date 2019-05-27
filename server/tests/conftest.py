@@ -10,15 +10,19 @@ from server.libs.mongo import MONGO
 fake = Faker()
 
 
+def clear_database():
+    MONGO.db['users'].delete_many({})
+    MONGO.db['active_principle'].delete_many({})
+    MONGO.db['products'].delete_many({})
+    MONGO.db['company_data'].delete_many({})
+
+
 @pytest.fixture
 def client():
     app = create_app(conf='conf.test.Config')
     app.config['TESTING'] = True
     client = app.test_client()
-    # Clear databases
-    MONGO.db['users'].delete_many({})
-    MONGO.db['active_principle'].delete_many({})
-    MONGO.db['products'].delete_many({})
+    clear_database()
     yield client
 
 
@@ -27,10 +31,7 @@ def auth_client():
     app = create_app(conf='conf.auth_test.Config')
     app.config['TESTING'] = True
     auth_client = app.test_client()
-    # Clear databases
-    MONGO.db['users'].delete_many({})
-    MONGO.db['active_principle'].delete_many({})
-    MONGO.db['products'].delete_many({})
+    clear_database()
     yield auth_client
 
 
@@ -58,10 +59,7 @@ def post_active_principle():
     app = create_app(conf='conf.test.Config')
     app.config['TESTING'] = True
     client = app.test_client()
-    # Clear databases
-    MONGO.db['users'].delete_many({})
-    MONGO.db['active_principle'].delete_many({})
-    MONGO.db['products'].delete_many({})
+    clear_database()
 
     active_principle_data = {
         'code': '200',
