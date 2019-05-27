@@ -17,8 +17,14 @@ export default class ListForm extends React.Component {
     })
   }
 
+  shouldShow(list) {
+    if (list.length === 0) return false
+    if (list[0]._id === '') return false
+    return true
+  }
+
   showList () {
-    if (this.props.ObjectsList[0]._id === '') {
+    if (!this.shouldShow(this.props.ObjectsList)) {
       return (null)
     }
     return (
@@ -73,12 +79,13 @@ export default class ListForm extends React.Component {
 }
 
 ListForm.propTypes = {
+  errors: PropTypes.object,
   getList: PropTypes.func,
   deleteObject: PropTypes.func,
   modifyObject: PropTypes.func,
   errors: PropTypes.object,
   ObjectsList: PropTypes.array,
-  title: PropTypes.object,
+  title: PropTypes.string,
   dataName: PropTypes.string,
   showSearchNavBar: PropTypes.bool
 }
