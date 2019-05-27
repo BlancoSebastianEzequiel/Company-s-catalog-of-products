@@ -6,7 +6,7 @@ export default class CompanyDataListContainer extends React.Component {
     let msg = ''
     for (let field in data) {
       if (field === '_id') continue
-      msg += '__' + field + '__: ' + data[field] + ''
+      msg += '__' + field + '__: ```' + data[field] + '```'
     }
     return {
       'data': msg,
