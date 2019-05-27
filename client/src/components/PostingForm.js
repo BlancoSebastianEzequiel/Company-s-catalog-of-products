@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Col, ControlLabel, Form, FormControl, FormGroup, Grid, Row, HelpBlock } from 'react-bootstrap'
+import { Button, Col, ControlLabel, FormControl, FormGroup, Grid, Row, HelpBlock } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 
 export default class RegisterForm extends React.Component {
@@ -23,19 +23,15 @@ export default class RegisterForm extends React.Component {
     const { placeholder, fieldName, type, title } = fieldData
     return (
       <FormGroup controlId={fieldName}>
-        <Col componentClass={ControlLabel} sm={2}>
-          {title}
-        </Col>
-        <Col sm={10}>
-          <FormControl
-            type={type}
-            placeholder={placeholder}
-            onChange={this.handleChange(fieldName)}
-          />
-          <HelpBlock>
-            <p className="text-danger">{this.props.errors.message}</p>
-          </HelpBlock>
-        </Col>
+        <ControlLabel>{title}</ControlLabel>
+        <FormControl
+          type={type}
+          placeholder={placeholder}
+          onChange={this.handleChange(fieldName)}
+        />
+        <HelpBlock>
+          <p className="text-danger">{this.props.errors.message}</p>
+        </HelpBlock>
       </FormGroup>
     )
   }
@@ -51,22 +47,18 @@ export default class RegisterForm extends React.Component {
 
         <Row className="show-grid">
           <Col xs={12} md={6} mdOffset={3}>
-            <Form horizontal>
-              <div>
-                { this.props.fields.map((aField, idx) =>
-                  <div className="panel panel-default" key={idx}>
-                    {this.showField(aField)}
-                  </div>
-                )}
-              </div>
-              <FormGroup>
-                <Col smOffset={2} sm={10}>
-                  <Button type="submit" onClick={ this.submit }>
-                    Submit
-                  </Button>
-                </Col>
-              </FormGroup>
-            </Form>
+            <div>
+              { this.props.fields.map((aField, idx) =>
+                <div className="panel panel-default" key={idx}>
+                  {this.showField(aField)}
+                </div>
+              )}
+            </div>
+            <FormGroup>
+              <Button type="submit" onClick={ this.submit }>
+                  Submit
+              </Button>
+            </FormGroup>
           </Col>
         </Row>
       </Grid>
