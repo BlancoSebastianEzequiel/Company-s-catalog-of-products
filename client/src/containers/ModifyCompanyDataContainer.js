@@ -10,7 +10,7 @@ export default class ModifyCompanyDataContainer extends React.Component {
         <ModifyContainer
           fields={data.fields}
           fieldsState={data.fieldsState}
-          title='/company_data/'
+          title='Company data'
           objectName='Company'
           endpoint='/company_data/'
           urlToRedirect='/company-data-list'
