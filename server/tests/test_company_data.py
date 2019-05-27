@@ -275,3 +275,83 @@ def test_get_company_data_with_query(client):
     get_resp = client.get(query)
     assert get_resp.json['ok']
     assert get_resp.status_code == HTTPStatus.OK
+
+
+def test_client_post_company_data_is_not_allowed(auth_client):
+    resp = auth_client.post('/users/', data=json.dumps({
+        'first_name': 'juan',
+        'last_name': 'perez',
+        'user_name': 'juanchi',
+        'email': 'juanperez@gmail.com',
+        'password': '1234',
+        'type': 'client'
+    }), content_type='application/json')
+    assert resp.status_code == HTTPStatus.CREATED
+    assert resp.json['ok']
+
+    resp = auth_client.post('/session/', data=json.dumps({
+        'email': 'juanperez@gmail.com',
+        'password': '1234'
+    }), content_type='application/json')
+    assert resp.json['ok']
+    assert resp.status_code == HTTPStatus.CREATED
+    token = resp.json['data']
+
+    resp = auth_client.post('/company_data/', data=json.dumps({
+        'quantity_of_employees': '200',
+        'address': 'Ing Enrique Butty 275, C1001AFA CABA',
+        'capabilities': 'Blockchain',
+        'mission': "to lead in the creation, development and manufacture of "
+                   "the industry's most advanced information technologies, "
+                   "including computer systems, software, networking systems, "
+                   "storage devices and microelectronics.",
+        'vision': "to be the world’s most successful and important information"
+                  "technology company.",
+        'values': "Dedication to every client's success."
+                  "Innovation that matters, for our company and for the world."
+                  "Trust and personal responsibility in all relationships."
+    }),
+        content_type='application/json',
+        headers={'Authorization': 'Bearer ' + token})
+    assert not resp.json['ok']
+    assert resp.status_code == HTTPStatus.UNAUTHORIZED
+
+
+def test_admin_post_company_data_is_allowed(auth_client):
+    resp = auth_client.post('/users/', data=json.dumps({
+        'first_name': 'juan',
+        'last_name': 'perez',
+        'user_name': 'juanchi',
+        'email': 'juanperez@gmail.com',
+        'password': '1234',
+        'type': 'admin'
+    }), content_type='application/json')
+    assert resp.status_code == HTTPStatus.CREATED
+    assert resp.json['ok']
+
+    resp = auth_client.post('/session/', data=json.dumps({
+        'email': 'juanperez@gmail.com',
+        'password': '1234'
+    }), content_type='application/json')
+    assert resp.json['ok']
+    assert resp.status_code == HTTPStatus.CREATED
+    token = resp.json['data']
+
+    resp = auth_client.post('/company_data/', data=json.dumps({
+        'quantity_of_employees': '200',
+        'address': 'Ing Enrique Butty 275, C1001AFA CABA',
+        'capabilities': 'Blockchain',
+        'mission': "to lead in the creation, development and manufacture of "
+                   "the industry's most advanced information technologies, "
+                   "including computer systems, software, networking systems, "
+                   "storage devices and microelectronics.",
+        'vision': "to be the world’s most successful and important information"
+                  "technology company.",
+        'values': "Dedication to every client's success."
+                  "Innovation that matters, for our company and for the world."
+                  "Trust and personal responsibility in all relationships."
+    }),
+        content_type='application/json',
+        headers={'Authorization': 'Bearer ' + token})
+    assert resp.json['ok']
+    assert resp.status_code == HTTPStatus.CREATED
