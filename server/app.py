@@ -1,4 +1,3 @@
-import os
 import json
 import os
 from flask import Flask
@@ -14,19 +13,23 @@ LOG = logger.get_root_logger(
 
 
 def post_admin_users():
+    from server.controller.users import UsersController
+    if not UsersController.is_empty():
+        return
     with open('server/admin.json', encoding='utf-8-sig') as json_file:
         text = json_file.read()
         admin_users = json.loads(text)
-        from server.controller.users import UsersController
         for admin in admin_users:
             UsersController.post(admin)
 
 
 def post_company_data():
+    from server.controller.company_data import CompanyDataController
+    if not CompanyDataController.is_empty():
+        return
     with open('server/company_data.json', encoding='utf-8-sig') as json_file:
         text = json_file.read()
         data = json.loads(text)
-        from server.controller.company_data import CompanyDataController
         CompanyDataController.post(data)
 
 

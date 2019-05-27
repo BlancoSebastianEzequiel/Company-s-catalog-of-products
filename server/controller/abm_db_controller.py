@@ -48,3 +48,7 @@ class ABMController:
             return {'data': str(_id), 'ok': True}, http.CREATED
         except StatusException as e:
             return {'data': f"Error patching: {e}", 'ok': False}, e.status
+
+    @classmethod
+    def is_empty(cls):
+        return cls.db.is_empty()
