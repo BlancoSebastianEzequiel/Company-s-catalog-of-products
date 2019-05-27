@@ -1,5 +1,6 @@
 import React from 'react'
 import { Col, Form, Grid, Row, FormGroup, Button } from 'react-bootstrap'
+import Markdown from 'react-markdown'
 import PropTypes from 'prop-types'
 import ModifyButtons from './ModifyButtons'
 import FilterNavForm from './FilterNavForm'
@@ -31,7 +32,9 @@ export default class ListForm extends React.Component {
       <div>
         { this.props.ObjectsList.map((anObject, idx) =>
           <div className="panel panel-default" key={idx}>
-            <div className="panel-heading">{anObject.data}</div>
+            <Markdown className="text-display" id="text-display" >
+              {anObject.data}
+            </Markdown>
             <ModifyButtons
               anObject={anObject}
               deleteObject={(anObject) => this.props.deleteObject(anObject)}
