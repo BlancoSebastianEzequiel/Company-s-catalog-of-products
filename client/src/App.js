@@ -24,6 +24,7 @@ import ModifyCompanyDataContainer from './containers/ModifyCompanyDataContainer'
 import RegisterHelpModuleContainer from './containers/RegisterHelpModuleContainer'
 import HelpModuleListContainer from './containers/HelpModuleListContainer'
 import ModifyHelpModuleContainer from './containers/ModifyHelpModuleContainer'
+import ContactUsContainer from './containers/ContactUsContainer'
 
 class App extends Component {
   constructor (props) {
@@ -66,6 +67,7 @@ class App extends Component {
               <PrivateRoute exact path="/register-help-module" component={RegisterHelpModuleContainer} />
               <PrivateRoute exact path="/help-module-list" component={HelpModuleListContainer} />
               <PrivateRoute exact path="/modify-help-module" component={ModifyHelpModuleContainer} />
+              <PrivateRoute exact path="/contact-us" component={ContactUsContainer} />
             </div>
           </Router>
         </div>

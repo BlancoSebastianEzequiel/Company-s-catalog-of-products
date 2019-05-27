@@ -4,6 +4,7 @@ import productData from './productData'
 import passwordRecoveryData from './passwordRecoveryData'
 import companyData from './companyData'
 import helpModuleData from './helpModuleData'
+import contactUsData from './contactUsData'
 
 const data = {
   'client': clientData,
@@ -11,6 +12,7 @@ const data = {
   'product': productData,
   'passwordRecovery': passwordRecoveryData,
   'companyData': companyData,
-  'helpModule': helpModuleData
+  'helpModule': helpModuleData,
+  'contactUsData': contactUsData
 }
 export default data

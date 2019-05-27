@@ -1,6 +1,6 @@
 import smtplib
 from flask import jsonify, current_app
-from server.secrets import TOKEN_SERIALIZER, COMPANY_EMAIL, EMAIL_PASSWORD
+from server.secrets import TOKEN_SERIALIZER
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
@@ -32,13 +32,13 @@ def generate_token_from_data(data):
     return TOKEN_SERIALIZER.dumps(data)
 
 
-def send_email(email_to, subject, message):
+def send_email(email_from, password, email_to, subject, message):
     if current_app.config['SKIP_SEND_EMAIL']:
         return
     # create message object instance
     msg = MIMEMultipart()
     # setup the parameters of the message
-    msg['From'] = COMPANY_EMAIL
+    msg['From'] = email_from
     msg['To'] = email_to
     msg['Subject'] = subject
     # add in the message body
@@ -47,7 +47,7 @@ def send_email(email_to, subject, message):
     server = smtplib.SMTP('smtp.gmail.com: 587')
     server.starttls()
     # Login Credentials for sending the mail
-    server.login(msg['From'], EMAIL_PASSWORD)
+    server.login(msg['From'], password)
     # send the message via the server.
     server.sendmail(msg['From'], msg['To'], msg.as_string())
     server.quit()

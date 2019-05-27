@@ -3,8 +3,13 @@ import ListContainer from './ListContainer'
 
 export default class ClientListContainer extends React.Component {
   writeInfo = (aProduct) => {
+    let msg = ''
+    for (let field in aProduct) {
+      if (field === '_id') continue
+      msg += '__' + field + '__: ```' + aProduct[field] + '```'
+    }
     return {
-      'data': '__Code__: ```' + aProduct['code'] + '```__Name__: ```' + aProduct['name'] + '```',
+      'data': msg,
       '_id': aProduct['_id']
     }
   }
