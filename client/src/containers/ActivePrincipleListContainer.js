@@ -4,7 +4,7 @@ import ListContainer from './ListContainer'
 export default class ActivePrincipleListContainer extends React.Component {
   writeInfo = (anActivePrinciple) => {
     return {
-      'data': 'CODE: ' + anActivePrinciple['code'] + ' -- NAME: ' + anActivePrinciple['name'],
+      'data': '__CODE__: ```' + anActivePrinciple['code'] + '```__NAME__: ```' + anActivePrinciple['name'] + '```',
       '_id': anActivePrinciple['_id']
     }
   }

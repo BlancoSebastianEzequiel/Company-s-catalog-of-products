@@ -52,6 +52,7 @@ def create_app(conf='conf.local.Config'):
     from server.routes.pasword_recovery import PASSWORD_RECOVERY_BP
     from server.routes.products import PRODUCTS_BP
     from server.routes.company_data import COMPANY_DATA_BP
+    from server.routes.help_module import HELP_MODULE_BP
 
     app.register_blueprint(EXAMPLE_BP)
     app.register_blueprint(PING_BP)
@@ -61,6 +62,7 @@ def create_app(conf='conf.local.Config'):
     app.register_blueprint(PASSWORD_RECOVERY_BP)
     app.register_blueprint(PRODUCTS_BP)
     app.register_blueprint(COMPANY_DATA_BP)
+    app.register_blueprint(HELP_MODULE_BP)
     # use the modified encoder class to handle ObjectId and Datetime object
     # while jsonifying the response
     app.json_encoder = JSONEncoder

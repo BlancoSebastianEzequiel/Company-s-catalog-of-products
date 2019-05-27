@@ -10,7 +10,7 @@ def test_list_company_data_initially_empty(client):
     assert isinstance(resp.json['data'], list)
 
 
-def test_get_not_existing_user_by_id(client):
+def test_get_not_existing_company_data_by_id(client):
     resp = client.get('/company_data/' + id_random + '/')
     assert resp.status_code == HTTPStatus.OK
     assert resp.json['ok']
@@ -270,7 +270,7 @@ def test_get_company_data_with_query(client):
     assert post_resp.json['ok']
     assert post_resp.status_code == HTTPStatus.CREATED
 
-    query = f"/users/?quantity_of_employees={quantity_of_employees}" \
+    query = f"/company_data/?quantity_of_employees={quantity_of_employees}" \
         f"&address={address}"
     get_resp = client.get(query)
     assert get_resp.json['ok']
