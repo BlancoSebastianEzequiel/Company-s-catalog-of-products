@@ -14,6 +14,7 @@ def clear_database():
     MONGO.db['active_principle'].delete_many({})
     MONGO.db['products'].delete_many({})
     MONGO.db['company_data'].delete_many({})
+    MONGO.db['help_module'].delete_many({})
 
 
 @pytest.fixture
