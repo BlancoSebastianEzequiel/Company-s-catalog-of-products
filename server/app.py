@@ -1,5 +1,5 @@
-import os
 import json
+import os
 from flask import Flask
 from server.libs.mongo import JSONEncoder
 from server.logger import logger
@@ -12,17 +12,25 @@ LOG = logger.get_root_logger(
 )
 
 
-def post_admin_users(app):
-    client = app.test_client()
+def post_admin_users():
+    from server.controller.users import UsersController
+    if not UsersController.is_empty():
+        return
     with open('server/admin.json', encoding='utf-8-sig') as json_file:
         text = json_file.read()
         admin_users = json.loads(text)
         for admin in admin_users:
-            client.post(
-                '/users/',
-                data=json.dumps(admin),
-                content_type='application/json'
-            )
+            UsersController.post(admin)
+
+
+def post_company_data():
+    from server.controller.company_data import CompanyDataController
+    if not CompanyDataController.is_empty():
+        return
+    with open('server/company_data.json', encoding='utf-8-sig') as json_file:
+        text = json_file.read()
+        data = json.loads(text)
+        CompanyDataController.post(data)
 
 
 def create_app(conf='conf.local.Config'):
@@ -43,6 +51,7 @@ def create_app(conf='conf.local.Config'):
     from server.routes.active_principle import ACTIVE_PRINCIPLE_BP
     from server.routes.pasword_recovery import PASSWORD_RECOVERY_BP
     from server.routes.products import PRODUCTS_BP
+    from server.routes.company_data import COMPANY_DATA_BP
 
     app.register_blueprint(EXAMPLE_BP)
     app.register_blueprint(PING_BP)
@@ -51,10 +60,12 @@ def create_app(conf='conf.local.Config'):
     app.register_blueprint(ACTIVE_PRINCIPLE_BP)
     app.register_blueprint(PASSWORD_RECOVERY_BP)
     app.register_blueprint(PRODUCTS_BP)
+    app.register_blueprint(COMPANY_DATA_BP)
     # use the modified encoder class to handle ObjectId and Datetime object
     # while jsonifying the response
     app.json_encoder = JSONEncoder
 
-    post_admin_users(app)
+    post_admin_users()
+    post_company_data()
 
     return app

@@ -27,8 +27,11 @@ const AdminNavbar = function () {
         <LinkContainer to="/product-list">
           <NavItem eventKey={6}>Product list</NavItem>
         </LinkContainer>
+        <LinkContainer to="/company-data-list">
+          <NavItem eventKey={7}>Company data list</NavItem>
+        </LinkContainer>
         <LinkContainer to="/logout">
-          <NavItem eventKey={7}>Logout</NavItem>
+          <NavItem eventKey={8}>Logout</NavItem>
         </LinkContainer>
       </Nav>
     </Navbar>

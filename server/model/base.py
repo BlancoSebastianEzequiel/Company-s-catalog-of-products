@@ -39,6 +39,10 @@ class Model:
         self.validate_type(field, value)
         self._data[field] = value
 
+    @classmethod
+    def is_empty(cls):
+        return MONGO.db[cls.db_name].count() == 0
+
     def built_validator_schema(self):
         self.validation = {}
 

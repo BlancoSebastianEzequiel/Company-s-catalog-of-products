@@ -1,5 +1,5 @@
 from functools import wraps
-from flask import current_app, request
+from flask import current_app, request, g
 from server.controller.utils import response, get_data_from_token
 from http import HTTPStatus as http
 from server.controller.users import UsersController
@@ -19,5 +19,6 @@ def login_required(func):
         res, status = UsersController.get(data['_id'])
         if not res['ok']:
             return response(data=res['data'], ok=False), status
+        g.type = res['data']['type']
         return func(*args, **kwargs)
     return decorated_function

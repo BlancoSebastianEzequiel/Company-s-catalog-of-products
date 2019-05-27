@@ -13,10 +13,17 @@ def test_unregistered_user(client):
 
 
 def test_login_of_registered_user(client, random_user):
-    user_data, secret = random_user
+    resp = client.post(
+        '/users/',
+        data=json.dumps(random_user),
+        content_type='application/json'
+    )
+    assert resp.status_code == http.CREATED
+    assert resp.json['ok']
+
     resp = client.post('/session/', data=json.dumps({
-        'email': user_data['email'],
-        'password': secret
+        'email': random_user['email'],
+        'password': random_user['password']
     }), content_type='application/json')
     assert resp.json['ok']
     assert resp.status_code == http.CREATED

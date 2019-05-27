@@ -12,8 +12,11 @@ const ClientNavbar = function () {
         <LinkContainer to="/product-list">
           <NavItem eventKey={2}>Product list</NavItem>
         </LinkContainer>
+        <LinkContainer to="/company-data-list">
+          <NavItem eventKey={3}>Company data list</NavItem>
+        </LinkContainer>
         <LinkContainer to="/logout">
-          <NavItem eventKey={3}>Logout</NavItem>
+          <NavItem eventKey={4}>Logout</NavItem>
         </LinkContainer>
       </Nav>
     </Navbar>

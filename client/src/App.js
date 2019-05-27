@@ -19,6 +19,8 @@ import PasswordRecoveryContainer from './containers/PasswordRecoveryContainer'
 import RegisterProductContainer from './containers/RegisterProductContainer'
 import ProductListContainer from './containers/ProductListContainer'
 import ModifyProductContainer from './containers/ModifyProductContainer'
+import CompanyDataListcontainer from './containers/CompanyDataListContainer'
+import ModifyCompanyDataContainer from './containers/ModifyCompanyDataContainer'
 
 class App extends Component {
   constructor (props) {
@@ -56,6 +58,8 @@ class App extends Component {
               <PrivateRoute exact path="/register-product" component={RegisterProductContainer} />
               <PrivateRoute exact path="/product-list" component={ProductListContainer} />
               <PrivateRoute exact path="/modify-product" component={ModifyProductContainer} />
+              <PrivateRoute exact path="/company-data-list" component={CompanyDataListcontainer} />
+              <PrivateRoute exact path="/modify-company-data" component={ModifyCompanyDataContainer} />
             </div>
           </Router>
         </div>
