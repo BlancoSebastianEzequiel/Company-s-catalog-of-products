@@ -1,5 +1,6 @@
 import os
 import json
+import os
 from flask import Flask
 from server.libs.mongo import JSONEncoder
 from server.logger import logger
@@ -12,17 +13,21 @@ LOG = logger.get_root_logger(
 )
 
 
-def post_admin_users(app):
-    client = app.test_client()
+def post_admin_users():
     with open('server/admin.json', encoding='utf-8-sig') as json_file:
         text = json_file.read()
         admin_users = json.loads(text)
+        from server.controller.users import UsersController
         for admin in admin_users:
-            client.post(
-                '/users/',
-                data=json.dumps(admin),
-                content_type='application/json'
-            )
+            UsersController.post(admin)
+
+
+def post_company_data():
+    with open('server/company_data.json', encoding='utf-8-sig') as json_file:
+        text = json_file.read()
+        data = json.loads(text)
+        from server.controller.company_data import CompanyDataController
+        CompanyDataController.post(data)
 
 
 def create_app(conf='conf.local.Config'):
@@ -57,6 +62,7 @@ def create_app(conf='conf.local.Config'):
     # while jsonifying the response
     app.json_encoder = JSONEncoder
 
-    post_admin_users(app)
+    post_admin_users()
+    post_company_data()
 
     return app
