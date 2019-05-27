@@ -3,6 +3,7 @@ from flask import request
 from server.controller.company_data import CompanyDataController
 from server.controller.utils import response
 from server.decorators.login_required import login_required
+from server.decorators.admin_required import admin_required
 
 COMPANY_DATA_BP = Blueprint(
     'company_data',
@@ -13,6 +14,7 @@ COMPANY_DATA_BP = Blueprint(
 
 @COMPANY_DATA_BP.route('/<_id>/', methods=['DELETE'])
 @login_required
+@admin_required
 def delete_data(_id):
     res, status = CompanyDataController.delete(_id)
     return response(res['data'], res['ok']), status
@@ -37,6 +39,7 @@ def get_all():
 
 @COMPANY_DATA_BP.route('/', methods=['PATCH'])
 @login_required
+@admin_required
 def patch():
     res, status = CompanyDataController.patch(request.get_json(silent=True))
     return response(res['data'], res['ok']), status
@@ -44,6 +47,7 @@ def patch():
 
 @COMPANY_DATA_BP.route('/', methods=['POST'])
 @login_required
+@admin_required
 def post():
     res, status = CompanyDataController.post(request.get_json(silent=True))
     return response(res['data'], res['ok']), status
