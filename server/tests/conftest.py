@@ -2,7 +2,6 @@ import pytest
 import json
 from faker import Faker
 from http import HTTPStatus
-from server.controller.users import UsersController
 
 from server.app import create_app
 from server.libs.mongo import MONGO
