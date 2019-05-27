@@ -18,6 +18,9 @@ export default class ListForm extends React.Component {
   }
 
   showList () {
+    if (this.props.ObjectsList[0]._id === '') {
+      return (null)
+    }
     return (
       <div>
         { this.props.ObjectsList.map((anObject, idx) =>
