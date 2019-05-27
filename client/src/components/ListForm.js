@@ -17,7 +17,7 @@ export default class ListForm extends React.Component {
     })
   }
 
-  shouldShow(list) {
+  shouldShow (list) {
     if (list.length === 0) return false
     if (list[0]._id === '') return false
     return true
@@ -79,7 +79,6 @@ export default class ListForm extends React.Component {
 }
 
 ListForm.propTypes = {
-  errors: PropTypes.object,
   getList: PropTypes.func,
   deleteObject: PropTypes.func,
   modifyObject: PropTypes.func,
