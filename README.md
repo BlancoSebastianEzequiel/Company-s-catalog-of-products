@@ -4,7 +4,7 @@ Trabajo Practico de la materia Administración y control de proyectos informáti
 ## Docs
 
 Ver [Wiki](https://github.com/BlancoSebastianEzequiel/Company-s-catalog-of-products/wiki)  
-Ver [Informe](https://docs.google.com/document/d/1u_TvKUw_xsmQ0gkIvcWJq3l4WBo14_MKMDaPGPqVg8w/edit#)
+Ver [Informe](https://docs.google.com/document/d/1u_TvKUw_xsmQ0gkIvcWJq3l4WBo14_MKMDaPGPqVg8w/edit?usp=sharing)
 
 ## Reglas para el nombre del branch
 
