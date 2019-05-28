@@ -4,7 +4,7 @@ import ListContainer from './ListContainer'
 export default class HelpModuleListContainer extends React.Component {
   writeInfo = (data) => {
     return {
-      'data': '__Title__: ' + data['title'] + '__Description__: ' + data['description'],
+      'data': '__Title__: ```' + data['title'] + '```__Description__: ```' + data['description'] + '```',
       '_id': data['_id']
     }
   }
