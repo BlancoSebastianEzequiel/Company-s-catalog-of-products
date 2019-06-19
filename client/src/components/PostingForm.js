@@ -15,16 +15,16 @@ export default class RegisterForm extends React.Component {
   }
 
   getBase64 = (file) => {
-    return new Promise((resolve,reject) => {
-       const reader = new FileReader();
-       reader.onload = () => resolve(reader.result);
-       reader.onerror = error => reject(error);
-       reader.readAsDataURL(file);
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.onload = () => resolve(reader.result)
+      reader.onerror = error => reject(error)
+      reader.readAsDataURL(file)
     })
   }
 
   fileSelectedHandler = name => event => {
-    const file = event.target.files[0];
+    const file = event.target.files[0]
     this.getBase64(file).then(base64 => {
       let filesList = this.state[name]
       filesList.push(base64)
