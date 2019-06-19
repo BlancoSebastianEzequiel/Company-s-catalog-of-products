@@ -35,6 +35,7 @@ export default class ListForm extends React.Component {
             <Markdown className="text-display" id="text-display" >
               {anObject.data}
             </Markdown>
+            <img src={anObject.file[0]} alt="no images"/>
             <ModifyButtons
               anObject={anObject}
               deleteObject={(anObject) => this.props.deleteObject(anObject)}
