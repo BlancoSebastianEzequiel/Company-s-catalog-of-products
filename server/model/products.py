@@ -38,7 +38,7 @@ class Products(Model):
             'code': lambda code: code.isdigit(),
             'name': lambda name: True,
             'description': lambda description: True,
-            'images': lambda images: True,
+            'images': lambda images: len(images) <= 3,
             'size': lambda size: cls.validate_size_format(size),
             'active_principle': lambda code: code.isdigit()
         }
