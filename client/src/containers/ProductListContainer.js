@@ -10,7 +10,8 @@ export default class ClientListContainer extends React.Component {
     }
     return {
       'data': msg,
-      '_id': aProduct['_id']
+      '_id': aProduct['_id'],
+      'file': aProduct['images']
     }
   }
 
