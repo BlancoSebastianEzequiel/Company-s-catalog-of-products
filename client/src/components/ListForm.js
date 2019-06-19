@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Form, Grid, Row, FormGroup, Button } from 'react-bootstrap'
+import { Col, Form, Grid, Row } from 'react-bootstrap'
 import Markdown from 'react-markdown'
 import PropTypes from 'prop-types'
 import ModifyButtons from './ModifyButtons'
