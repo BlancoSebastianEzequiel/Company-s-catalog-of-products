@@ -9,7 +9,7 @@ export default class RegisterHelpMofuleContainer extends React.Component {
         <RegisterObjectContainer
           fields={data.fields}
           fieldsState={data.fieldsState}
-          title='Create new product'
+          title='Create new help module'
           objectName='help module'
           endpoint='/help_module/'
           urlToRedirect='/help-module-list'
