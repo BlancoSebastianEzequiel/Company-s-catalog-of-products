@@ -56,8 +56,8 @@ export default class ModifyContainer extends React.Component {
         <PostingForm
           errors={errors}
           onClick={(data) => this.modifyObject(data)}
-          fields={this.props.fields}
-          fieldsState={this.props.fieldsState}
+          fields={JSON.parse(JSON.stringify(this.props.fields))}
+          fieldsState={JSON.parse(JSON.stringify(this.props.fieldsState))}
           title={this.props.title}
         />
       </div>
