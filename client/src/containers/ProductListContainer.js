@@ -6,6 +6,7 @@ export default class ClientListContainer extends React.Component {
     let msg = ''
     for (let field in aProduct) {
       if (field === '_id') continue
+      if (field === 'images') continue
       msg += '__' + field + '__: ```' + aProduct[field] + '```'
     }
     return {
