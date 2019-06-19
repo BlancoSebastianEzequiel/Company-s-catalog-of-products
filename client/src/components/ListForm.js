@@ -67,13 +67,6 @@ export default class ListForm extends React.Component {
               <Form horizontal>
                 { this.showList() }
               </Form>
-              <FormGroup>
-                <Col>
-                  <Button type="submit" onClick={ () => this.props.getList(null) }>
-                    Update
-                  </Button>
-                </Col>
-              </FormGroup>
             </Col>
           </Row>
         </Col>

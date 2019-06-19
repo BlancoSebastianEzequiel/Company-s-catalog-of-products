@@ -89,7 +89,11 @@ export default class ListContainer extends React.Component {
   }
 
   render () {
-    const { errors, objects, redirectTo, urlToRedirect, dataToRedirect } = this.state
+    const { refresh, errors, objects, redirectTo, urlToRedirect, dataToRedirect } = this.state
+    if (refresh) {
+      this.getObjects(null)
+      this.setState({ 'refresh': false })
+    }
     if (redirectTo) {
       return <Redirect to={{
         pathname: urlToRedirect,
