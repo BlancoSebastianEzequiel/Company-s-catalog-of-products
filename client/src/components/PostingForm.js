@@ -14,6 +14,15 @@ export default class RegisterForm extends React.Component {
     })
   }
 
+  fileSelectedHandler = name => event => {
+    let filesList = this.state[name]
+    let file = event.target.files[0]
+    filesList.push(URL.createObjectURL(file))
+    this.setState({
+      [name]: filesList
+    })
+  }
+
   submit = (event) => {
     event.preventDefault()
     this.props.onClick(this.state)
@@ -21,13 +30,21 @@ export default class RegisterForm extends React.Component {
 
   showField (fieldData) {
     const { placeholder, fieldName, type, title } = fieldData
+    let handler
+    if (type === 'file') {
+      handler = this.fileSelectedHandler(fieldName)
+    } else {
+      handler = this.handleChange(fieldName)
+    }
     return (
       <FormGroup controlId={fieldName}>
         <ControlLabel>{title}</ControlLabel>
         <FormControl
           type={type}
           placeholder={placeholder}
-          onChange={this.handleChange(fieldName)}
+          accept="application/gzip, .png"
+          multiple="true"
+          onChange={handler}
         />
         <HelpBlock>
           <p className="text-danger">{this.props.errors.message}</p>
