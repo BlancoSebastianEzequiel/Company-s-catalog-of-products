@@ -30,7 +30,7 @@ const fields = [
     placeholder: '',
     fieldName: 'images',
     title: 'Images',
-    type: 'text'
+    type: 'file'
   },
   {
     placeholder: '70ml',
