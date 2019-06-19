@@ -16,8 +16,20 @@ export default class ModifyContainer extends React.Component {
     }
   }
 
+  filterEmptyFields (data) {
+    let filteredData = {}
+    for (let field in data) {
+      if (data[field].length === 0) {
+        continue
+      }
+      filteredData[field] = data[field]
+    }
+    return filteredData
+  }
+
   modifyObject = (data) => {
     data['_id'] = this.props.id
+    data = this.filterEmptyFields(data)
     Http.patch(this.props.endpoint, data)
       .then(response => {
         if (response.status === httpStatus.CREATED) {
