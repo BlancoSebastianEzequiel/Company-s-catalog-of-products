@@ -12,7 +12,7 @@ passlib[totp]
 python-coveralls
 coverage
 pytest-cov
-flask-cors==3.0.6
+flask-cors==3.0.9
 haversine
 freezegun==0.3.11
 requests-mock==1.5.2
